@@ -1,0 +1,35 @@
+.componentCarrusel {
+  width: 1300px;
+  margin: 20px auto 50px auto; /* centrado horizontal */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center; /* asegura que los botones también se centren si hay espacio */
+  gap: 1%;
+}
+
+.componentCarrusel button {
+  background-color: transparent;
+  border: none;
+  font-size: 30px;
+  height: 20px;
+}
+
+.row {
+  height: 100%;
+  text-align: center;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 4%;
+}
+
+.cardBody {
+  border: 1px solid black;
+  height: 200px;
+  box-shadow: 0px 5px 10px gray;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

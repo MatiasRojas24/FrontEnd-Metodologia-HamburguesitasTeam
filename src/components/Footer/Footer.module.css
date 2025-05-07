@@ -1,0 +1,33 @@
+.footerContainer {
+  width: 100%;
+  height: 80px;
+  background-color: #1f1f1f;
+  color: white;
+  font-family: LatoRegular;
+  font-size: 18px;
+}
+
+.contactContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 500px;
+
+  padding-top: 10px;
+}
+
+.contactContainer p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.contactContainer i {
+  font-size: 25px;
+  padding: 5px;
+  line-height: 20px;
+}
+
+.rightsContainer {
+  text-align: center;
+}

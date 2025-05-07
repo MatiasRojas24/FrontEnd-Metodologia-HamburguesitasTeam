@@ -1,0 +1,20 @@
+/* FUENTES */
+@font-face {
+  font-family: LatoRegular;
+  src: url(./assets/fonts/Lato/Lato-Regular.ttf);
+}
+
+@font-face {
+  font-family: LatoLight;
+  src: url(./assets/fonts/Lato/Lato-Light.ttf);
+}
+
+@font-face {
+  font-family: LatoBold;
+  src: url(./assets/fonts/Lato/Lato-Bold.ttf);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
