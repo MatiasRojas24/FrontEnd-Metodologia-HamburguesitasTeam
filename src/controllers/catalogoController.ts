@@ -46,7 +46,7 @@ export const updateCatalogoController = async (
 ): Promise<ICatalogo | undefined> => {
   try {
     const response = await axios.put<ICatalogo>(
-      apiUrlController + `/${catalogoActualizado.id}`,
+      apiUrlController,
       catalogoActualizado
     );
     return response.data;

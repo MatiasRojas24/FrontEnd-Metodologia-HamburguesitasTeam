@@ -81,7 +81,7 @@ export const updateUsuarioController = async (
 ): Promise<IUsuario | undefined> => {
   try {
     const response = await axios.put<IUsuario>(
-      apiUrlUsuariosController + `/${usuarioActualizado.id}`
+      apiUrlUsuariosController, usuarioActualizado
     );
     return response.data;
   } catch (error) {

@@ -46,7 +46,7 @@ export const updateDescuentoController = async (
 ): Promise<IDescuento | undefined> => {
   try {
     const response = await axios.put<IDescuento>(
-      apiUrlController + `/${descuentoActualizado.id}`
+      apiUrlController, descuentoActualizado
     );
     return response.data;
   } catch (error) {

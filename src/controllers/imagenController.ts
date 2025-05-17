@@ -44,7 +44,7 @@ export const updateImagenController = async (
 ): Promise<IImagen | undefined> => {
   try {
     const response = await axios.put<IImagen>(
-      apiUrlController + `/${imagenActualizada.id}`
+      apiUrlController, imagenActualizada
     );
     return response.data;
   } catch (error) {
