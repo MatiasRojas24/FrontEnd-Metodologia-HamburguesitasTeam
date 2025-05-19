@@ -1,0 +1,30 @@
+.direccionCard {
+    height: 40%;
+    background-color: var(--black-gray-2);
+    padding: 3% 5% 3% 5%;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
+.infoContainer {
+
+}
+.infoContainer p {
+    color: var(--white-gray-3);
+}
+
+
+.iconsContainer {
+    width: 18%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.iconsContainer i {
+    font-size: 20px;
+}

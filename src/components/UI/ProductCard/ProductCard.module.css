@@ -1,0 +1,32 @@
+.cardContainer {
+    height: 280px;
+    background-color: var(--white-gray);
+    font-family: var(--font);
+    border: 1px solid black;
+    box-shadow: 0px 5px 10px gray;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardImage {
+    height: 60%;
+    width: 90%;
+    background-color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardInfo {
+    height: 30%;
+    width: 90%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
