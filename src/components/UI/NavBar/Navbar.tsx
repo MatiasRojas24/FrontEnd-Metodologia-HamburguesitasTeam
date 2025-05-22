@@ -1,7 +1,12 @@
 import Logo from "../../../assets/img/Logo.png";
 import styles from "./Navbar.module.css";
+import type { FC } from "react";
 
-export const NavBar = () => {
+type IPropsNavbar = {
+  setIsLogin: (state: boolean) => void
+}
+
+export const NavBar: FC<IPropsNavbar> = ({ setIsLogin }) => {
   const stylesI = {
     color: "white",
     fontSize: "20px",
@@ -43,9 +48,10 @@ export const NavBar = () => {
           <i className="bi bi-cart3"></i>
         </button>
         <button className={styles.navbarButton}>
-          <i className="bi bi-person"></i>
+          <i className="bi bi-person" onClick={() => setIsLogin(true)}></i>
         </button>
       </ul>
     </nav>
+
   );
 };

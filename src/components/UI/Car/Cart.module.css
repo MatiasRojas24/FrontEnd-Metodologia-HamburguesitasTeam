@@ -1,0 +1,153 @@
+/*Base sobre la que estara flotando el carrito*/
+.cartOverlay {
+    position: fixed;
+    box-sizing: border-box;
+    padding: 100px 200px 0 0;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    font-family: var(--font);
+    z-index: 9999;
+
+    display: flex;
+    align-items: start;
+    justify-content: flex-end;
+}
+
+
+
+/*Contenedor carrito*/
+.cartContainer {
+    background-color: var(--black-gray);
+    padding: 0% 0% 0% 1%;
+    box-sizing: border-box;
+    height: 240px;
+    width: 360px;
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 4%;
+}
+
+
+
+
+/*Titulo xd*/
+.title {
+    color: white;
+    height: 18%;
+    width: 92%;
+    border-bottom: 2px solid var(--white-gray-3);
+
+    display: flex;
+    align-items: center;
+}
+
+
+
+
+/*Producto*/
+.product {
+    height: 38%;
+    width: 90%;
+    border-radius: 16px;
+    background-color: var(--black-gray-2);
+
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+}
+
+
+.imgContainer {
+    background-color: var(--white-gray-3);
+    height: 100%;
+    min-width: 27%;
+    max-width: 27%;
+    border-radius: 16px;
+}
+
+
+.productBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+
+    gap: 5%;
+}
+.nombreProduct {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+}
+
+
+.counterContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.counter {
+    height: 26px;
+    width: 35%;
+    border: 1px solid var(--white-gray-3);
+    border-radius: 13px;
+    padding: 2px 3px 3px 2px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+.counter p:hover {
+    cursor: pointer;
+}
+
+
+/*Boton de eliminar producto*/
+.product i {
+    min-width: 12%;
+    max-width: 12%;
+    border-left: 1px solid var(--white-gray-3);
+    font-size: 22px;
+    color: var(--yellow);
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.product i:hover {
+    cursor: pointer;
+    background-color: var(--white-gray-3);
+    font-size: x-large;
+}
+
+
+
+
+/*Seccion del total y boton comprar del carrito*/
+.buyContainer {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    
+    gap: 10%;
+}
+.buyContainer button {
+    width: 94%;
+}
+.buyContainer button:hover {
+    background-color: var(--yellow);
+    color: var(--black-gray-2);
+    
+}
