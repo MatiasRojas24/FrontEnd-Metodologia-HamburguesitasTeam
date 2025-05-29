@@ -1,0 +1,65 @@
+/*CONTENEDOR DE TODA LA PAGINA*/
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 3%;
+    background-color: #f2f2f2;
+}
+.encabezado {
+    
+
+
+    font-family: LatoBold;
+    font-size: small;
+    border-bottom: 3px solid black;
+}
+.containerSelect select{
+    padding: 2px;
+    border-radius: 0.3rem;
+    border: 1px solid #ccc;
+    font-size: 13px;
+    background-color: #f2f2f2;
+    color: black;
+    cursor: pointer;
+}
+.filtros{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    background-color: #f2f2f2;
+    padding: 20px;
+
+    height: 100%;
+    font-family: LatoRegular; 
+    font-size: 15px;
+}
+.filtros h4{
+    border-bottom: 3px solid black;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; 
+    margin-top: 10px;
+}
+.talleButton {
+    color: black;
+    border: 1px solid black;
+    width: 50px;
+    height: 35px;
+    font-size: 14px;
+    cursor: pointer;
+    
+}
+
+.active {
+    border: 2px solid green;
+    color: green;
+    font-weight: bold;
+}   

@@ -3,8 +3,28 @@ import type { IDetalleProducto } from "../types/IDetalleProducto.ts";
 import type { IProducto } from "../types/IProducto.ts";
 import type { ITalle } from "../types/ITalle.ts";
 import axios from "axios";
+import type { FiltroDetalleProducto } from "../types/IFiltroDetalleProducto";
 
 const apiUrlController = "/detallesProductos";
+
+
+
+export const filtrarDetalleProductosHttp= async (filtro: FiltroDetalleProducto): Promise<IProducto [] | undefined> => {
+  try {
+    const params = new URLSearchParams();
+
+    if (filtro.idTalle) params.append("idTalle", filtro.idTalle);
+    if (filtro.tipoProducto) params.append("tipoProducto", filtro.tipoProducto);
+    if (filtro.sexo) params.append("sexo", filtro.sexo);
+    if (filtro.minPrecio !== null && filtro.minPrecio !== undefined) params.append("minPrecio", filtro.minPrecio.toString());
+    if (filtro.maxPrecio !== null && filtro.maxPrecio !== undefined) params.append("maxPrecio", filtro.maxPrecio.toString());
+
+    const response = await axios.get<IProducto[]>(apiUrlController + `/productos/filtro?${params.toString}`)
+
+    return response.data
+  } catch (error) {
+    console.log("Error en el filtrarDetalleProductos", error);
+  }}
 
 export const getDetallesProductosHabilitadosHttp = async (): Promise<IDetalleProducto[] | undefined> => {
   try {
