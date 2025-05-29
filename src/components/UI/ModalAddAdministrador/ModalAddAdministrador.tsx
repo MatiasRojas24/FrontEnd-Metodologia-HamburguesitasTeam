@@ -23,6 +23,7 @@ export const ModalAddAdministrador: FC<IPropsModalAddAdmin> = ({ setIsModal, set
   }
 
 
+
   // Configuracion de formik
   const formik = useFormik({
     initialValues: {
@@ -32,29 +33,21 @@ export const ModalAddAdministrador: FC<IPropsModalAddAdmin> = ({ setIsModal, set
       email: usuarioActivo?.email ? usuarioActivo.email : "",
       nombre: usuarioActivo?.nombre ? usuarioActivo.nombre : "",
       dni: usuarioActivo?.dni ? usuarioActivo.dni : "",
-      rol: "ADMIN"
+      rol: usuarioActivo?.rol ? usuarioActivo.rol : undefined,
     },
     enableReinitialize: true, // "enableReinitializable" es para reusar el formulario con nuevos datos
     validationSchema: Yup.object({
       id: Yup.string(),
       username: Yup.string().required("Requerido"),
-      password: usuarioActivo ? Yup.string() : Yup.string().required("Requerido"),
+      password: Yup.string().required("Requerido"),
       email: Yup.string().email().required("Requerido"),
       nombre: Yup.string().required("Requerido"),
-      dni: Yup.string().required("Requerido")
+      dni: Yup.string().required("Requerido"),
     }),
     onSubmit: async (values) => {
-      const payload: Partial<typeof values> = { ...values }
-
-      console.log('payload: ', payload)
-
       if (usuarioActivo) {
-        if (!payload.password) {
-          delete payload.password // eliminar campo si está vacío
-        }
-      
-        const success = await updateUsuario({ id: usuarioActivo.id, ...payload } as IUsuario)
-
+        console.log(values)
+        const success = await updateUsuario(values)
         if (success) {
           setIsModal(false)
           if (setUsuarioActivo) setUsuarioActivo(null)
@@ -63,7 +56,7 @@ export const ModalAddAdministrador: FC<IPropsModalAddAdmin> = ({ setIsModal, set
         }
 
       } else {
-        const success = await registerUsuarioAdmin(payload as IUsuario)
+        const success = await registerUsuarioAdmin(values)
         if (success) {
           setIsModal(false)
         } else {
