@@ -7,13 +7,12 @@ import type { IDireccion } from '../types/IDireccion'
 
 export const useUsuario = () => {
 
-    const { setUsuarios, añadirUsuario, eliminarUsuario, actualizarUsuario, setUsuarioLogeado, usuarios } = usuarioStore(useShallow((state) => ({
+    const { setUsuarios, añadirUsuario, eliminarUsuario, actualizarUsuario, setUsuarioLogeado, } = usuarioStore(useShallow((state) => ({
         setUsuarios: state.setUsuarios,
         añadirUsuario: state.añadirUsuario,
         eliminarUsuario: state.eliminarUsuario,
         actualizarUsuario: state.actualizarUsuario,
         setUsuarioLogeado: state.setUsuarioLogeado,
-        usuarios: state.usuarios,
     })))
 
     const getUsuarios = async (): Promise<void> => {
@@ -42,16 +41,15 @@ export const useUsuario = () => {
         try {
             const token = await registerUsuarioAdminController(datosRegister)
             if (!token) return false;
-            
-            await getUsuarios()
-            const usuarioRegistrado = usuarios.find(u => u.email === datosRegister.email)
 
-            if (usuarioRegistrado) {
-                añadirUsuario(usuarioRegistrado)
-            } else {
-                console.log(usuarioRegistrado)
-                return false
-            }
+            localStorage.setItem('token', token)
+            
+            const usuariosDb = await getUsuariosController();
+            console.log("usuarios desde la db: ", usuariosDb)
+            const usuario = usuariosDb?.find(udb => udb.email === datosRegister.email)
+            console.log("Usuario encontrado: ", usuario)
+
+            añadirUsuario(usuario!)
 
             return true;
         } catch (error) {
@@ -63,16 +61,23 @@ export const useUsuario = () => {
     const loginUsuario = async (datosLogin: ILoginRequest): Promise<boolean> => {
         try {
             const token = await loginUsuarioController(datosLogin);
-            console.log("token desde loginUsuario: ", token)
-
+            if (!token) throw new Error("No se obtuvo ningun token al intentar el login")
+            
             localStorage.setItem("token", token!);
 
-            /*await getUsuarios()
-            const usuarioLogeado = usuarios.find(u => u.username === datosLogin.username)
+            const usuariosBd = await getUsuariosController()
+            if (!usuariosBd) {
+                console.warn("No se obtuvieron los usuariosBd")
+                return false
+            }
 
-            if (!usuarioLogeado) throw new Error
+            const usuario = usuariosBd.find(u => u.username === datosLogin.username)
+            if (!usuario) {
+                console.warn("No se encontro el usuario correspondiente al login en la BD")
+                return false
+            }
             
-            setUsuarioLogeado(usuarioLogeado)*/
+            setUsuarioLogeado(usuario)
 
             return true;
         } catch (error) {
@@ -87,9 +92,20 @@ export const useUsuario = () => {
             const data = await updateUsuarioController(usuarioActualizado)
             console.log("Se actualizo el usuario: ", data)
 
-            if (!data) throw new Error
+            if (!data) throw new Error("No se puedo actualizar el usuario!")
+            const usuariosBd = await getUsuariosController()
 
-            actualizarUsuario(usuarioActualizado)
+            if (!usuariosBd) {
+                console.warn("No se pudo obtener la lista de usuarios después de actualizar")
+                return false
+            }
+            const usuarioActualizadoDb = usuariosBd.find(u => u.email === usuarioActualizado.email)
+
+            if (!usuarioActualizadoDb) {
+                console.warn("No se pudo obtener la lista de usuarios después de actualizar")
+                return false
+            }
+            actualizarUsuario(usuarioActualizadoDb)
 
             return true
         } catch (error) {

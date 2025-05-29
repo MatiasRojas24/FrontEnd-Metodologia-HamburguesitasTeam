@@ -46,11 +46,6 @@ export const registerUsuarioAdminController = async (
       datosRegister
     );
 
-    const token = response.data.token;
-    if (token) {
-      localStorage.setItem("token", token); // ---> Guardar el 🔑 token en localStorage
-    }
-
     return response.data.token;
   } catch (error) {
     console.error("Problemas en registerUsuarioAdminController", error);

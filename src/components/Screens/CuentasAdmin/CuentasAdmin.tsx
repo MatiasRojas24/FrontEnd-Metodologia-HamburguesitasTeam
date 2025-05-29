@@ -20,7 +20,7 @@ export const CuentasAdmin = () => {
   // HOOKS
   const { getUsuarios, deleteUsuario } = useUsuario()
 
-  useEffect(() => {
+  useEffect( () => {
     getUsuarios()
   }, [])
 

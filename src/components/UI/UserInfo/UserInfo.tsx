@@ -12,6 +12,7 @@ export const UserInfo: FC<IPropsUserInfo> = ({ setIsLoged }) => {
   const handleLogOut = () => {
     localStorage.removeItem("token")
     setUsuarioLogeado(null)
+    window.location.href = 'http://localhost:5173'
     setIsLoged(false)
   }
   return (
