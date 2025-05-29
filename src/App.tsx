@@ -9,6 +9,7 @@ import { Login } from "./components/UI/Login/Login";
 import { CuentasAdmin } from "./components/Screens/CuentasAdmin/CuentasAdmin";
 import { UserInfo } from "./components/UI/UserInfo/UserInfo";
 import { CuentasUsuarios } from "./components/Screens/CuentasUsuarios/CuentasUsuarios";
+import { BrowserPage } from "./components/Screens/BrowserPage/BrowserPage";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -17,10 +18,11 @@ function App() {
   return (
     <>
       <NavBar setIsLogin={setIsLogin} setIsLoged={setIsLoged} isLoged={isLoged} />
-      {/* <LandingPage /> */}
+      <LandingPage />
       {/* <CuentasAdmin /> */}
       {/* <CuentasUsuarios /> */}
-      <CuentasUsuarios />
+      {/* <CuentasUsuarios /> */}
+      {/* <BrowserPage /> */}
       <Footer />
       {isLogin && <Login setIsLogin={setIsLogin} />}
       {isLoged && <UserInfo setIsLoged={setIsLoged} />}

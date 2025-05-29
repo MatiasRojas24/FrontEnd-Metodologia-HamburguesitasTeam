@@ -19,7 +19,7 @@ export const filtrarDetalleProductosHttp= async (filtro: FiltroDetalleProducto):
     if (filtro.minPrecio !== null && filtro.minPrecio !== undefined) params.append("minPrecio", filtro.minPrecio.toString());
     if (filtro.maxPrecio !== null && filtro.maxPrecio !== undefined) params.append("maxPrecio", filtro.maxPrecio.toString());
 
-    const response = await axios.get<IProducto[]>(apiUrlController + `/productos/filtro?${params.toString}`)
+    const response = await axiosAuth.get<IProducto[]>(apiUrlController + `/productos/filtro?${params.toString}`)
 
     return response.data
   } catch (error) {
