@@ -1,5 +1,4 @@
 import axios from "axios";
-import { usuarioStore } from "../store/usuarioStore"; // Ajusta la ruta
 import { validateTokenHttp } from "./authHttp";   // Ajusta la ruta
 
 const api = axios.create({
@@ -8,20 +7,16 @@ const api = axios.create({
 
 api.interceptors.request.use(async (config) => {
   const token = localStorage.getItem("token");
-
   if (token) {
     const esValido = await validateTokenHttp(token);
-
-    const usuarioLogeado = usuarioStore.getState().usuarioLogeado;
-
-    if (esValido && usuarioLogeado) {
+    if (esValido) {
       config.headers.Authorization = `Bearer ${token}`;
     } else {
       console.warn("Token inválido o usuario no logueado");
-      throw new axios.Cancel("Token inválido o usuario no logueado");
       // Opcional: puedes limpiar el token del localStorage o redirigir
       localStorage.removeItem("token");
       // Redirigir
+      throw new axios.Cancel("Token inválido o usuario no logueado");
     }
   }
 

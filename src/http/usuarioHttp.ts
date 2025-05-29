@@ -21,9 +21,6 @@ export const getUsuariosHttp = async (): Promise<
     const response = await axiosAuth.get<IUsuario[]>(apiUrlController);
     return response.data;
   } catch (error) {
-    console.warn("Token expirado o inválido, cerrando sesión...");
-    localStorage.removeItem("token");
-
     console.error("Problemas en getUsuariosController", error);
   }
 };

@@ -3,8 +3,6 @@ import * as Yup from "yup";
 import styles from "./Login.module.css";
 import { type FC } from "react";
 import { useUsuario } from "../../../hooks/useUsuario";
-import type { IUsuario } from "../../../types/IUsuario";
-import { usuarioStore } from "../../../store/usuarioStore";
 
 type IPropsLogin = {
   setIsLogin: (state: boolean) => void;
