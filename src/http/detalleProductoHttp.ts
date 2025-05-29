@@ -1,14 +1,15 @@
-import axios from "./axios.ts";
-import type { IDetalleProducto } from "../types/IDetalleProducto";
-import type { IProducto } from "../types/IProducto";
-import type { ITalle } from "../types/ITalle";
-import type { FiltroDetalleProducto } from "../types/IFiltroDetalleProducto.ts";
+import axiosAuth from "./axios.config.ts";
+import type { IDetalleProducto } from "../types/IDetalleProducto.ts";
+import type { IProducto } from "../types/IProducto.ts";
+import type { ITalle } from "../types/ITalle.ts";
+import axios from "axios";
+import type { FiltroDetalleProducto } from "../types/IFiltroDetalleProducto";
 
 const apiUrlController = "/detallesProductos";
 
 
 
-export const filtrarDetalleProductosController = async (filtro: FiltroDetalleProducto): Promise<IProducto [] | undefined> => {
+export const filtrarDetalleProductosHttp= async (filtro: FiltroDetalleProducto): Promise<IProducto [] | undefined> => {
   try {
     const params = new URLSearchParams();
 
@@ -25,23 +26,31 @@ export const filtrarDetalleProductosController = async (filtro: FiltroDetallePro
     console.log("Error en el filtrarDetalleProductos", error);
   }}
 
+export const getDetallesProductosHabilitadosHttp = async (): Promise<IDetalleProducto[] | undefined> => {
+  try {
+    const response = await axios.get<IDetalleProducto[]>(apiUrlController + '/getEnabled')
+    return response.data
+  } catch (error) {
+    console.error("Problemas en getDetallesProductosHabilitadosHttp", error)
+  }
+}
 
-export const getDetallesProductosController = async (): Promise<
+export const getDetallesProductosHttp = async (): Promise<
   IDetalleProducto[] | undefined
 > => {
   try {
-    const response = await axios.get<IDetalleProducto[]>(apiUrlController);
+    const response = await axiosAuth.get<IDetalleProducto[]>(apiUrlController);
     return response.data;
   } catch (error) {
     console.error("Problemas en getDetallesProductosController", error);
   }
 };
 
-export const getDetalleProductoByIdController = async (
+export const getDetalleProductoByIdHttp = async (
   detalleProductoId: string
 ): Promise<IDetalleProducto | undefined> => {
   try {
-    const response = await axios.get<IDetalleProducto>(
+    const response = await axiosAuth.get<IDetalleProducto>(
       apiUrlController + `/${detalleProductoId}`
     );
     return response.data;
@@ -50,11 +59,11 @@ export const getDetalleProductoByIdController = async (
   }
 };
 
-export const createDetalleProductoController = async (
+export const createDetalleProductoHttp = async (
   detalleProductoNuevo: IDetalleProducto
 ): Promise<IDetalleProducto | undefined> => {
   try {
-    const response = await axios.post<IDetalleProducto>(
+    const response = await axiosAuth.post<IDetalleProducto>(
       apiUrlController,
       detalleProductoNuevo
     );
@@ -64,11 +73,11 @@ export const createDetalleProductoController = async (
   }
 };
 
-export const updateDetalleProductoController = async (
+export const updateDetalleProductoHttp = async (
   detalleProductoActualizado: IDetalleProducto
 ): Promise<IDetalleProducto | undefined> => {
   try {
-    const response = await axios.put<IDetalleProducto>(
+    const response = await axiosAuth.put<IDetalleProducto>(
       apiUrlController, detalleProductoActualizado
     );
     return response.data;
@@ -77,11 +86,11 @@ export const updateDetalleProductoController = async (
   }
 };
 
-export const deleteDetalleProductoController = async (
+export const deleteDetalleProductoHttp = async (
   detalleProductoId: string
 ): Promise<string | undefined> => {
   try {
-    const response = await axios.delete<string>(
+    const response = await axiosAuth.delete<string>(
       apiUrlController + `/${detalleProductoId}`
     );
     return response.data;
@@ -90,12 +99,12 @@ export const deleteDetalleProductoController = async (
   }
 };
 
-export const addTalleToDetalleProductoController = async (
+export const addTalleToDetalleProductoHttp = async (
   talle: ITalle,
   detalleProductoId: string
 ): Promise<IDetalleProducto | undefined> => {
   try {
-    const response = await axios.post<IDetalleProducto>(
+    const response = await axiosAuth.post<IDetalleProducto>(
       apiUrlController + `/talles/${detalleProductoId}`,
       talle
     );
@@ -105,12 +114,12 @@ export const addTalleToDetalleProductoController = async (
   }
 };
 
-export const addProductoToDetalleProductoController = async (
+export const addProductoToDetalleProductoHttp = async (
   producto: IProducto,
   detalleProductoId: string
 ): Promise<IDetalleProducto | undefined> => {
   try {
-    const response = await axios.post<IDetalleProducto>(
+    const response = await axiosAuth.post<IDetalleProducto>(
       apiUrlController + `/productos/${detalleProductoId}`,
       producto
     );
@@ -120,11 +129,11 @@ export const addProductoToDetalleProductoController = async (
   }
 };
 
-export const getDetallesProductosByTalleIdController = async (
+export const getDetallesProductosByTalleIdHttp = async (
   talleId: string
 ): Promise<IDetalleProducto[] | undefined> => {
   try {
-    const response = await axios.get<IDetalleProducto[]>(
+    const response = await axiosAuth.get<IDetalleProducto[]>(
       apiUrlController + `/talles/${talleId}`
     );
     return response.data;
@@ -133,11 +142,11 @@ export const getDetallesProductosByTalleIdController = async (
   }
 };
 
-export const getDetallesProductosByProductoIdController = async (
+export const getDetallesProductosByProductoIdHttp = async (
   productoId: string
 ): Promise<IDetalleProducto[] | undefined> => {
   try {
-    const response = await axios.get<IDetalleProducto[]>(
+    const response = await axiosAuth.get<IDetalleProducto[]>(
       apiUrlController + `/productos/${productoId}`
     );
     return response.data;
@@ -148,3 +157,14 @@ export const getDetallesProductosByProductoIdController = async (
     );
   }
 };
+
+export const toggleHabilitadoHttp = async (
+  detalleProductoId: string
+): Promise<string | undefined> => {
+  try {
+    const response = await axiosAuth.patch<string>(`${apiUrlController}/toggle-habilitado/${detalleProductoId}`)
+    return response.data
+  } catch (error) {
+    console.error("Error al alterar el estado", error)
+  }
+}

@@ -1,0 +1,22 @@
+.userInfo {
+    min-width: 230px;
+    min-height: 100px;
+    width: 12%;
+    height: 12%;
+    position: absolute;
+    top: 9%;
+    right: 9%;
+    padding-left: 40px;
+    box-sizing: border-box;
+
+
+    background-color: var(--black-gray);
+    border: 1px solid white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+}
+.userInfo button:hover {
+    background-color: var(--dark-red);
+}

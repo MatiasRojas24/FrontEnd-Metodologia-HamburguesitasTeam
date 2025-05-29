@@ -6,24 +6,24 @@ import { ProductPage } from "./components/Screens/ProductPage/ProductPage";
 import { NavBar } from "./components/UI/NavBar/Navbar";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Login } from "./components/UI/Login/Login";
-import { CuentaUser } from "./components/Screens/CuentaUser/CuentaUser";
 import { CuentasAdmin } from "./components/Screens/CuentasAdmin/CuentasAdmin";
-import { BrowserPage } from "./components/Screens/BrowserPage/BrowserPage";
+import { UserInfo } from "./components/UI/UserInfo/UserInfo";
+import { CuentasUsuarios } from "./components/Screens/CuentasUsuarios/CuentasUsuarios";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
+  const [isLoged, setIsLoged] = useState(false)
 
   return (
     <>
-      <NavBar setIsLogin={setIsLogin} />
-      {/* <LandingPage/> */}
-      {/* <ProductPage /> */}
-      {/* <CuentaUser /> */}
+      <NavBar setIsLogin={setIsLogin} setIsLoged={setIsLoged} isLoged={isLoged} />
+      {/* <LandingPage /> */}
       {/* <CuentasAdmin /> */}
-      <BrowserPage />
-      
+      {/* <CuentasUsuarios /> */}
+      <CuentasUsuarios />
       <Footer />
       {isLogin && <Login setIsLogin={setIsLogin} />}
+      {isLoged && <UserInfo setIsLoged={setIsLoged} />}
     </>
   );
 }
