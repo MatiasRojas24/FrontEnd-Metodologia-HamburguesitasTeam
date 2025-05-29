@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import { Footer } from "./components/Footer/Footer";
 import { LandingPage } from "./components/Screens/LandingPage/LandingPage";
+import { ProductPage } from "./components/Screens/ProductPage/ProductPage";
 import { NavBar } from "./components/UI/NavBar/Navbar";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Login } from "./components/UI/Login/Login";
@@ -11,8 +12,6 @@ import { CuentasUsuarios } from "./components/Screens/CuentasUsuarios/CuentasUsu
 import { ComponentePruebas } from "./components/Screens/ComponentePruebas/ComponentePruebas";
 
 function App() {
-
-  // Estados locales
   const [isLogin, setIsLogin] = useState(false);
   const [isLoged, setIsLoged] = useState(false)
 

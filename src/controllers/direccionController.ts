@@ -47,7 +47,7 @@ export const updateDireccionController = async (
 ): Promise<IDireccion | undefined> => {
   try {
     const response = await axios.put<IDireccion>(
-      apiUrlController + `/${direccionActualizada.id}`
+      apiUrlController, direccionActualizada
     );
     return response.data;
   } catch (error) {

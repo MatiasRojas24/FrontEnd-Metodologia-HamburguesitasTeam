@@ -48,7 +48,7 @@ export const updateOrdenCompraDetalleController = async (
 ): Promise<IOrdenCompraDetalle | undefined> => {
   try {
     const response = await axios.put<IOrdenCompraDetalle>(
-      apiUrlController + `/${ordenCompraDetalleActualizada.id}`
+      apiUrlController, ordenCompraDetalleActualizada
     );
     return response.data;
   } catch (error) {

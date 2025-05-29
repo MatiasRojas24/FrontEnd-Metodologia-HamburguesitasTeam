@@ -39,7 +39,7 @@ export const updateTalleController = async (
 ): Promise<ITalle | undefined> => {
   try {
     const response = await axios.put<ITalle>(
-      apiUrlController + `/${talleActualizado.id}`
+      apiUrlController, talleActualizado
     );
     return response.data;
   } catch (error) {

@@ -45,7 +45,7 @@ export const updatePrecioController = async (
 ): Promise<IPrecio | undefined> => {
   try {
     const response = await axios.put<IPrecio>(
-      apiUrlController + `/${precioActualizado.id}`
+      apiUrlController, precioActualizado
     );
     return response.data;
   } catch (error) {

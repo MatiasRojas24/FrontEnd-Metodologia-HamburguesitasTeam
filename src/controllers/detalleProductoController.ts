@@ -48,7 +48,7 @@ export const updateDetalleProductoController = async (
 ): Promise<IDetalleProducto | undefined> => {
   try {
     const response = await axios.put<IDetalleProducto>(
-      apiUrlController + `/${detalleProductoActualizado.id}`
+      apiUrlController, detalleProductoActualizado
     );
     return response.data;
   } catch (error) {
