@@ -42,9 +42,6 @@ export const useUsuario = () => {
         try {
             const token = await registerUsuarioAdminHttp(datosRegister)
             if (!token) return false;
-
-            await getUsuarios()
-            const usuarioRegistrado = usuarios.find(u => u.email === datosRegister.email)
             localStorage.setItem('token', token)
 
             const usuariosDb = await getUsuariosHttp();
@@ -53,7 +50,7 @@ export const useUsuario = () => {
             console.log("Usuario encontrado: ", usuario)
 
             añadirUsuario(usuario!)
-
+            setUsuarioLogeado(usuario!)
             return true;
         } catch (error) {
             console.error("Error en registerUsuarioAdmin", error)

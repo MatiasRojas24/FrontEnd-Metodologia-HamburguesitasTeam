@@ -16,12 +16,6 @@ export const registerUsuarioAdminHttp = async (
             apiUrlAuthController + "/registerAdmin",
             datosRegister
         );
-
-        const token = response.data.token;
-        if (token) {
-            localStorage.setItem("token", token); // ---> Guardar el 🔑 token en localStorage
-        }
-
         return response.data.token;
     } catch (error) {
         console.error("Problemas en registerUsuarioAdminController", error);
@@ -53,10 +47,6 @@ export const loginUsuarioHttp = async (
 ): Promise<string | undefined> => {
     try {
         const response = await axios.post<AuthResponse>(apiUrlAuthController + "/login", datosLogin);
-        const token = response.data.token;
-        if (token) {
-            localStorage.setItem("token", token); // ---> Guardar el 🔑 token en localStorage
-        }
         return response.data.token;
     } catch (error) {
         console.error("Problemas en loginUsuarioController", error);
