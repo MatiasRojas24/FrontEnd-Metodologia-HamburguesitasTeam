@@ -1,24 +1,24 @@
-import axios from "./axios.ts";
-import type { IDescuento } from "../types/IDescuento";
+import axiosAuth from "./axios.config.ts";
+import type { IDescuento } from "../types/IDescuento.ts";
 
 const apiUrlController = "/descuentos";
 
-export const getDescuentosController = async (): Promise<
+export const getDescuentosHttp = async (): Promise<
   IDescuento[] | undefined
 > => {
   try {
-    const response = await axios.get<IDescuento[]>(apiUrlController);
+    const response = await axiosAuth.get<IDescuento[]>(apiUrlController);
     return response.data;
   } catch (error) {
     console.error("Problemas en getDescuentosController", error);
   }
 };
 
-export const getDescuentoByIdController = async (
+export const getDescuentoByIdHttp = async (
   descuentoId: string
 ): Promise<IDescuento | undefined> => {
   try {
-    const response = await axios.get<IDescuento>(
+    const response = await axiosAuth.get<IDescuento>(
       apiUrlController + `/${descuentoId}`
     );
     return response.data;
@@ -27,11 +27,11 @@ export const getDescuentoByIdController = async (
   }
 };
 
-export const createDescuentoController = async (
+export const createDescuentoHttp = async (
   descuentoNuevo: IDescuento
 ): Promise<IDescuento | undefined> => {
   try {
-    const response = await axios.post<IDescuento>(
+    const response = await axiosAuth.post<IDescuento>(
       apiUrlController,
       descuentoNuevo
     );
@@ -41,11 +41,11 @@ export const createDescuentoController = async (
   }
 };
 
-export const updateDescuentoController = async (
+export const updateDescuentoHttp = async (
   descuentoActualizado: IDescuento
 ): Promise<IDescuento | undefined> => {
   try {
-    const response = await axios.put<IDescuento>(
+    const response = await axiosAuth.put<IDescuento>(
       apiUrlController, descuentoActualizado
     );
     return response.data;
@@ -54,11 +54,11 @@ export const updateDescuentoController = async (
   }
 };
 
-export const deleteDescuentoController = async (
+export const deleteDescuentoHttp = async (
   descuentoId: string
 ): Promise<string | undefined> => {
   try {
-    const response = await axios.delete<string>(
+    const response = await axiosAuth.delete<string>(
       apiUrlController + `/${descuentoId}`
     );
     return response.data;

@@ -1,24 +1,24 @@
-import axios from "./axios.ts";
-import type { ICatalogo } from "../types/ICatalogo";
+import axiosAuth from "./axios.config.ts";
+import type { ICatalogo } from "../types/ICatalogo.ts";
 
 const apiUrlController = "/catalogos";
 
-export const getCatalogosController = async (): Promise<
+export const getCatalogosHttp = async (): Promise<
   ICatalogo[] | undefined
 > => {
   try {
-    const response = await axios.get<ICatalogo[]>(apiUrlController);
+    const response = await axiosAuth.get<ICatalogo[]>(apiUrlController);
     return response.data;
   } catch (error) {
     console.error("Problemas en getCatalogosController", error);
   }
 };
 
-export const getCatalogosByIdController = async (
+export const getCatalogosByIdHttp = async (
   catalogoId: string
 ): Promise<ICatalogo | undefined> => {
   try {
-    const response = await axios.get<ICatalogo>(
+    const response = await axiosAuth.get<ICatalogo>(
       apiUrlController + `/${catalogoId}`
     );
     return response.data;
@@ -27,11 +27,11 @@ export const getCatalogosByIdController = async (
   }
 };
 
-export const createCatalogoController = async (
+export const createCatalogoHttp = async (
   catalogoNuevo: ICatalogo
 ): Promise<ICatalogo | undefined> => {
   try {
-    const response = await axios.post<ICatalogo>(
+    const response = await axiosAuth.post<ICatalogo>(
       apiUrlController,
       catalogoNuevo
     );
@@ -41,11 +41,11 @@ export const createCatalogoController = async (
   }
 };
 
-export const updateCatalogoController = async (
+export const updateCatalogoHttp = async (
   catalogoActualizado: ICatalogo
 ): Promise<ICatalogo | undefined> => {
   try {
-    const response = await axios.put<ICatalogo>(
+    const response = await axiosAuth.put<ICatalogo>(
       apiUrlController,
       catalogoActualizado
     );
@@ -55,11 +55,11 @@ export const updateCatalogoController = async (
   }
 };
 
-export const deleteCatalogoController = async (
+export const deleteCatalogoHttp = async (
   catalogoId: string
 ): Promise<string | undefined> => {
   try {
-    const response = await axios.delete<string>(
+    const response = await axiosAuth.delete<string>(
       `${apiUrlController}/${catalogoId}`
     );
     return response.data;

@@ -1,44 +1,44 @@
-import axios from "./axios.ts";
-import type { ITalle } from "../types/ITalle";
+import axiosAuth from "./axios.config.ts";
+import type { ITalle } from "../types/ITalle.ts";
 
 const apiUrlController = "/talles";
 
-export const getTallesController = async (): Promise<ITalle[] | undefined> => {
+export const getTallesHttp = async (): Promise<ITalle[] | undefined> => {
   try {
-    const response = await axios.get<ITalle[]>(apiUrlController);
+    const response = await axiosAuth.get<ITalle[]>(apiUrlController);
     return response.data;
   } catch (error) {
     console.error("Problemas en getTallesController", error);
   }
 };
 
-export const getTalleByIdController = async (
+export const getTalleByIdHttp = async (
   talleId: string
 ): Promise<ITalle | undefined> => {
   try {
-    const response = await axios.get<ITalle>(apiUrlController + `/${talleId}`);
+    const response = await axiosAuth.get<ITalle>(apiUrlController + `/${talleId}`);
     return response.data;
   } catch (error) {
     console.error("Problemas en getTalleByIdController", error);
   }
 };
 
-export const createTalleController = async (
+export const createTalleHttp = async (
   talleNuevo: ITalle
 ): Promise<ITalle | undefined> => {
   try {
-    const response = await axios.post<ITalle>(apiUrlController, talleNuevo);
+    const response = await axiosAuth.post<ITalle>(apiUrlController, talleNuevo);
     return response.data;
   } catch (error) {
     console.error("Problemas en createTalleController", error);
   }
 };
 
-export const updateTalleController = async (
+export const updateTalleHttp = async (
   talleActualizado: ITalle
 ): Promise<ITalle | undefined> => {
   try {
-    const response = await axios.put<ITalle>(
+    const response = await axiosAuth.put<ITalle>(
       apiUrlController, talleActualizado
     );
     return response.data;
@@ -47,11 +47,11 @@ export const updateTalleController = async (
   }
 };
 
-export const deleteTalleController = async (
+export const deleteTalleHttp = async (
   talleId: string
 ): Promise<string | undefined> => {
   try {
-    const response = await axios.delete<string>(
+    const response = await axiosAuth.delete<string>(
       apiUrlController + `/${talleId}`
     );
     return response.data;

@@ -1,4 +1,5 @@
-import { addDireccionesToUsuarioController, deleteUsuarioController, getUsuarioByIdController, getUsuariosController, loginUsuarioController, registerUsuarioAdminController, updateUsuarioController } from '../controllers/usuarioController'
+import { addDireccionesToUsuarioHttp, deleteUsuarioHttp, getUsuarioByIdHttp, getUsuariosHttp, updateUsuarioHttp } from '../http/usuarioHttp'
+import { loginUsuarioHttp, registerUsuarioAdminHttp, registerUsuarioClienteHttp } from '../http/authHttp'
 import { usuarioStore } from '../store/usuarioStore'
 import { useShallow } from 'zustand/shallow'
 import type { ILoginRequest } from '../types/ILoginRequest'
@@ -18,7 +19,7 @@ export const useUsuario = () => {
 
     const getUsuarios = async (): Promise<void> => {
         try {
-            const data = await getUsuariosController()
+            const data = await getUsuariosHttp()
             if (data) {
                 setUsuarios(data)
             }
@@ -29,7 +30,7 @@ export const useUsuario = () => {
 
     const getUsuarioById = async (idUsuario: string): Promise<IUsuario | undefined> => {
         try {
-            const usuario = await getUsuarioByIdController(idUsuario)
+            const usuario = await getUsuarioByIdHttp(idUsuario)
             if (!usuario) throw new Error
 
             return usuario
@@ -40,9 +41,9 @@ export const useUsuario = () => {
 
     const registerUsuarioAdmin = async (datosRegister: IUsuario): Promise<boolean> => {
         try {
-            const token = await registerUsuarioAdminController(datosRegister)
+            const token = await registerUsuarioAdminHttp(datosRegister)
             if (!token) return false;
-            
+
             await getUsuarios()
             const usuarioRegistrado = usuarios.find(u => u.email === datosRegister.email)
 
@@ -62,7 +63,7 @@ export const useUsuario = () => {
 
     const loginUsuario = async (datosLogin: ILoginRequest): Promise<boolean> => {
         try {
-            const token = await loginUsuarioController(datosLogin);
+            const token = await loginUsuarioHttp(datosLogin);
             console.log("token desde loginUsuario: ", token)
 
             localStorage.setItem("token", token!);
@@ -84,7 +85,7 @@ export const useUsuario = () => {
 
     const updateUsuario = async (usuarioActualizado: IUsuario): Promise<boolean> => {
         try {
-            const data = await updateUsuarioController(usuarioActualizado)
+            const data = await updateUsuarioHttp(usuarioActualizado)
             console.log("Se actualizo el usuario: ", data)
 
             if (!data) throw new Error
@@ -100,7 +101,7 @@ export const useUsuario = () => {
 
     const deleteUsuario = async (idUsuario: string): Promise<boolean> => {
         try {
-            const data = await deleteUsuarioController(idUsuario)
+            const data = await deleteUsuarioHttp(idUsuario)
             if (!data) return false
             eliminarUsuario(idUsuario)
 
@@ -115,7 +116,7 @@ export const useUsuario = () => {
         console.log("direcciones: ", direcciones)
         console.log("idusuario: ", idUsuario)
         try {
-            const data = await addDireccionesToUsuarioController(direcciones, idUsuario)
+            const data = await addDireccionesToUsuarioHttp(direcciones, idUsuario)
             if (!data) throw new Error
 
             const usuario = await getUsuarioById(idUsuario)
@@ -138,13 +139,13 @@ export const useUsuario = () => {
         }
     }
 
-  return {
-    getUsuarios,
-    loginUsuario,
-    registerUsuarioAdmin,
-    deleteUsuario,
-    updateUsuario,
-    getUsuarioById,
-    addDireccionesToUsuario,
-  }
+    return {
+        getUsuarios,
+        loginUsuario,
+        registerUsuarioAdmin,
+        deleteUsuario,
+        updateUsuario,
+        getUsuarioById,
+        addDireccionesToUsuario,
+    }
 }

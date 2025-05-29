@@ -1,26 +1,26 @@
-import axios from "./axios.ts";
-import type { IOrdenCompraDetalle } from "../types/IOrdenCompraDetalle";
-import type { IOrdenCompra } from "../types/IOrdenCompra";
-import type { IDetalleProducto } from "../types/IDetalleProducto";
+import axiosAuth from "./axios.config.ts";
+import type { IOrdenCompraDetalle } from "../types/IOrdenCompraDetalle.ts";
+import type { IOrdenCompra } from "../types/IOrdenCompra.ts";
+import type { IDetalleProducto } from "../types/IDetalleProducto.ts";
 
 const apiUrlController = "/ordenComprasDetalles";
 
-export const getOrdenesCompraDetalleController = async (): Promise<
+export const getOrdenesCompraDetalleHttp = async (): Promise<
   IOrdenCompraDetalle[] | undefined
 > => {
   try {
-    const response = await axios.get<IOrdenCompraDetalle[]>(apiUrlController);
+    const response = await axiosAuth.get<IOrdenCompraDetalle[]>(apiUrlController);
     return response.data;
   } catch (error) {
     console.error("Problemas en getOrdenesCompraDetalleController", error);
   }
 };
 
-export const getOrdenCompraDetalleByIdController = async (
+export const getOrdenCompraDetalleByIdHttp = async (
   ordenCompraDetalleId: string
 ): Promise<IOrdenCompraDetalle | undefined> => {
   try {
-    const response = await axios.get<IOrdenCompraDetalle>(
+    const response = await axiosAuth.get<IOrdenCompraDetalle>(
       apiUrlController + `/${ordenCompraDetalleId}`
     );
     return response.data;
@@ -29,11 +29,11 @@ export const getOrdenCompraDetalleByIdController = async (
   }
 };
 
-export const createOrdenCompraDetalleController = async (
+export const createOrdenCompraDetalleHttp = async (
   ordenCompraDetalleNueva: IOrdenCompraDetalle
 ): Promise<IOrdenCompraDetalle | undefined> => {
   try {
-    const response = await axios.post<IOrdenCompraDetalle>(
+    const response = await axiosAuth.post<IOrdenCompraDetalle>(
       apiUrlController,
       ordenCompraDetalleNueva
     );
@@ -43,11 +43,11 @@ export const createOrdenCompraDetalleController = async (
   }
 };
 
-export const updateOrdenCompraDetalleController = async (
+export const updateOrdenCompraDetalleHttp = async (
   ordenCompraDetalleActualizada: IOrdenCompraDetalle
 ): Promise<IOrdenCompraDetalle | undefined> => {
   try {
-    const response = await axios.put<IOrdenCompraDetalle>(
+    const response = await axiosAuth.put<IOrdenCompraDetalle>(
       apiUrlController, ordenCompraDetalleActualizada
     );
     return response.data;
@@ -56,11 +56,11 @@ export const updateOrdenCompraDetalleController = async (
   }
 };
 
-export const deleteOrdenCompraDetalleController = async (
+export const deleteOrdenCompraDetalleHttp = async (
   ordenCompraDetalleId: string
 ): Promise<string | undefined> => {
   try {
-    const response = await axios.delete<string>(
+    const response = await axiosAuth.delete<string>(
       apiUrlController + `/${ordenCompraDetalleId}`
     );
     return response.data;
@@ -69,12 +69,12 @@ export const deleteOrdenCompraDetalleController = async (
   }
 };
 
-export const addOrdenCompraToOrdenCompraDetalleController = async (
+export const addOrdenCompraToOrdenCompraDetalleHttp = async (
   ordenCompra: IOrdenCompra,
   ordenCompraDetalleId: string
 ): Promise<IOrdenCompraDetalle | undefined> => {
   try {
-    const response = await axios.post<IOrdenCompraDetalle>(
+    const response = await axiosAuth.post<IOrdenCompraDetalle>(
       apiUrlController + `/ordenCompras/${ordenCompraDetalleId}`,
       ordenCompra
     );
@@ -87,12 +87,12 @@ export const addOrdenCompraToOrdenCompraDetalleController = async (
   }
 };
 
-export const addDetalleProductoToOrdenCompraDetalleController = async (
+export const addDetalleProductoToOrdenCompraDetalleHttp = async (
   detalleProducto: IDetalleProducto,
   ordenCompraDetalleId: string
 ): Promise<IOrdenCompraDetalle | undefined> => {
   try {
-    const response = await axios.post<IOrdenCompraDetalle>(
+    const response = await axiosAuth.post<IOrdenCompraDetalle>(
       apiUrlController + `/detallesProductos/${ordenCompraDetalleId}`,
       detalleProducto
     );
@@ -105,11 +105,11 @@ export const addDetalleProductoToOrdenCompraDetalleController = async (
   }
 };
 
-export const getOrdenesCompraDetalleByOrdenCompraIdController = async (
+export const getOrdenesCompraDetalleByOrdenCompraIdHttp = async (
   ordenCompraId: string
 ): Promise<IOrdenCompraDetalle[] | undefined> => {
   try {
-    const response = await axios.get<IOrdenCompraDetalle[]>(
+    const response = await axiosAuth.get<IOrdenCompraDetalle[]>(
       apiUrlController + `/ordenCompras/${ordenCompraId}`
     );
     return response.data;
@@ -121,11 +121,11 @@ export const getOrdenesCompraDetalleByOrdenCompraIdController = async (
   }
 };
 
-export const getOrdenesCompraDetalleByDetalleProductoIdController = async (
+export const getOrdenesCompraDetalleByDetalleProductoIdHttp = async (
   detalleProductoId: string
 ): Promise<IOrdenCompraDetalle[] | undefined> => {
   try {
-    const response = await axios.get<IOrdenCompraDetalle[]>(
+    const response = await axiosAuth.get<IOrdenCompraDetalle[]>(
       apiUrlController + `/detallesProductos/${detalleProductoId}`
     );
     return response.data;

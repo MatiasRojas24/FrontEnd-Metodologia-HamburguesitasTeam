@@ -1,25 +1,25 @@
-import axios from "./axios.ts";
-import type { IProducto } from "../types/IProducto";
-import type { ICatalogo } from "../types/ICatalogo";
+import axiosAuth from "./axios.config.ts";
+import type { IProducto } from "../types/IProducto.ts";
+import type { ICatalogo } from "../types/ICatalogo.ts";
 
 const apiUrlController = "/productos";
 
-export const getProductosController = async (): Promise<
+export const getProductosHttp = async (): Promise<
   IProducto[] | undefined
 > => {
   try {
-    const response = await axios.get<IProducto[]>(apiUrlController);
+    const response = await axiosAuth.get<IProducto[]>(apiUrlController);
     return response.data;
   } catch (error) {
     console.error("Problemas en getProductosController", error);
   }
 };
 
-export const getProductoByIdController = async (
+export const getProductoByIdHttp = async (
   productoId: string
 ): Promise<IProducto | undefined> => {
   try {
-    const response = await axios.get<IProducto>(
+    const response = await axiosAuth.get<IProducto>(
       apiUrlController + `/${productoId}`
     );
     return response.data;
@@ -28,11 +28,11 @@ export const getProductoByIdController = async (
   }
 };
 
-export const createProductoController = async (
+export const createProductoHttp = async (
   productoNuevo: IProducto
 ): Promise<IProducto | undefined> => {
   try {
-    const response = await axios.post<IProducto>(
+    const response = await axiosAuth.post<IProducto>(
       apiUrlController,
       productoNuevo
     );
@@ -42,11 +42,11 @@ export const createProductoController = async (
   }
 };
 
-export const updateProductoController = async (
+export const updateProductoHttp = async (
   productoActualizado: IProducto
 ): Promise<IProducto | undefined> => {
   try {
-    const response = await axios.put<IProducto>(
+    const response = await axiosAuth.put<IProducto>(
       apiUrlController, productoActualizado
     );
     return response.data;
@@ -55,11 +55,11 @@ export const updateProductoController = async (
   }
 };
 
-export const deleteProductoController = async (
+export const deleteProductoHttp = async (
   productoId: string
 ): Promise<string | undefined> => {
   try {
-    const response = await axios.delete<string>(
+    const response = await axiosAuth.delete<string>(
       apiUrlController + `/${productoId}`
     );
     return response.data;
@@ -68,12 +68,12 @@ export const deleteProductoController = async (
   }
 };
 
-export const addCatalogoToProductoController = async (
+export const addCatalogoToProductoHttp = async (
   catalogo: ICatalogo,
   productoId: string
 ): Promise<IProducto | undefined> => {
   try {
-    const response = await axios.post<IProducto>(
+    const response = await axiosAuth.post<IProducto>(
       apiUrlController + `/catalogos/${productoId}`,
       catalogo
     );
@@ -83,11 +83,11 @@ export const addCatalogoToProductoController = async (
   }
 };
 
-export const getProductosByCatalogoIdController = async (
+export const getProductosByCatalogoIdHttp = async (
   catalogoId: string
 ): Promise<IProducto[] | undefined> => {
   try {
-    const response = await axios.get<IProducto[]>(
+    const response = await axiosAuth.get<IProducto[]>(
       apiUrlController + `/catalogos/${catalogoId}`
     );
     return response.data;
@@ -95,3 +95,16 @@ export const getProductosByCatalogoIdController = async (
     console.error("Problemas en getProductosByCatalogoIdController", error);
   }
 };
+
+export const filtrarPorNombreOSexoOTipoProductoOIdCatalogoHttp = async (
+  nombre: string | null, tipoProducto: string | null, sexo: string | null, idCatalogo: string | null
+): Promise<IProducto[] | undefined> => {
+  try {
+    const response = await axiosAuth.get<IProducto[]>(
+      apiUrlController + `/filtro?nombre=${nombre}&tipoProducto=${tipoProducto}&sexo=${sexo}&idCatalogo=${idCatalogo}`
+    )
+    return response.data
+  } catch (error) {
+    console.error("Problemas en el filtro del producto", error)
+  }
+}

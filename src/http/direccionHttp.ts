@@ -1,25 +1,25 @@
-import axios from "./axios.ts";
-import type { IDireccion } from "../types/IDireccion";
-import type { IUsuario } from "../types/IUsuario";
+import axiosAuth from "./axios.config.ts";
+import type { IDireccion } from "../types/IDireccion.ts";
+import type { IUsuario } from "../types/IUsuario.ts";
 
 const apiUrlController = "/direcciones";
 
-export const getDireccionesController = async (): Promise<
+export const getDireccionesHttp = async (): Promise<
   IDireccion[] | undefined
 > => {
   try {
-    const response = await axios.get<IDireccion[]>(apiUrlController);
+    const response = await axiosAuth.get<IDireccion[]>(apiUrlController);
     return response.data;
   } catch (error) {
     console.error("Problemas en getDireccionesController", error);
   }
 };
 
-export const getDireccionByIdController = async (
+export const getDireccionByIdHttp = async (
   direccionId: string
 ): Promise<IDireccion | undefined> => {
   try {
-    const response = await axios.get<IDireccion>(
+    const response = await axiosAuth.get<IDireccion>(
       apiUrlController + `/${direccionId}`
     );
     return response.data;
@@ -28,11 +28,11 @@ export const getDireccionByIdController = async (
   }
 };
 
-export const createDireccionController = async (
+export const createDireccionHttp = async (
   direccionNueva: IDireccion
 ): Promise<IDireccion | undefined> => {
   try {
-    const response = await axios.post<IDireccion>(
+    const response = await axiosAuth.post<IDireccion>(
       apiUrlController,
       direccionNueva
     );
@@ -42,11 +42,11 @@ export const createDireccionController = async (
   }
 };
 
-export const updateDireccionController = async (
+export const updateDireccionHttp = async (
   direccionActualizada: IDireccion
 ): Promise<IDireccion | undefined> => {
   try {
-    const response = await axios.put<IDireccion>(
+    const response = await axiosAuth.put<IDireccion>(
       apiUrlController, direccionActualizada
     );
     return response.data;
@@ -55,11 +55,11 @@ export const updateDireccionController = async (
   }
 };
 
-export const deleteDireccionController = async (
+export const deleteDireccionHttp = async (
   direccionId: string
 ): Promise<string | undefined> => {
   try {
-    const response = await axios.delete<string>(
+    const response = await axiosAuth.delete<string>(
       apiUrlController + `/${direccionId}`
     );
     return response.data;
@@ -68,12 +68,12 @@ export const deleteDireccionController = async (
   }
 };
 
-export const addUsuariosToDireccionController = async (
+export const addUsuariosToDireccionHttp = async (
   usuarios: IUsuario[],
   direccionId: string
 ): Promise<IDireccion | undefined> => {
   try {
-    const response = await axios.post<IDireccion>(
+    const response = await axiosAuth.post<IDireccion>(
       apiUrlController + `/usuarios/${direccionId}`,
       usuarios
     );
@@ -83,11 +83,11 @@ export const addUsuariosToDireccionController = async (
   }
 };
 
-export const getDireccionesByUsuarioIdController = async (
+export const getDireccionesByUsuarioIdHttp = async (
   usuarioId: string
 ): Promise<IDireccion[] | undefined> => {
   try {
-    const response = await axios.get<IDireccion[]>(
+    const response = await axiosAuth.get<IDireccion[]>(
       apiUrlController + `/usuarios/${usuarioId}`
     );
     return response.data;

@@ -1,26 +1,26 @@
-import axios from "./axios.ts";
-import type { IPrecio } from "../types/IPrecio";
-import type { IDetalleProducto } from "../types/IDetalleProducto";
-import type { IDescuento } from "../types/IDescuento";
+import axiosAuth from "./axios.config.ts";
+import type { IPrecio } from "../types/IPrecio.ts";
+import type { IDetalleProducto } from "../types/IDetalleProducto.ts";
+import type { IDescuento } from "../types/IDescuento.ts";
 
 const apiUrlController = "/precios";
 
-export const getPreciosController = async (): Promise<
+export const getPreciosHttp = async (): Promise<
   IPrecio[] | undefined
 > => {
   try {
-    const response = await axios.get<IPrecio[]>(apiUrlController);
+    const response = await axiosAuth.get<IPrecio[]>(apiUrlController);
     return response.data;
   } catch (error) {
     console.error("Problemas en getPreciosController", error);
   }
 };
 
-export const getPrecioByIdController = async (
+export const getPrecioByIdHttp = async (
   precioId: string
 ): Promise<IPrecio | undefined> => {
   try {
-    const response = await axios.get<IPrecio>(
+    const response = await axiosAuth.get<IPrecio>(
       apiUrlController + `/${precioId}`
     );
     return response.data;
@@ -29,22 +29,22 @@ export const getPrecioByIdController = async (
   }
 };
 
-export const createPrecioController = async (
+export const createPrecioHttp = async (
   precioNuevo: IPrecio
 ): Promise<IPrecio | undefined> => {
   try {
-    const response = await axios.post<IPrecio>(apiUrlController, precioNuevo);
+    const response = await axiosAuth.post<IPrecio>(apiUrlController, precioNuevo);
     return response.data;
   } catch (error) {
     console.error("Problemas en createPrecioController", error);
   }
 };
 
-export const updatePrecioController = async (
+export const updatePrecioHttp = async (
   precioActualizado: IPrecio
 ): Promise<IPrecio | undefined> => {
   try {
-    const response = await axios.put<IPrecio>(
+    const response = await axiosAuth.put<IPrecio>(
       apiUrlController, precioActualizado
     );
     return response.data;
@@ -53,11 +53,11 @@ export const updatePrecioController = async (
   }
 };
 
-export const deletePrecioController = async (
+export const deletePrecioHttp = async (
   precioId: string
 ): Promise<string | undefined> => {
   try {
-    const response = await axios.delete<string>(
+    const response = await axiosAuth.delete<string>(
       apiUrlController + `/${precioId}`
     );
     return response.data;
@@ -66,12 +66,12 @@ export const deletePrecioController = async (
   }
 };
 
-export const addDetalleProductoToPrecioController = async (
+export const addDetalleProductoToPrecioHttp = async (
   detalleProducto: IDetalleProducto,
   precioId: string
 ): Promise<IPrecio | undefined> => {
   try {
-    const response = await axios.post<IPrecio>(
+    const response = await axiosAuth.post<IPrecio>(
       apiUrlController + `/detallesProductos/${precioId}`,
       detalleProducto
     );
@@ -81,12 +81,12 @@ export const addDetalleProductoToPrecioController = async (
   }
 };
 
-export const addDescuentoToPrecioController = async (
+export const addDescuentoToPrecioHttp = async (
   descuento: IDescuento,
   precioId: string
 ): Promise<IPrecio | undefined> => {
   try {
-    const response = await axios.post<IPrecio>(
+    const response = await axiosAuth.post<IPrecio>(
       apiUrlController + `/descuentos/${precioId}`,
       descuento
     );
@@ -96,11 +96,11 @@ export const addDescuentoToPrecioController = async (
   }
 };
 
-export const getPreciosByDetalleProductoIdController = async (
+export const getPreciosByDetalleProductoIdHttp = async (
   detalleProductoId: string
 ): Promise<IPrecio[] | undefined> => {
   try {
-    const response = await axios.get<IPrecio[]>(
+    const response = await axiosAuth.get<IPrecio[]>(
       apiUrlController + `/detallesProductos/${detalleProductoId}`
     );
     return response.data;
@@ -112,11 +112,11 @@ export const getPreciosByDetalleProductoIdController = async (
   }
 };
 
-export const getPreciosByDescuentoIdController = async (
+export const getPreciosByDescuentoIdHttp = async (
   descuentoId: string
 ): Promise<IPrecio[] | undefined> => {
   try {
-    const response = await axios.get<IPrecio[]>(
+    const response = await axiosAuth.get<IPrecio[]>(
       apiUrlController + `/descuentos/${descuentoId}`
     );
     return response.data;
