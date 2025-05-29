@@ -1,6 +1,7 @@
 import Logo from "../../../assets/img/Logo.png";
 import styles from "./Navbar.module.css";
 import { type FC } from "react";
+import { usuarioStore } from "../../../store/usuarioStore";
 
 type IPropsNavbar = {
   setIsLogin: (state: boolean) => void
@@ -9,6 +10,7 @@ type IPropsNavbar = {
 }
 
 export const NavBar: FC<IPropsNavbar> = ({ setIsLogin, setIsLoged, isLoged }) => {
+  const usuarioLogged = usuarioStore((state) => state.usuarioLogeado)
   const stylesI = {
     color: "white",
     fontSize: "20px",
@@ -37,7 +39,7 @@ export const NavBar: FC<IPropsNavbar> = ({ setIsLogin, setIsLoged, isLoged }) =>
         alt="Logo de SPORTWEAR"
       />
 
-      <ul style={{maxHeight:"80px"}}>
+      <ul style={{ maxHeight: "80px" }}>
         <li>
           <a href="">Mujeres</a>
         </li>
@@ -55,12 +57,38 @@ export const NavBar: FC<IPropsNavbar> = ({ setIsLogin, setIsLoged, isLoged }) =>
             placeholder="Buscar"
           />
         </div>
-        <button className={styles.navbarButton}>
-          <i className="bi bi-cart3"></i>
-        </button>
-        <button className={styles.navbarButton}>
-          <i className="bi bi-person" onClick={handlePersonIcon}></i>
-        </button>
+        {/* USUARIO NO ESTÁ LOGEADO*/}
+        {!usuarioLogged && (
+          <>
+            <button className={styles.navbarButton}>
+              <i className="bi bi-person" onClick={handlePersonIcon}></i>
+            </button>
+          </>
+        )}
+
+        {/* USUARIO LOGEADO COMO ADMIN */}
+        {usuarioLogged?.rol === "ADMIN" && (
+          <>
+            <button className={styles.navbarButton}>
+              <i className="bi bi-person" onClick={handlePersonIcon}></i>
+            </button>
+            <button className={styles.navbarButton}>
+              <i className="bi bi-list"></i>
+            </button>
+          </>
+        )}
+
+        {/* USUARIO LOGEADO COMO CLIENTE */}
+        {usuarioLogged?.rol === "CLIENTE" && (
+          <>
+            <button className={styles.navbarButton}>
+              <i className="bi bi-cart3"></i>
+            </button>
+            <button className={styles.navbarButton}>
+              <i className="bi bi-person" onClick={handlePersonIcon}></i>
+            </button>
+          </>
+        )}
       </ul>
     </nav>
   );

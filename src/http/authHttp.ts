@@ -2,7 +2,7 @@ import axios from 'axios'
 import type { IUsuario } from '../types/IUsuario';
 import type { ILoginRequest } from '../types/ILoginRequest';
 
-const apiUrlAuthController = "/auth";
+const apiUrlAuthController = import.meta.env.VITE_API_URL + "/auth";
 
 interface AuthResponse {
     token: string;
