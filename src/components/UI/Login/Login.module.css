@@ -73,16 +73,15 @@
     align-items: center;
     justify-content: space-between;
 }
-
 .cancelButton:hover {
+    cursor: pointer;
     background-color: var(--dark-red);
-    transition: 0.2s;
-    scale: 1.03;
+    transition: 0.4s;
 }
 .acceptButton:hover {
+    cursor: pointer;
     background-color: var(--white-gray-3);
-    transform: 0.2s;
-    scale: 1.03;
+    transition: 0.4s;
 }
 
 .registrate {

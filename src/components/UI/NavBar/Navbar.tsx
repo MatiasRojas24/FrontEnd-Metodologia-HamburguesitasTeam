@@ -1,12 +1,14 @@
 import Logo from "../../../assets/img/Logo.png";
 import styles from "./Navbar.module.css";
-import type { FC } from "react";
+import { type FC } from "react";
 
 type IPropsNavbar = {
   setIsLogin: (state: boolean) => void
+  setIsLoged: (state: boolean) => void
+  isLoged: boolean
 }
 
-export const NavBar: FC<IPropsNavbar> = ({ setIsLogin }) => {
+export const NavBar: FC<IPropsNavbar> = ({ setIsLogin, setIsLoged, isLoged }) => {
   const stylesI = {
     color: "white",
     fontSize: "20px",
@@ -18,6 +20,15 @@ export const NavBar: FC<IPropsNavbar> = ({ setIsLogin }) => {
     marginLeft: "15px",
   };
 
+  const handlePersonIcon = () => {
+    const tokenLs = localStorage.getItem("token")
+    if (tokenLs) {
+      setIsLoged(!isLoged)
+    } else {
+      setIsLogin(true)
+    }
+  }
+
   return (
     <nav className={styles.navbarContainer}>
       <img
@@ -26,7 +37,7 @@ export const NavBar: FC<IPropsNavbar> = ({ setIsLogin }) => {
         alt="Logo de SPORTWEAR"
       />
 
-      <ul>
+      <ul style={{maxHeight:"80px"}}>
         <li>
           <a href="">Mujeres</a>
         </li>
@@ -48,10 +59,9 @@ export const NavBar: FC<IPropsNavbar> = ({ setIsLogin }) => {
           <i className="bi bi-cart3"></i>
         </button>
         <button className={styles.navbarButton}>
-          <i className="bi bi-person" onClick={() => setIsLogin(true)}></i>
+          <i className="bi bi-person" onClick={handlePersonIcon}></i>
         </button>
       </ul>
     </nav>
-
   );
 };
