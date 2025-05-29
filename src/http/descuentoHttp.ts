@@ -1,7 +1,17 @@
 import axiosAuth from "./axios.config.ts";
 import type { IDescuento } from "../types/IDescuento.ts";
+import axios from "axios";
 
 const apiUrlController = "/descuentos";
+
+export const getDescuentosHabilitadosHttp = async (): Promise<IDescuento[] | undefined> => {
+  try {
+    const response = await axios.get<IDescuento[]>(apiUrlController + '/getEnabled')
+    return response.data
+  } catch (error) {
+    console.error("Problemas en getDescuentosHabilitadosHttp", error)
+  }
+}
 
 export const getDescuentosHttp = async (): Promise<
   IDescuento[] | undefined
@@ -66,3 +76,14 @@ export const deleteDescuentoHttp = async (
     console.error("Problemas en deleteDescuentoController", error);
   }
 };
+
+export const toggleHabilitadoHttp = async (
+  descuentoId: string
+): Promise<string | undefined> => {
+  try {
+    const response = await axiosAuth.patch<string>(`${apiUrlController}/toggle-habilitado/${descuentoId}`)
+    return response.data
+  } catch (error) {
+    console.error("Error al alterar el estado", error)
+  }
+}

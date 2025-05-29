@@ -2,8 +2,19 @@ import axiosAuth from "./axios.config.ts";
 import type { IPrecio } from "../types/IPrecio.ts";
 import type { IDetalleProducto } from "../types/IDetalleProducto.ts";
 import type { IDescuento } from "../types/IDescuento.ts";
+import axios from "axios";
 
 const apiUrlController = "/precios";
+
+export const getPreciosHabilitadosHttp = async (): Promise<IPrecio[] | undefined> => {
+  try {
+    const response = await axios.get<IPrecio[]>(apiUrlController + '/getEnabled')
+    return response.data
+  } catch (error) {
+    console.error("Problemas en getPreciosHabilitadosHttp", error)
+  }
+}
+
 
 export const getPreciosHttp = async (): Promise<
   IPrecio[] | undefined
@@ -124,3 +135,14 @@ export const getPreciosByDescuentoIdHttp = async (
     console.error("Problemas en getPreciosByDescuentoIdController", error);
   }
 };
+
+export const toggleHabilitadoHttp = async (
+  precioId: string
+): Promise<string | undefined> => {
+  try {
+    const response = await axiosAuth.patch<string>(`${apiUrlController}/toggle-habilitado/${precioId}`)
+    return response.data
+  } catch (error) {
+    console.error("Error al alterar el estado", error)
+  }
+}

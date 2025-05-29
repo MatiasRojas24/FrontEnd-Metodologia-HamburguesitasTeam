@@ -1,8 +1,18 @@
 import axiosAuth from "./axios.config.ts";
 import type { IProducto } from "../types/IProducto.ts";
 import type { ICatalogo } from "../types/ICatalogo.ts";
+import axios from "axios";
 
 const apiUrlController = "/productos";
+
+export const getProductosHabilitadosHttp = async (): Promise<IProducto[] | undefined> => {
+  try {
+    const response = await axios.get<IProducto[]>(apiUrlController + '/getEnabled')
+    return response.data
+  } catch (error) {
+    console.error("Problemas en getProductosHabilitadosHttp", error)
+  }
+}
 
 export const getProductosHttp = async (): Promise<
   IProducto[] | undefined
@@ -106,5 +116,16 @@ export const filtrarPorNombreOSexoOTipoProductoOIdCatalogoHttp = async (
     return response.data
   } catch (error) {
     console.error("Problemas en el filtro del producto", error)
+  }
+}
+
+export const toggleHabilitadoHttp = async (
+  productoId: string
+): Promise<string | undefined> => {
+  try {
+    const response = await axiosAuth.patch<string>(`${apiUrlController}/toggle-habilitado/${productoId}`)
+    return response.data
+  } catch (error) {
+    console.error("Error al alterar el estado", error)
   }
 }

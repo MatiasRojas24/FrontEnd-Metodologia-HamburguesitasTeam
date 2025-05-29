@@ -1,8 +1,18 @@
 import axiosAuth from "./axios.config.ts";
 import type { IDireccion } from "../types/IDireccion.ts";
 import type { IUsuario } from "../types/IUsuario.ts";
+import axios from "axios";
 
 const apiUrlController = "/direcciones";
+
+export const getDireccionesHabilitadasHttp = async (): Promise<IDireccion[] | undefined> => {
+  try {
+    const response = await axios.get<IDireccion[]>(apiUrlController + '/getEnabled')
+    return response.data
+  } catch (error) {
+    console.error("Problemas en getDireccionesHabilitadasHttp", error)
+  }
+}
 
 export const getDireccionesHttp = async (): Promise<
   IDireccion[] | undefined
@@ -95,3 +105,14 @@ export const getDireccionesByUsuarioIdHttp = async (
     console.error("Problemas en getDireccionesByUsuarioIdController", error);
   }
 };
+
+export const toggleHabilitadoHttp = async (
+  direccionId: string
+): Promise<string | undefined> => {
+  try {
+    const response = await axiosAuth.patch<string>(`${apiUrlController}/toggle-habilitado/${direccionId}`)
+    return response.data
+  } catch (error) {
+    console.error("Error al alterar el estado", error)
+  }
+}

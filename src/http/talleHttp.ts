@@ -1,7 +1,17 @@
 import axiosAuth from "./axios.config.ts";
 import type { ITalle } from "../types/ITalle.ts";
+import axios from "axios";
 
 const apiUrlController = "/talles";
+
+export const getTallesHabilitadosHttp = async (): Promise<ITalle[] | undefined> => {
+  try {
+    const response = await axios.get<ITalle[]>(apiUrlController + '/getEnabled')
+    return response.data
+  } catch (error) {
+    console.error("Problemas en getTallesHabilitadosHttp", error)
+  }
+}
 
 export const getTallesHttp = async (): Promise<ITalle[] | undefined> => {
   try {
@@ -59,3 +69,14 @@ export const deleteTalleHttp = async (
     console.error("Problemas en deleteTalleController", error);
   }
 };
+
+export const toggleHabilitadoHttp = async (
+  talleId: string
+): Promise<string | undefined> => {
+  try {
+    const response = await axiosAuth.patch<string>(`${apiUrlController}/toggle-habilitado/${talleId}`)
+    return response.data
+  } catch (error) {
+    console.error("Error al alterar el estado", error)
+  }
+}

@@ -2,8 +2,18 @@ import axiosAuth from "./axios.config.ts";
 import type { IOrdenCompraDetalle } from "../types/IOrdenCompraDetalle.ts";
 import type { IOrdenCompra } from "../types/IOrdenCompra.ts";
 import type { IDetalleProducto } from "../types/IDetalleProducto.ts";
+import axios from "axios";
 
 const apiUrlController = "/ordenComprasDetalles";
+
+export const getOrdenesComprasDetallesHabilitadosHttp = async (): Promise<IOrdenCompraDetalle[] | undefined> => {
+  try {
+    const response = await axios.get<IOrdenCompraDetalle[]>(apiUrlController + '/getEnabled')
+    return response.data
+  } catch (error) {
+    console.error("Problemas en getOrdenesComprasDetallesHabilitadosHttp", error)
+  }
+}
 
 export const getOrdenesCompraDetalleHttp = async (): Promise<
   IOrdenCompraDetalle[] | undefined
@@ -136,3 +146,14 @@ export const getOrdenesCompraDetalleByDetalleProductoIdHttp = async (
     );
   }
 };
+
+export const toggleHabilitadoHttp = async (
+  ordenCompraDetalleId: string
+): Promise<string | undefined> => {
+  try {
+    const response = await axiosAuth.patch<string>(`${apiUrlController}/toggle-habilitado/${ordenCompraDetalleId}`)
+    return response.data
+  } catch (error) {
+    console.error("Error al alterar el estado", error)
+  }
+}

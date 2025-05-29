@@ -1,7 +1,17 @@
 import axiosAuth from "./axios.config.ts";
 import type { ICatalogo } from "../types/ICatalogo.ts";
+import axios from "axios";
 
 const apiUrlController = "/catalogos";
+
+export const getCatalogosHabilitadosHttp = async (): Promise<ICatalogo[] | undefined> => {
+  try {
+    const response = await axios.get<ICatalogo[]>(apiUrlController + '/getEnabled')
+    return response.data
+  } catch (error) {
+    console.error("Problemas en getCatalogosHabilitadosHttp", error)
+  }
+}
 
 export const getCatalogosHttp = async (): Promise<
   ICatalogo[] | undefined
@@ -67,3 +77,14 @@ export const deleteCatalogoHttp = async (
     console.error("Problemas en deleteCatalogoController", error);
   }
 };
+
+export const toggleHabilitadoHttp = async (
+  catalogoId: string
+): Promise<string | undefined> => {
+  try {
+    const response = await axiosAuth.patch<string>(`${apiUrlController}/toggle-habilitado/${catalogoId}`)
+    return response.data
+  } catch (error) {
+    console.error("Error al alterar el estado", error)
+  }
+}

@@ -2,8 +2,18 @@ import axiosAuth from "./axios.config.ts";
 import type { IDetalleProducto } from "../types/IDetalleProducto.ts";
 import type { IProducto } from "../types/IProducto.ts";
 import type { ITalle } from "../types/ITalle.ts";
+import axios from "axios";
 
 const apiUrlController = "/detallesProductos";
+
+export const getDetallesProductosHabilitadosHttp = async (): Promise<IDetalleProducto[] | undefined> => {
+  try {
+    const response = await axios.get<IDetalleProducto[]>(apiUrlController + '/getEnabled')
+    return response.data
+  } catch (error) {
+    console.error("Problemas en getDetallesProductosHabilitadosHttp", error)
+  }
+}
 
 export const getDetallesProductosHttp = async (): Promise<
   IDetalleProducto[] | undefined
@@ -127,3 +137,14 @@ export const getDetallesProductosByProductoIdHttp = async (
     );
   }
 };
+
+export const toggleHabilitadoHttp = async (
+  detalleProductoId: string
+): Promise<string | undefined> => {
+  try {
+    const response = await axiosAuth.patch<string>(`${apiUrlController}/toggle-habilitado/${detalleProductoId}`)
+    return response.data
+  } catch (error) {
+    console.error("Error al alterar el estado", error)
+  }
+}

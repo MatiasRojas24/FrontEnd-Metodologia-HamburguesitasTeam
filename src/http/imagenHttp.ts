@@ -1,8 +1,18 @@
 import axiosAuth from "./axios.config.ts";
 import type { IImagen } from "../types/IImagen.ts";
 import type { IDetalleProducto } from "../types/IDetalleProducto.ts";
+import axios from "axios";
 
 const apiUrlController = "/imagenes";
+
+export const getImagenesHabilitadasHttp = async (): Promise<IImagen[] | undefined> => {
+  try {
+    const response = await axios.get<IImagen[]>(apiUrlController + '/getEnabled')
+    return response.data
+  } catch (error) {
+    console.error("Problemas en getImagenesHabilitadasHttp", error)
+  }
+}
 
 export const getImagenesHttp = async (): Promise<
   IImagen[] | undefined
@@ -98,3 +108,14 @@ export const getImagenesByDetalleProductoIdHttp = async (
     );
   }
 };
+
+export const toggleHabilitadoHttp = async (
+  imagenId: string
+): Promise<string | undefined> => {
+  try {
+    const response = await axiosAuth.patch<string>(`${apiUrlController}/toggle-habilitado/${imagenId}`)
+    return response.data
+  } catch (error) {
+    console.error("Error al alterar el estado", error)
+  }
+}

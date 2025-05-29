@@ -1,14 +1,24 @@
 import axiosAuth from "./axios.config.ts";
 import type { IUsuario } from "../types/IUsuario.ts";
 import type { IDireccion } from "../types/IDireccion.ts";
+import axios from "axios";
 
-const apiUrlUsuariosController = "/usuarios";
+const apiUrlController = "/usuarios";
+
+export const getUsuariosHabilitadosHttp = async (): Promise<IUsuario[] | undefined> => {
+  try {
+    const response = await axios.get<IUsuario[]>(apiUrlController + '/getEnabled')
+    return response.data
+  } catch (error) {
+    console.error("Problemas en getUsuariosHabilitadosHttp", error)
+  }
+}
 
 export const getUsuariosHttp = async (): Promise<
   IUsuario[] | undefined
 > => {
   try {
-    const response = await axiosAuth.get<IUsuario[]>(apiUrlUsuariosController);
+    const response = await axiosAuth.get<IUsuario[]>(apiUrlController);
     return response.data;
   } catch (error) {
     console.warn("Token expirado o inválido, cerrando sesión...");
@@ -23,7 +33,7 @@ export const getUsuarioByIdHttp = async (
 ): Promise<IUsuario | undefined> => {
   try {
     const response = await axiosAuth.get<IUsuario>(
-      apiUrlUsuariosController + `/${usuarioId}`
+      apiUrlController + `/${usuarioId}`
     );
     return response.data;
   } catch (error) {
@@ -36,7 +46,7 @@ export const updateUsuarioHttp = async (
 ): Promise<IUsuario | undefined> => {
   try {
     const response = await axiosAuth.put<IUsuario>(
-      apiUrlUsuariosController,
+      apiUrlController,
       usuarioActualizado
     );
     return response.data;
@@ -50,7 +60,7 @@ export const deleteUsuarioHttp = async (
 ): Promise<string | undefined> => {
   try {
     const response = await axiosAuth.delete<string>(
-      apiUrlUsuariosController + `/${usuarioId}`
+      apiUrlController + `/${usuarioId}`
     );
     return response.data;
   } catch (error) {
@@ -64,7 +74,7 @@ export const addDireccionesToUsuarioHttp = async (
 ): Promise<IUsuario | undefined> => {
   try {
     const response = await axiosAuth.post<IUsuario>(
-      apiUrlUsuariosController + `/direcciones/${usuarioId}`,
+      apiUrlController + `/direcciones/${usuarioId}`,
       direcciones
     );
     return response.data;
@@ -78,10 +88,21 @@ export const getUsuariosByDireccionIdHttp = async (
 ): Promise<IUsuario[] | undefined> => {
   try {
     const response = await axiosAuth.get<IUsuario[]>(
-      apiUrlUsuariosController + `/direcciones/${direccionId}`
+      apiUrlController + `/direcciones/${direccionId}`
     );
     return response.data;
   } catch (error) {
     console.error("Problemas en getUsuariosByDireccionIdController", error);
   }
 };
+
+export const toggleHabilitadoHttp = async (
+  usuarioId: string
+): Promise<string | undefined> => {
+  try {
+    const response = await axiosAuth.patch<string>(`${apiUrlController}/toggle-habilitado/${usuarioId}`)
+    return response.data
+  } catch (error) {
+    console.error("Error al alterar el estado", error)
+  }
+}
