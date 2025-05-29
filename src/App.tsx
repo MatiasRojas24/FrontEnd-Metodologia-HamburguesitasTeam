@@ -9,7 +9,6 @@ import { Login } from "./components/UI/Login/Login";
 import { CuentasAdmin } from "./components/Screens/CuentasAdmin/CuentasAdmin";
 import { UserInfo } from "./components/UI/UserInfo/UserInfo";
 import { CuentasUsuarios } from "./components/Screens/CuentasUsuarios/CuentasUsuarios";
-import { ComponentePruebas } from "./components/Screens/ComponentePruebas/ComponentePruebas";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -21,8 +20,7 @@ function App() {
       {/* <LandingPage /> */}
       {/* <CuentasAdmin /> */}
       {/* <CuentasUsuarios /> */}
-      {/* <ComponentePruebas/> */}
-      <CuentasAdmin />
+      <CuentasUsuarios />
       <Footer />
       {isLogin && <Login setIsLogin={setIsLogin} />}
       {isLoged && <UserInfo setIsLoged={setIsLoged} />}

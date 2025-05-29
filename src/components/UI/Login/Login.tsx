@@ -26,7 +26,7 @@ export const Login: FC<IPropsLogin> = ({ setIsLogin }) => {
     }),
     onSubmit: async (values) => {
       const success = await loginUsuario(values);
-      if (success) { 
+      if (success) {
         setIsLogin(false);
       } else {
         alert("Usuario o contraseña incorrectos");
