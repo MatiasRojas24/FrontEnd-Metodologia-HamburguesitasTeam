@@ -1,0 +1,98 @@
+.containerPage{
+    width: 100vw;
+    height: 88vh;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+.containerHeader{
+    transform: translateY(20px);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+}
+.containerFilter {
+    width: 90%;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+.agregarCategoria {
+    width: 200px;
+    padding: .4rem;
+    background-color: white;
+    border: 1px solid #1F1F1F;
+    border-radius: 5px;
+    font-size: 18px;
+    transition: ease-in-out .3s;
+}
+.agregarCategoria:hover {
+    cursor: pointer;
+    background-color: rgb(226, 226, 226);
+}
+.botonFiltro {
+    width: 100px;
+    padding: .4rem;
+    background-color: white;
+    border: 1px solid #1F1F1F;
+    border-radius: 5px;
+    font-size: 18px;
+}
+.botonFiltro:hover {
+    cursor: pointer;
+}
+.botonFiltroClicked {
+    width: 100px;
+    padding: 5px;
+    background-color: rgb(226, 226, 226);
+    border: 1px solid #1F1F1F;
+    border-radius: 5px;
+    font-size: 18px;
+}
+.botonFiltroClicked:hover{
+    cursor: pointer;
+}
+.containerHeader hr{
+    font-family: latoRegular;
+    width: 90%;
+    height: 3px;
+    background-color: rgba(0, 0, 0, 10%); 
+    border-radius: 5px; 
+    border: none;
+}
+.containerBody{
+    width: 100%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+.containerButton{
+    width: 90%;
+    display: flex;
+    justify-content: flex-start;
+}
+.containerButton button{
+    width: fit-content;
+    padding: 15px;
+    font-size: 15px;
+    font-family: latoRegular;
+    border: none;
+    border-radius: 10px;
+    background-color: #1F1F1F;
+    color: white;
+    transition: ease-in-out .3s;
+}
+.containerButton button:hover{
+    cursor:pointer;
+    scale: 1.05;
+}
+.containerTable{
+    width: 90%;
+    height: 100%;
+    overflow-y: scroll;
+    scroll-behavior:smooth;
+}
