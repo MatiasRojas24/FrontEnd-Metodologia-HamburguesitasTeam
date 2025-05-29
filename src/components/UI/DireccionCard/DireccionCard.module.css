@@ -1,5 +1,5 @@
 .direccionCard {
-    height: 40%;
+    min-height: 40%;
     background-color: var(--black-gray-2);
     padding: 3% 5% 3% 5%;
     box-sizing: border-box;
@@ -10,9 +10,6 @@
 }
 
 
-.infoContainer {
-
-}
 .infoContainer p {
     color: var(--white-gray-3);
 }
@@ -25,6 +22,11 @@
     justify-content: space-between;
     align-items: center;
 }
+.iconsContainer button {
+    border: none;
+    width: auto; 
+}
 .iconsContainer i {
     font-size: 20px;
+    color: white
 }

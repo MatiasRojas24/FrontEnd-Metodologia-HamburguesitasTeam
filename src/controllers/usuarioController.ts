@@ -17,6 +17,9 @@ export const getUsuariosController = async (): Promise<
     const response = await axios.get<IUsuario[]>(apiUrlUsuariosController);
     return response.data;
   } catch (error) {
+    console.warn("Token expirado o inválido, cerrando sesión...");
+    localStorage.removeItem("token");
+
     console.error("Problemas en getUsuariosController", error);
   }
 };
@@ -42,6 +45,12 @@ export const registerUsuarioAdminController = async (
       apiUrlAuthController + "/registerAdmin",
       datosRegister
     );
+
+    const token = response.data.token;
+    if (token) {
+      localStorage.setItem("token", token); // ---> Guardar el 🔑 token en localStorage
+    }
+
     return response.data.token;
   } catch (error) {
     console.error("Problemas en registerUsuarioAdminController", error);
@@ -66,10 +75,8 @@ export const loginUsuarioController = async (
   datosLogin: ILoginRequest
 ): Promise<string | undefined> => {
   try {
-    const response = await axios.post<AuthResponse>(
-      apiUrlAuthController + "/login",
-      datosLogin
-    );
+    const response = await axios.post<AuthResponse>(apiUrlAuthController + "/login", datosLogin);
+    console.log(response.data.token)
     return response.data.token;
   } catch (error) {
     console.error("Problemas en loginUsuarioController", error);
@@ -81,7 +88,8 @@ export const updateUsuarioController = async (
 ): Promise<IUsuario | undefined> => {
   try {
     const response = await axios.put<IUsuario>(
-      apiUrlUsuariosController, usuarioActualizado
+      apiUrlUsuariosController,
+      usuarioActualizado
     );
     return response.data;
   } catch (error) {

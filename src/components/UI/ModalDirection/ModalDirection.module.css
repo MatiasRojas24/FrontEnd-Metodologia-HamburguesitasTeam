@@ -7,6 +7,7 @@
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
     font-family: LatoRegular;
+    color: var(--white-gray-2);
 
     display: flex;
     align-items: center;
@@ -14,81 +15,68 @@
 }
 
 
-/*CONTENEDOR DEL MODAL*/
-.modalContainer {
+
+/* CONTENEDOR DEL FORMULARIO */
+.containerForm {
+    height: 450px;
+    width: 360px;
     background-color: var(--black-gray);
-    height: 560px;
-    width: 450px;
-    color: white;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-
-
-
-/*TITULO DEL MODAL*/
-.modalTitle {
-    height: 10%;
-    width: 65%;
-    max-width: 65%;
-    font-size: 21px;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-
-
-/*CUERPO DEL MODAL*/
-.modalBody {
-    width: 65%;
-    max-width: 65%;
-    height: 50%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 6%;
-}
-.modalBody p {
-    height: 20%;
-    width: 90%;
-
-    display: flex;
-    flex-direction: column;
-}
-.modalBody input {
-    background-color: var(--black-gray-2);
-    height: 100%;
-    max-height: 24px;
-    caret-color: white;
-    color: white;
-    padding-left: 10px;
+    padding: 2% 1% 2% 1%;
     box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.headerOfForm {
+    height: 12%;
+
+}
+.headerOfForm h2 { color: var(--white-gray) }
+
+
+.bodyOfForm {
+    height: 68%;
+    width: 70%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4%;
+}
+.bodyOfForm article {
+    width: 100%;
+    height: 19%;
+    display: flex;
+    flex-direction: column;
+    gap: 10%;
+}
+.bodyOfForm p {
+    border-bottom: 1px solid var(--white-gray-3);
+}
+.bodyOfForm input {
+    height: 60%;
+    width: 95%;
+    background-color: var(--black-gray-2);
+    padding-left: 4%;
+    color: var(--white-gray-2);
+}
+.bodyOfForm input:focus {
+    border: 1px solid var(--white-gray-3);
 }
 
 
 
-
-/*BOTONES INFERIORES DEL MODAL*/
-.buttonsContainer {
-    width: 65%;
-    max-width: 65%;
-    height: 12%;
-    padding-top: 6%;
+.containerButtons {
+    height: 20%;
 
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    justify-content: row;
     align-items: center;
-    gap: 15%;
+    gap: 5%;
 }
 .cancelButton:hover {
     cursor: pointer;
