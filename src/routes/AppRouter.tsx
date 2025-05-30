@@ -38,6 +38,7 @@ export const AppRouter = () => {
         ||
         location.pathname === "/gestion-de-productos/detalle"
         || location.pathname === "/register"
+        || location.pathname === "/gestion-de-cuentas"
     if (cargandoUsuario) return <PantallaCarga />
     return (
         <>
@@ -46,16 +47,16 @@ export const AppRouter = () => {
                 <Route path='/' element={<Navigate to='/home' />} />
                 <Route path='/home' element={<LandingPage />} />
                 <Route path='/register' element={<Register />} />
-                {usuarioLogged?.rol === "ADMIN" ?
-                    <Route path="/*" element={<AdminRoutes />} />
-                    :
-                    <Route path='/*' element={<Navigate to="/home" />} />
-                }
-                {usuarioLogged?.rol === "CLIENTE" ?
-                    <Route path="/*" element={<ClientRoutes />} />
-                    :
-                    <Route path='/*' element={<Navigate to="/home" />} />
-                }
+                <Route
+                    path="/*"
+                    element={
+                        usuarioLogged?.rol === 'ADMIN'
+                            ? <AdminRoutes />
+                            : usuarioLogged?.rol === 'CLIENTE'
+                                ? <ClientRoutes />
+                                : <Navigate to="/home" />
+                    }
+                />
             </Routes>
             {!ocultarFooter && <Footer />}
         </>

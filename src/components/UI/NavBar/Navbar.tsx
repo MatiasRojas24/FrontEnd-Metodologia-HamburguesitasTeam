@@ -5,6 +5,7 @@ import { usuarioStore } from "../../../store/usuarioStore";
 import { Login } from "../Login/Login";
 import { useNavigate } from "react-router-dom";
 import { DropdownAdminOptions } from "../DropdownAdminOptions/DropdownAdminOptions";
+import { DropdownUserOptions } from "../DropdownUserOptions/DropdownUserOptions";
 
 export const NavBar = () => {
   const [isLogin, setIsLogin] = useState(false);
