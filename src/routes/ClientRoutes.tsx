@@ -1,7 +1,13 @@
 import React from 'react'
+import { Route, Routes } from 'react-router-dom'
 
 export const ClientRoutes = () => {
     return (
-        <div>ClientRoutes</div>
+        <>
+            <Routes>
+                <Route path='/cuenta-de-usuario' element={<></>} />
+                <Route path='/carrito' element={<></>} />
+            </Routes>
+        </>
     )
 }

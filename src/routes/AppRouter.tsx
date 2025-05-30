@@ -5,7 +5,6 @@ import { Footer } from '../components/Footer/Footer'
 import { LandingPage } from '../components/screens/LandingPage/LandingPage'
 import { NavBar } from '../components/UI/NavBar/Navbar'
 import { Register } from '../components/screens/Register/Register'
-import { Login } from '../components/UI/Login/Login'
 import { AdminRoutes } from './AdminRoutes'
 import { ClientRoutes } from './ClientRoutes'
 

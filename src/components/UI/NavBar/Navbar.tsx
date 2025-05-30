@@ -1,21 +1,30 @@
 import Logo from "../../../assets/img/Logo.png";
 import styles from "./Navbar.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usuarioStore } from "../../../store/usuarioStore";
 import { Login } from "../Login/Login";
 import { Register } from "../../screens/Register/Register";
 import { useNavigate } from "react-router-dom";
 import { DropdownAdminOptions } from "../DropdownAdminOptions/DropdownAdminOptions";
+import { DropdownUserOptions } from "../DropdownUserOptions/DropdownUserOptions";
+import { useUsuario } from "../../../hooks/useUsuario";
 
 export const NavBar = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [openDropdownAdminOptions, setOpenDropdownAdminOptions] = useState(false);
+  const [openDropdownUserOptions, setOpenDropdownUserOptions] = useState(false);
 
   const navigate = useNavigate();
-
+  const { getUsuarioById } = useUsuario()
   const setUsuarioLogeado = usuarioStore((state) => state.setUsuarioLogeado)
   const usuarioLogged = usuarioStore((state) => state.usuarioLogeado)
+  const handlePersistUsuarioLoggeado = {
+
+  }
+  useEffect(() => {
+    handlePersistUsuarioLoggeado
+  }, [])
   const stylesI = {
     color: "white",
     fontSize: "20px",
@@ -105,13 +114,14 @@ export const NavBar = () => {
               <i className="bi bi-box-arrow-right" onClick={handleLogout}></i>
             </button>
             <button className={styles.navbarButton}>
-              <i className="bi bi-list"></i>
+              <i className="bi bi-list" onClick={() => { setOpenDropdownUserOptions(!openDropdownUserOptions) }}></i>
             </button>
           </div>
         )}
 
         {isLogin && <Login setIsLogin={setIsLogin} />}
         {openDropdownAdminOptions && <DropdownAdminOptions setOpenDropdownAdminOptions={setOpenDropdownAdminOptions} />}
+        {openDropdownUserOptions && <DropdownUserOptions setOpenDropdownUserOptions={setOpenDropdownUserOptions} />}
       </div>
     </nav>
   );
