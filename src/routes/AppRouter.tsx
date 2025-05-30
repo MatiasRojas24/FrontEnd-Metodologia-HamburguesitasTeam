@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { usuarioStore } from '../store/usuarioStore'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { Footer } from '../components/Footer/Footer'
@@ -26,7 +26,7 @@ export const AppRouter = () => {
                     console.error('Usuario no encontrado')
                 }
             }
-            /*setCargandoUsuario(false)*/
+            setCargandoUsuario(false)
         }
 
         handlePersistUsuarioLoggeado()
