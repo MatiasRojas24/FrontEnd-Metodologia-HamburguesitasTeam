@@ -58,6 +58,22 @@ export const useUsuario = () => {
         }
     }
 
+    const registerUsuarioCliente = async (datosRegister: IUsuario): Promise<boolean> => {
+        try {
+            const token = await registerUsuarioClienteHttp(datosRegister)
+            if (!token) return false;
+            localStorage.setItem('token', token)
+
+            const usuariosDb = await getUsuariosHttp();
+            const usuario = usuariosDb?.find(udb => udb.email === datosRegister.email)
+            setUsuarioLogeado(usuario!)
+            return true;
+        } catch (error) {
+            console.error("Error en registerUsuarioCliente", error)
+            return false;
+        }
+    }
+
     const loginUsuario = async (datosLogin: ILoginRequest): Promise<boolean> => {
         try {
 
@@ -159,6 +175,7 @@ export const useUsuario = () => {
         getUsuarios,
         loginUsuario,
         registerUsuarioAdmin,
+        registerUsuarioCliente,
         deleteUsuario,
         updateUsuario,
         getUsuarioById,
