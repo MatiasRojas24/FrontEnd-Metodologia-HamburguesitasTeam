@@ -3,7 +3,6 @@ import styles from "./Navbar.module.css";
 import { useState } from "react";
 import { usuarioStore } from "../../../store/usuarioStore";
 import { Login } from "../Login/Login";
-import { Register } from "../../screens/Register/Register";
 import { useNavigate } from "react-router-dom";
 import { DropdownAdminOptions } from "../DropdownAdminOptions/DropdownAdminOptions";
 
@@ -11,6 +10,7 @@ export const NavBar = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [openDropdownAdminOptions, setOpenDropdownAdminOptions] = useState(false);
+  const [isOpenDropdownUsuario, setIsOpenDropdownUsuario] = useState(false)
 
   const navigate = useNavigate();
 
@@ -37,6 +37,12 @@ export const NavBar = () => {
   const handleNavigateToHome = () => {
     navigate("/home")
   }
+
+  const handleGoToCuentaUsuario = () => {
+    setIsOpenDropdownUsuario(false)
+    navigate("/cuenta-del-usuario")
+  }
+  
   return (
     <nav className={styles.navbarContainer}>
       <div className={styles.navbarLogoSegment}>
@@ -105,13 +111,15 @@ export const NavBar = () => {
               <i className="bi bi-box-arrow-right" onClick={handleLogout}></i>
             </button>
             <button className={styles.navbarButton}>
-              <i className="bi bi-list"></i>
+              <i className="bi bi-list" onClick={() => setIsOpenDropdownUsuario(!isOpenDropdownUsuario)}></i>
+              
             </button>
           </div>
         )}
 
         {isLogin && <Login setIsLogin={setIsLogin} />}
         {openDropdownAdminOptions && <DropdownAdminOptions setOpenDropdownAdminOptions={setOpenDropdownAdminOptions} />}
+        {isOpenDropdownUsuario && <button className={styles.goToCuentaButton} onClick={handleGoToCuentaUsuario}>Cuenta</button>}
       </div>
     </nav>
   );

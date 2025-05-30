@@ -1,13 +1,12 @@
-import React from 'react'
 import { usuarioStore } from '../store/usuarioStore'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { Footer } from '../components/Footer/Footer'
-import { LandingPage } from '../components/screens/LandingPage/LandingPage'
+import { LandingPage } from '../components/Screens/LandingPage/LandingPage'
 import { NavBar } from '../components/UI/NavBar/Navbar'
-import { Register } from '../components/screens/Register/Register'
-import { Login } from '../components/UI/Login/Login'
 import { AdminRoutes } from './AdminRoutes'
 import { ClientRoutes } from './ClientRoutes'
+import { Register } from '../components/Screens/Register/Register'
+import { CuentasUsuarios } from '../components/Screens/CuentasUsuarios/CuentasUsuarios'
 
 export const AppRouter = () => {
     const usuarioLogged = usuarioStore((state) => state.usuarioLogeado)
@@ -22,19 +21,17 @@ export const AppRouter = () => {
         <>
             {!ocultarNavbar && <NavBar />}
             <Routes>
-                <Route path='/' element={<Navigate to='/home' />} />
-                <Route path='/home' element={<LandingPage />} />
-                <Route path='/register' element={<Register />} />
-                {usuarioLogged?.rol === "ADMIN" ?
-                    <Route path="/*" element={<AdminRoutes />} />
-                    :
-                    <Route path='/*' element={<Navigate to="/home" />} />
-                }
-                {usuarioLogged?.rol === "CLIENTE" ?
-                    <Route path="/*" element={<ClientRoutes />} />
-                    :
-                    <Route path='/*' element={<Navigate to="/home" />} />
-                }
+            <Route path="/" element={<Navigate to="/home" />} />
+            <Route path="/home" element={<LandingPage />} />
+            <Route path="/register" element={<Register />} />
+            
+            <Route path="/*" element={
+                usuarioLogged?.rol === "ADMIN"
+                ? <AdminRoutes />
+                : usuarioLogged?.rol === "CLIENTE"
+                ? <ClientRoutes />
+                : <Navigate to="/home" />
+            } />
             </Routes>
             {!ocultarFooter && <Footer />}
         </>

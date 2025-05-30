@@ -1,7 +1,12 @@
-import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+import { CuentasUsuarios } from '../components/Screens/CuentasUsuarios/CuentasUsuarios'
 
 export const ClientRoutes = () => {
     return (
-        <div>ClientRoutes</div>
+        <>
+            <Routes>
+                <Route path="/cuenta-del-usuario" element={<CuentasUsuarios />} />
+            </Routes>
+        </>
     )
 }

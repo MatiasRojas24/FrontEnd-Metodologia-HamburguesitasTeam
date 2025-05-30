@@ -1,8 +1,7 @@
-import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { GestionDeProductos } from '../components/screens/GestionDeProductos/GestionDeProductos'
-import { GestionDetalleProducto } from '../components/screens/GestionDetalleProducto/GestionDetalleProducto'
-import { CuentasAdmin } from '../components/screens/CuentasAdmin/CuentasAdmin'
+import { GestionDeProductos } from '../components/Screens/GestionDeProductos/GestionDeProductos'
+import { GestionDetalleProducto } from '../components/Screens/GestionDetalleProducto/GestionDetalleProducto'
+import { CuentasAdmin } from '../components/Screens/CuentasAdmin/CuentasAdmin'
 
 export const AdminRoutes = () => {
     return (
