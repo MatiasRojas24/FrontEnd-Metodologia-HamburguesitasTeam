@@ -15,6 +15,7 @@ export const getUsuariosController = async (): Promise<
 > => {
   try {
     const response = await axios.get<IUsuario[]>(apiUrlUsuariosController);
+    console.log("token desde el controller: ", response.data)
     return response.data;
   } catch (error) {
     console.warn("Token expirado o inválido, cerrando sesión...");
@@ -71,7 +72,6 @@ export const loginUsuarioController = async (
 ): Promise<string | undefined> => {
   try {
     const response = await axios.post<AuthResponse>(apiUrlAuthController + "/login", datosLogin);
-    console.log(response.data.token)
     return response.data.token;
   } catch (error) {
     console.error("Problemas en loginUsuarioController", error);

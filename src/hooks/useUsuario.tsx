@@ -154,6 +154,15 @@ export const useUsuario = () => {
         }
     }
 
+    const updateUsuarioLogeadoById = async (idUsuaio: string): Promise<void> => {
+        try {
+            const usuarioBd = await getUsuarioByIdController(idUsuaio)
+            if (usuarioBd) setUsuarioLogeado(usuarioBd)
+        } catch (error) {
+            console.error("hubo un error en updateUsuarioLogeado: ", error)
+        }
+    }
+
   return {
     getUsuarios,
     loginUsuario,
@@ -162,5 +171,6 @@ export const useUsuario = () => {
     updateUsuario,
     getUsuarioById,
     addDireccionesToUsuario,
+    updateUsuarioLogeadoById,
   }
 }

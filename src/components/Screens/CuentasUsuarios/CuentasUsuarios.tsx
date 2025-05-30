@@ -5,11 +5,12 @@ import { ModalDirection } from '../../UI/ModalDirection/ModalDirection'
 import { direccionStore } from '../../../store/direccionStore'
 import { useDireccion } from '../../../hooks/useDireccion'
 import { usuarioStore } from '../../../store/usuarioStore'
+import { ModalModificarUsuario } from '../../UI/ModalModificarUsuario/ModalModificarUsuario'
 
 export const CuentasUsuarios = () => {
   // Estados locales
   const [isVisible, setIsVisible] = useState(false)
-  const [isModalUsuario, setIsModalUsuario] = useState(false) // Estado apra el modal "modificar usuario"
+  const [isModificarUsuario, setIsModificarUsuario] = useState(false) // Estado apra el modal "modificar usuario"
   const [isModalDirection, setIsModalDirection] = useState(false) // Estado para el modal "agregar/modificar direccion"
 
 
@@ -17,13 +18,19 @@ export const CuentasUsuarios = () => {
   const direccionActiva = direccionStore((state) => state.direccionActiva)
   const direcciones = direccionStore((state) => state.direcciones)
   const usuarioLogeado = usuarioStore((state) => state.usuarioLogeado)
+  const usuarios = usuarioStore((state) => state.usuarios)
 
 
   // HOOKS
-  const { getDirecciones } = useDireccion() 
+  const { getDireccionesByUsuarioId } = useDireccion() 
+
   useEffect(() => {
-    getDirecciones()
-  }, [])
+    if (usuarioLogeado && usuarioLogeado.id) {
+        getDireccionesByUsuarioId(usuarioLogeado.id)
+    } else {
+        console.warn("Usuario logeado o su id son null")
+    }
+  }, [usuarioLogeado, usuarios])
 
 
   // Funciones de accion
@@ -42,6 +49,12 @@ export const CuentasUsuarios = () => {
     return hidePassword
   }
 
+  const handleOpenModificarUsuario = () => {
+    setIsModificarUsuario(true)
+  }
+
+  console.log("Usuarios: ", usuarios)
+  console.log("Usuario logeado: ", usuarioLogeado)
 
   return (
     <div className={styles.pageContainer}>
@@ -83,11 +96,12 @@ export const CuentasUsuarios = () => {
                 </article>
             </section>
             <section className={styles.buttonContainer}>
-                <button>Modificar Datos</button>
+                <button onClick={handleOpenModificarUsuario}>Modificar Datos</button>
             </section>
         </main>
 
         {isModalDirection && <ModalDirection setIsModal={setIsModalDirection} direccionActiva={direccionActiva} usuarioLogeado={usuarioLogeado}/>}
+        {isModificarUsuario && <ModalModificarUsuario usuarioLogeado={usuarioLogeado} setIsModificarUsuario={setIsModificarUsuario}/>}
     </div>
   )
 }
