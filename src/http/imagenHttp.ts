@@ -1,25 +1,35 @@
-import axios from "./axios.ts";
-import type { IImagen } from "../types/IImagen";
-import type { IDetalleProducto } from "../types/IDetalleProducto";
+import axiosAuth from "./axios.config.ts";
+import type { IImagen } from "../types/IImagen.ts";
+import type { IDetalleProducto } from "../types/IDetalleProducto.ts";
+import axios from "axios";
 
 const apiUrlController = "/imagenes";
 
-export const getImagenesController = async (): Promise<
+export const getImagenesHabilitadasHttp = async (): Promise<IImagen[] | undefined> => {
+  try {
+    const response = await axios.get<IImagen[]>(apiUrlController + '/getEnabled')
+    return response.data
+  } catch (error) {
+    console.error("Problemas en getImagenesHabilitadasHttp", error)
+  }
+}
+
+export const getImagenesHttp = async (): Promise<
   IImagen[] | undefined
 > => {
   try {
-    const response = await axios.get<IImagen[]>(apiUrlController);
+    const response = await axiosAuth.get<IImagen[]>(apiUrlController);
     return response.data;
   } catch (error) {
     console.error("Problemas en getImagenesController", error);
   }
 };
 
-export const getImagenByIdController = async (
+export const getImagenByIdHttp = async (
   imagenId: string
 ): Promise<IImagen | undefined> => {
   try {
-    const response = await axios.get<IImagen>(
+    const response = await axiosAuth.get<IImagen>(
       apiUrlController + `/${imagenId}`
     );
     return response.data;
@@ -28,23 +38,23 @@ export const getImagenByIdController = async (
   }
 };
 
-export const createImagenController = async (
+export const createImagenHttp = async (
   imagenNueva: IImagen
 ): Promise<IImagen | undefined> => {
   try {
-    const response = await axios.post<IImagen>(apiUrlController, imagenNueva);
+    const response = await axiosAuth.post<IImagen>(apiUrlController, imagenNueva);
     return response.data;
   } catch (error) {
     console.error("Problemas en createImagenController", error);
   }
 };
 
-export const updateImagenController = async (
+export const updateImagenHttp = async (
   imagenActualizada: IImagen
 ): Promise<IImagen | undefined> => {
   try {
-    const response = await axios.put<IImagen>(
-      apiUrlController + `/${imagenActualizada.id}`
+    const response = await axiosAuth.put<IImagen>(
+      apiUrlController, imagenActualizada
     );
     return response.data;
   } catch (error) {
@@ -52,11 +62,11 @@ export const updateImagenController = async (
   }
 };
 
-export const deleteImagenController = async (
+export const deleteImagenHttp = async (
   imagenId: string
 ): Promise<string | undefined> => {
   try {
-    const response = await axios.delete<string>(
+    const response = await axiosAuth.delete<string>(
       apiUrlController + `/${imagenId}`
     );
     return response.data;
@@ -65,12 +75,12 @@ export const deleteImagenController = async (
   }
 };
 
-export const addDetalleProductoToDireccionController = async (
+export const addDetalleProductoToImagenHttp = async (
   detalleProducto: IDetalleProducto,
   imagenId: string
 ): Promise<IImagen | undefined> => {
   try {
-    const response = await axios.post<IImagen>(
+    const response = await axiosAuth.post<IImagen>(
       apiUrlController + `/detallesProductos/${imagenId}`,
       detalleProducto
     );
@@ -83,11 +93,11 @@ export const addDetalleProductoToDireccionController = async (
   }
 };
 
-export const getImagenesByDetalleProductoIdController = async (
+export const getImagenesByDetalleProductoIdHttp = async (
   detalleProductoId: string
 ): Promise<IImagen[] | undefined> => {
   try {
-    const response = await axios.get<IImagen[]>(
+    const response = await axiosAuth.get<IImagen[]>(
       apiUrlController + `/detallesProductos/${detalleProductoId}`
     );
     return response.data;
@@ -98,3 +108,14 @@ export const getImagenesByDetalleProductoIdController = async (
     );
   }
 };
+
+export const toggleHabilitadoHttp = async (
+  imagenId: string
+): Promise<string | undefined> => {
+  try {
+    const response = await axiosAuth.patch<string>(`${apiUrlController}/toggle-habilitado/${imagenId}`)
+    return response.data
+  } catch (error) {
+    console.error("Error al alterar el estado", error)
+  }
+}

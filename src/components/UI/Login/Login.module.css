@@ -56,8 +56,8 @@
 .inputsContainer input {
     padding: 0px 5px 0px 5px;
     box-sizing: border-box;
-    height: 18%;
     width: 100%;
+    padding: 5px;
     color: var(--white-gray-2);
     background-color: var(--black-gray-2);  
     caret-color: var(--white-gray-2);
@@ -83,7 +83,12 @@
     background-color: var(--white-gray-3);
     transition: 0.4s;
 }
-
+.error{
+    width: fit-content;
+    height: fit-content;
+    padding: 0;
+    font-size: 12px;
+}
 .registrate {
     width: 70%;
     height: 12%;
@@ -96,6 +101,10 @@
     justify-content: center;
     gap: 3px;
 }
-.registrate p {
+.registrate span{
     text-decoration: underline;
+}
+.registrate span:hover{
+    cursor:pointer;
+    text-decoration-thickness: 2px;
 }

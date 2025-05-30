@@ -1,0 +1,65 @@
+.tabla {
+    width: 100%;
+    justify-content: space-around;
+    font-family: latoLight;
+    border-collapse: collapse;
+}
+.tablaHeader tr th{
+    background-color: #1f1f1f;
+    height: 40px;
+    font-size: 20px;
+    color: white;
+    position: sticky;
+    top: 0;
+}
+.tablaHeaderHidden tr th{
+    background-color: #1f1f1f;
+    height: 40px;
+    font-size: 20px;
+    color: white;
+    top: 0;
+}
+tr th:not(:last-child){
+    border-right: 2px solid white;
+}
+.tablaBody {
+    height: 40px;
+    background-color: #d0d0d0;
+    font-family: latoRegular;
+    font-size: 18px;
+    text-align: center;
+}
+.tablaBody tr:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+td{
+    border: 2px solid #1f1f1f;
+    max-width: 1px;
+    overflow-x: hidden;
+}
+td:first-child {
+    border-left: none;
+}
+td:last-child {
+    border-right: none;
+}
+tr:last-child td {
+    border-bottom: none
+}
+.tdAcciones {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.tdAcciones i{
+    font-size: 28px;
+    transition: ease-in-out .1s;
+}
+.tdAcciones i:hover{
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.7);
+}
+.tdAcciones i:last-child:hover{
+    cursor: pointer;
+    color: rgba(255, 0, 0);
+}

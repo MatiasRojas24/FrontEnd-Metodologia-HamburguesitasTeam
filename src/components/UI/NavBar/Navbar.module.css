@@ -1,17 +1,35 @@
 .navbarContainer {
-  width: 100%;
-  height: 80px;
+  height: 12vh;
   background-color: #1f1f1f;
   font-family: LatoRegular;
   font-size: 20px;
+  display: flex;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 .navbarLogoContainer {
   width: 80px;
   height: 80px;
-  margin-left: 40px;
 }
-
+.navbarLogoContainer:hover {
+  cursor: pointer;
+}
+.navbarLogoSegment{
+  min-width: 80px;
+  width: 10%;
+}
+.navbarFilterSegmnet{
+  display: flex;
+  align-items: center;
+  width: 70%;
+  justify-content: flex-start;
+}
+.searchbarSegment{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
 .searchContainer {
   border: 1px solid white;
   height: 35px;
@@ -19,19 +37,32 @@
   display: flex;
   align-items: center;
   color: white;
-  margin-left: 500px;
+  transition: .5s ease-in-out;
+  justify-content: flex-start;
 }
-
+.searchContainer.focused {
+  width: 100%;
+}
 .searchInput {
   all: unset;
   padding-left: 12px;
   box-sizing: border-box;
   background-color: transparent;
-  width: 160px;
+  width: 100%;
   display: flex;
   align-items: center;
 }
 
+.userOptionSegment{
+  display: flex;
+  width: 20%;
+  align-items: center;
+  justify-content: flex-end;
+}
+.containerBotones{
+  display: flex;
+  gap: 20px;
+}
 .navbarButton {
   width: 40px;
   height: 35px;
@@ -39,18 +70,13 @@
   color: white;
   background-color: #1f1f1f;
   border: none;
-  margin-left: 20px;
 }
 
 .navbarContainer ul {
-  width: 90%;
-  float: right;
   display: flex;
   list-style: none;
-  display: flex;
   justify-content: center;
   align-items: center;
-  line-height: 78px;
 }
 
 .navbarContainer ul li {

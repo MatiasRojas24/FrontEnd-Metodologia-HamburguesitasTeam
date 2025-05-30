@@ -1,7 +1,7 @@
 import type { ICatalogo } from "./ICatalogo";
 
-type TipoProducto = "ZAPATILLA" | "REMERA" | "PANTALON" | "CAMPERA";
-type Sexo = "HOMBRE" | "MUJER" | "OTRO";
+export type TipoProducto = "ZAPATILLA" | "REMERA" | "PANTALON" | "CAMPERA";
+export type Sexo = "HOMBRE" | "MUJER" | "OTRO";
 export interface IProducto {
   id?: string;
   nombre: string;

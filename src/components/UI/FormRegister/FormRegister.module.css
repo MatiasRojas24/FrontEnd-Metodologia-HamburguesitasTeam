@@ -1,0 +1,67 @@
+.form{
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    font-family: latoLight;
+    gap: 40px;
+}
+.containerInputs {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    align-items: center;
+}
+.inputWrapper {
+    position: relative;
+    margin-bottom: .8rem; /* suficiente espacio para el error flotante */
+}
+.containerInputs input{
+    border-radius: 2px;
+    border: 1px solid #1f1f1f;
+    background-color: white;
+    width: 350px;
+}
+.error {
+    position: absolute;
+    font-family: latoRegular;
+    top: 100%;
+    left: 0;
+    color: rgb(194, 0, 0);
+    font-size: 0.8rem;
+    margin-top: 2px;
+    white-space: nowrap;
+}
+
+.containerButtons{
+    display: flex;
+    width: 60%;
+    height: 50px;
+    justify-content: space-around;
+}
+.containerButtons button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    border-radius: 2px;
+    border: none;
+    padding: 20px 0px 20px 0px;
+    font-family: latoBold;
+    font-size: 18px;
+}
+.cancelButton{
+    color: white;
+    background-color: rgb(194, 0, 0);
+}
+.acceptButton{
+    color: white;
+    background-color: #1f1f1f;
+}
+.acceptButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.8;
+}

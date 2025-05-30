@@ -3,8 +3,7 @@ import * as Yup from "yup";
 import styles from "./Login.module.css";
 import { type FC } from "react";
 import { useUsuario } from "../../../hooks/useUsuario";
-import type { IUsuario } from "../../../types/IUsuario";
-import { usuarioStore } from "../../../store/usuarioStore";
+import { useNavigate } from "react-router-dom";
 
 type IPropsLogin = {
   setIsLogin: (state: boolean) => void;
@@ -12,9 +11,14 @@ type IPropsLogin = {
 
 export const Login: FC<IPropsLogin> = ({ setIsLogin }) => {
 
+  const navigate = useNavigate()
   // HOOKS
   const { loginUsuario } = useUsuario();
 
+  const handleNavigateToRegister = () => {
+    navigate("/register")
+    setIsLogin(false);
+  }
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -82,7 +86,7 @@ export const Login: FC<IPropsLogin> = ({ setIsLogin }) => {
         </div>
 
         <p className={styles.registrate}>
-          ¿No tienes una cuenta? <span>Registrate</span>
+          ¿No tienes una cuenta? <span onClick={handleNavigateToRegister}>Registrate</span>
         </p>
       </div>
     </form>

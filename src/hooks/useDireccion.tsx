@@ -1,5 +1,5 @@
 import { useShallow } from "zustand/shallow"
-import { addUsuariosToDireccionController, createDireccionController, deleteDireccionController, getDireccionByIdController, getDireccionesByUsuarioIdController, getDireccionesController, updateDireccionController } from "../controllers/direccionController"
+import { addUsuariosToDireccionHttp, createDireccionHttp, deleteDireccionHttp, getDireccionByIdHttp, getDireccionesByUsuarioIdHttp, getDireccionesHttp, updateDireccionHttp } from "../http/direccionHttp"
 import { direccionStore } from "../store/direccionStore"
 import type { IDireccion } from "../types/IDireccion"
 import type { IUsuario } from "../types/IUsuario"
@@ -16,18 +16,18 @@ export const useDireccion = () => {
         }
     )))
 
-    
+
     // METODOS DEL HOOK
     const getDirecciones = async (): Promise<void> => {
-        const data = await getDireccionesController()
+        const data = await getDireccionesHttp()
         if (data) setDirecciones(data)
     }
 
     const getDireccionById = async (idDireccion: string): Promise<IDireccion | undefined> => {
         try {
-            const data = await getDireccionByIdController(idDireccion)
+            const data = await getDireccionByIdHttp(idDireccion)
             if (!data) throw new Error
-    
+
             return data;
         } catch (error) {
             console.error("Hubo un error en getDireccionById: ", error)
@@ -35,16 +35,16 @@ export const useDireccion = () => {
     }
 
     const createDireccion = async (direccion: IDireccion): Promise<boolean> => {
-         
+
         try {
-            const data = await createDireccionController(direccion)
+            const data = await createDireccionHttp(direccion)
             console.log("data desde el registerUsuarioAdmin: ", data)
             if (!data) throw new Error
             añadirDireccion(direccion)
 
             return true
         } catch (error) {
-            console.error("Hubo un error en createDireccion", error)            
+            console.error("Hubo un error en createDireccion", error)
             return false
         }
     }
@@ -52,7 +52,7 @@ export const useDireccion = () => {
     const updateDireccion = async (direccionActualizada: IDireccion): Promise<boolean> => {
 
         try {
-            const response = await updateDireccionController(direccionActualizada)
+            const response = await updateDireccionHttp(direccionActualizada)
             console.log("Se actualizo el usuario: ", response)
             actualizarDireccion(direccionActualizada)
 
@@ -65,7 +65,7 @@ export const useDireccion = () => {
 
     const deleteDireccion = async (idDireccion: string): Promise<boolean> => {
         try {
-            const response = await deleteDireccionController(idDireccion)
+            const response = await deleteDireccionHttp(idDireccion)
             console.log("Response del deleteDireccionController: ", response)
             eliminarDireccion(idDireccion)
 
@@ -80,7 +80,7 @@ export const useDireccion = () => {
         console.log(usuarios)
         console.log(idDireccion)
         try {
-            const response = await addUsuariosToDireccionController(usuarios, idDireccion)
+            const response = await addUsuariosToDireccionHttp(usuarios, idDireccion)
             if (!response) throw new Error
 
             const direccion = await getDireccionById(idDireccion)
@@ -102,7 +102,7 @@ export const useDireccion = () => {
 
     const getDireccionesByUsuarioId = async (idUsuario: string): Promise<void> => {
         try {
-            const direcciones = await getDireccionesByUsuarioIdController(idUsuario)
+            const direcciones = await getDireccionesByUsuarioIdHttp(idUsuario)
             if (direcciones) setDirecciones(direcciones)
                 
         } catch (error) {
