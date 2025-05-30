@@ -1,11 +1,12 @@
-import { Route, Routes } from 'react-router-dom'
 import { CuentasUsuarios } from '../components/Screens/CuentasUsuarios/CuentasUsuarios'
+import { Route, Routes } from 'react-router-dom'
 
 export const ClientRoutes = () => {
     return (
         <>
             <Routes>
-                <Route path="/cuenta-del-usuario" element={<CuentasUsuarios />} />
+                <Route path='/cuenta-de-usuario' element={<CuentasUsuarios />} />
+                <Route path='/carrito' element={<></>} />
             </Routes>
         </>
     )

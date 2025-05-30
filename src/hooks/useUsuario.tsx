@@ -44,11 +44,12 @@ export const useUsuario = () => {
             if (!token) return false;
             localStorage.setItem('token', token)
 
+
             const usuariosDb = await getUsuariosHttp();
             console.log("usuarios desde la db: ", usuariosDb)
             const usuario = usuariosDb?.find(udb => udb.email === datosRegister.email)
             console.log("Usuario encontrado: ", usuario)
-
+            localStorage.setItem('usuarioLogeado', usuario!.id!)
             añadirUsuario(usuario!)
             setUsuarioLogeado(usuario!)
             return true;
@@ -66,6 +67,7 @@ export const useUsuario = () => {
 
             const usuariosDb = await getUsuariosHttp();
             const usuario = usuariosDb?.find(udb => udb.email === datosRegister.email)
+            localStorage.setItem('usuarioLogeado', usuario!.id!)
             setUsuarioLogeado(usuario!)
             return true;
         } catch (error) {
@@ -93,7 +95,7 @@ export const useUsuario = () => {
                 console.warn("No se encontro el usuario correspondiente al login en la BD")
                 return false
             }
-
+            localStorage.setItem('usuarioLogeado', usuario.id!)
             setUsuarioLogeado(usuario)
 
             return true;

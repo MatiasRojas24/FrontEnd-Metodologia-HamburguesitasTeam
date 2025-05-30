@@ -109,4 +109,17 @@
     height: 100%;
     overflow-y: scroll;
     scroll-behavior:smooth;
+    padding-right: 10px;
+    box-sizing: border-box; 
+}
+.containerTable::-webkit-scrollbar {
+    width: 3px;
+}
+.containerTable::-webkit-scrollbar-thumb {
+    background-color: var(--black-gray);
+    border-radius: 6px;
+}
+.containerTable::-webkit-scrollbar-track {
+    background-color: var(--white-gray-2);
+    border-radius: 6px;
 }

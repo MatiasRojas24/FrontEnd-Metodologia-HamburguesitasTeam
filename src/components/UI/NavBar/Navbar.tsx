@@ -1,21 +1,29 @@
 import Logo from "../../../assets/img/Logo.png";
 import styles from "./Navbar.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usuarioStore } from "../../../store/usuarioStore";
 import { Login } from "../Login/Login";
 import { useNavigate } from "react-router-dom";
 import { DropdownAdminOptions } from "../DropdownAdminOptions/DropdownAdminOptions";
+import { DropdownUserOptions } from "../DropdownUserOptions/DropdownUserOptions";
+import { useUsuario } from "../../../hooks/useUsuario";
 
 export const NavBar = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [openDropdownAdminOptions, setOpenDropdownAdminOptions] = useState(false);
-  const [isOpenDropdownUsuario, setIsOpenDropdownUsuario] = useState(false)
+  const [openDropdownUserOptions, setOpenDropdownUserOptions] = useState(false);
 
   const navigate = useNavigate();
-
+  const { getUsuarioById } = useUsuario()
   const setUsuarioLogeado = usuarioStore((state) => state.setUsuarioLogeado)
   const usuarioLogged = usuarioStore((state) => state.usuarioLogeado)
+  const handlePersistUsuarioLoggeado = {
+
+  }
+  useEffect(() => {
+    handlePersistUsuarioLoggeado
+  }, [])
   const stylesI = {
     color: "white",
     fontSize: "20px",
@@ -39,7 +47,7 @@ export const NavBar = () => {
   }
 
   const handleGoToCuentaUsuario = () => {
-    setIsOpenDropdownUsuario(false)
+    setOpenDropdownUserOptions(false)
     navigate("/cuenta-del-usuario")
   }
   
@@ -111,15 +119,14 @@ export const NavBar = () => {
               <i className="bi bi-box-arrow-right" onClick={handleLogout}></i>
             </button>
             <button className={styles.navbarButton}>
-              <i className="bi bi-list" onClick={() => setIsOpenDropdownUsuario(!isOpenDropdownUsuario)}></i>
-              
+              <i className="bi bi-list" onClick={() => { setOpenDropdownUserOptions(!openDropdownUserOptions) }}></i>
             </button>
           </div>
         )}
 
         {isLogin && <Login setIsLogin={setIsLogin} />}
         {openDropdownAdminOptions && <DropdownAdminOptions setOpenDropdownAdminOptions={setOpenDropdownAdminOptions} />}
-        {isOpenDropdownUsuario && <button className={styles.goToCuentaButton} onClick={handleGoToCuentaUsuario}>Cuenta</button>}
+        {openDropdownUserOptions && <DropdownUserOptions setOpenDropdownUserOptions={setOpenDropdownUserOptions} />}
       </div>
     </nav>
   );
