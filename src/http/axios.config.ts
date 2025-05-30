@@ -1,5 +1,6 @@
 import axios from "axios";
 import { validateTokenHttp } from "./authHttp";   // Ajusta la ruta
+import { navigateTo } from "../routes/navigation";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -13,9 +14,8 @@ api.interceptors.request.use(async (config) => {
       config.headers.Authorization = `Bearer ${token}`;
     } else {
       console.warn("Token inválido o usuario no logueado");
-      // Opcional: puedes limpiar el token del localStorage o redirigir
       localStorage.removeItem("token");
-      // Redirigir
+      navigateTo("/register");
       throw new axios.Cancel("Token inválido o usuario no logueado");
     }
   }
