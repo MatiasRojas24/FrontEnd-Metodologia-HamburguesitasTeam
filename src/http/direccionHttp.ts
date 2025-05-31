@@ -7,7 +7,7 @@ const apiUrlController = "/direcciones";
 
 export const getDireccionesHabilitadasHttp = async (): Promise<IDireccion[] | undefined> => {
   try {
-    const response = await axios.get<IDireccion[]>(apiUrlController + '/getEnabled')
+    const response = await axios.get<IDireccion[]>(import.meta.env.VITE_API_URL + apiUrlController + '/getEnabled')
     return response.data
   } catch (error) {
     console.error("Problemas en getDireccionesHabilitadasHttp", error)

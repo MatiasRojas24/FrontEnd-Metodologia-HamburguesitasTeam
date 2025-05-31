@@ -1,29 +1,22 @@
 import Logo from "../../../assets/img/Logo.png";
 import styles from "./Navbar.module.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usuarioStore } from "../../../store/usuarioStore";
 import { Login } from "../Login/Login";
-import { useNavigate } from "react-router-dom";
 import { DropdownAdminOptions } from "../DropdownAdminOptions/DropdownAdminOptions";
 import { DropdownUserOptions } from "../DropdownUserOptions/DropdownUserOptions";
-import { useUsuario } from "../../../hooks/useUsuario";
+import { CarritoModal } from "../CarritoModal/CarritoModal";
+import { navigateTo } from "../../../routes/navigation";
 
 export const NavBar = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [openDropdownAdminOptions, setOpenDropdownAdminOptions] = useState(false);
   const [openDropdownUserOptions, setOpenDropdownUserOptions] = useState(false);
+  const [openCarritoModal, setOpenCarritoModal] = useState(false)
 
-  const navigate = useNavigate();
-  const { getUsuarioById } = useUsuario()
   const setUsuarioLogeado = usuarioStore((state) => state.setUsuarioLogeado)
   const usuarioLogged = usuarioStore((state) => state.usuarioLogeado)
-  const handlePersistUsuarioLoggeado = {
-
-  }
-  useEffect(() => {
-    handlePersistUsuarioLoggeado
-  }, [])
   const stylesI = {
     color: "white",
     fontSize: "20px",
@@ -40,15 +33,16 @@ export const NavBar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token")
     setUsuarioLogeado(null)
+    localStorage.removeItem('usuarioLogeado')
   }
 
   const handleNavigateToHome = () => {
-    navigate("/home")
+    navigateTo("/home")
   }
 
   const handleGoToCuentaUsuario = () => {
     setOpenDropdownUserOptions(false)
-    navigate("/cuenta-del-usuario")
+    navigateTo("/cuenta-del-usuario")
   }
   
   return (
@@ -91,8 +85,8 @@ export const NavBar = () => {
         {/* USUARIO NO ESTÁ LOGEADO*/}
         {!usuarioLogged && (
           <div className={styles.containerBotones}>
-            <button className={styles.navbarButton}>
-              <i className="bi bi-person" onClick={handlePersonIcon}></i>
+            <button className={styles.navbarButton} onClick={handlePersonIcon}>
+              <i className="bi bi-person" ></i>
             </button>
           </div>
         )}
@@ -100,11 +94,11 @@ export const NavBar = () => {
         {/* USUARIO LOGEADO COMO ADMIN */}
         {usuarioLogged?.rol === "ADMIN" && (
           <div className={styles.containerBotones}>
-            <button className={styles.navbarButton}>
-              <i className="bi bi-box-arrow-right" onClick={handleLogout}></i>
+            <button className={styles.navbarButton} onClick={handleLogout}>
+              <i className="bi bi-box-arrow-right" ></i>
             </button>
-            <button className={styles.navbarButton}>
-              <i className="bi bi-list" onClick={() => setOpenDropdownAdminOptions(!openDropdownAdminOptions)}></i>
+            <button className={styles.navbarButton} onClick={() => setOpenDropdownAdminOptions(!openDropdownAdminOptions)}>
+              <i className="bi bi-list" ></i>
             </button>
           </div>
         )}
@@ -112,14 +106,14 @@ export const NavBar = () => {
         {/* USUARIO LOGEADO COMO CLIENTE */}
         {usuarioLogged?.rol === "CLIENTE" && (
           <div className={styles.containerBotones}>
-            <button className={styles.navbarButton}>
+            <button className={styles.navbarButton} onClick={() => { console.log("CLICK CARRITO"); setOpenCarritoModal(!openCarritoModal); setOpenDropdownUserOptions(false); }}>
               <i className="bi bi-cart3"></i>
             </button>
-            <button className={styles.navbarButton}>
-              <i className="bi bi-box-arrow-right" onClick={handleLogout}></i>
+            <button className={styles.navbarButton} onClick={handleLogout}>
+              <i className="bi bi-box-arrow-right"></i>
             </button>
-            <button className={styles.navbarButton}>
-              <i className="bi bi-list" onClick={() => { setOpenDropdownUserOptions(!openDropdownUserOptions) }}></i>
+            <button className={styles.navbarButton} onClick={() => { setOpenDropdownUserOptions(!openDropdownUserOptions); setOpenCarritoModal(false) }}>
+              <i className="bi bi-list"></i>
             </button>
           </div>
         )}
@@ -127,6 +121,7 @@ export const NavBar = () => {
         {isLogin && <Login setIsLogin={setIsLogin} />}
         {openDropdownAdminOptions && <DropdownAdminOptions setOpenDropdownAdminOptions={setOpenDropdownAdminOptions} />}
         {openDropdownUserOptions && <DropdownUserOptions setOpenDropdownUserOptions={setOpenDropdownUserOptions} />}
+        {openCarritoModal && <CarritoModal setOpenCarritoModal={setOpenCarritoModal} />}
       </div>
     </nav>
   );

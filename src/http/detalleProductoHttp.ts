@@ -9,7 +9,7 @@ const apiUrlController = "/detallesProductos";
 
 
 
-export const filtrarDetalleProductosHttp= async (filtro: FiltroDetalleProducto): Promise<IProducto [] | undefined> => {
+export const filtrarDetalleProductosHttp = async (filtro: FiltroDetalleProducto): Promise<IProducto[] | undefined> => {
   try {
     const params = new URLSearchParams();
 
@@ -24,11 +24,12 @@ export const filtrarDetalleProductosHttp= async (filtro: FiltroDetalleProducto):
     return response.data
   } catch (error) {
     console.log("Error en el filtrarDetalleProductos", error);
-  }}
+  }
+}
 
 export const getDetallesProductosHabilitadosHttp = async (): Promise<IDetalleProducto[] | undefined> => {
   try {
-    const response = await axios.get<IDetalleProducto[]>(apiUrlController + '/getEnabled')
+    const response = await axios.get<IDetalleProducto[]>(import.meta.env.VITE_API_URL + apiUrlController + '/getEnabled')
     return response.data
   } catch (error) {
     console.error("Problemas en getDetallesProductosHabilitadosHttp", error)

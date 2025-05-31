@@ -1,4 +1,4 @@
-import { addDireccionesToUsuarioHttp, deleteUsuarioHttp, getUsuarioByIdHttp, getUsuariosHttp, updateUsuarioHttp } from '../http/usuarioHttp'
+import { addDireccionesToUsuarioHttp, deleteUsuarioHttp, getUsuarioByIdHttp, getUsuarioByUsername, getUsuariosHttp, updateUsuarioHttp } from '../http/usuarioHttp'
 import { loginUsuarioHttp, registerUsuarioAdminHttp, registerUsuarioClienteHttp } from '../http/authHttp'
 import { usuarioStore } from '../store/usuarioStore'
 import { useShallow } from 'zustand/shallow'
@@ -45,10 +45,7 @@ export const useUsuario = () => {
             localStorage.setItem('token', token)
 
 
-            const usuariosDb = await getUsuariosHttp();
-            console.log("usuarios desde la db: ", usuariosDb)
-            const usuario = usuariosDb?.find(udb => udb.email === datosRegister.email)
-            console.log("Usuario encontrado: ", usuario)
+            const usuario = await getUsuarioByUsername(datosRegister.username)
             localStorage.setItem('usuarioLogeado', usuario!.id!)
             añadirUsuario(usuario!)
             setUsuarioLogeado(usuario!)
@@ -65,8 +62,7 @@ export const useUsuario = () => {
             if (!token) return false;
             localStorage.setItem('token', token)
 
-            const usuariosDb = await getUsuariosHttp();
-            const usuario = usuariosDb?.find(udb => udb.email === datosRegister.email)
+            const usuario = await getUsuarioByUsername(datosRegister.username)
             localStorage.setItem('usuarioLogeado', usuario!.id!)
             setUsuarioLogeado(usuario!)
             return true;
@@ -80,17 +76,11 @@ export const useUsuario = () => {
         try {
 
             const token = await loginUsuarioHttp(datosLogin);
-
             if (!token) throw new Error("No se obtuvo ningun token al intentar el login")
             localStorage.setItem("token", token!);
 
-            const usuariosBd = await getUsuariosHttp()
-            if (!usuariosBd) {
-                console.warn("No se obtuvieron los usuariosBd")
-                return false
-            }
 
-            const usuario = usuariosBd.find(u => u.username === datosLogin.username)
+            const usuario = await getUsuarioByUsername(datosLogin.username)
             if (!usuario) {
                 console.warn("No se encontro el usuario correspondiente al login en la BD")
                 return false
@@ -112,13 +102,7 @@ export const useUsuario = () => {
             console.log("Se actualizo el usuario: ", data)
 
             if (!data) throw new Error("No se puedo actualizar el usuario!")
-            const usuariosBd = await getUsuariosHttp()
-
-            if (!usuariosBd) {
-                console.warn("No se pudo obtener la lista de usuarios después de actualizar")
-                return false
-            }
-            const usuarioActualizadoDb = usuariosBd.find(u => u.email === usuarioActualizado.email)
+            const usuarioActualizadoDb = await getUsuarioByUsername(usuarioActualizado.username)
 
             if (!usuarioActualizadoDb) {
                 console.warn("No se pudo obtener la lista de usuarios después de actualizar")

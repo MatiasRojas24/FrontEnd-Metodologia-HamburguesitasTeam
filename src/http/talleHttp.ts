@@ -6,7 +6,7 @@ const apiUrlController = "/talles";
 
 export const getTallesHabilitadosHttp = async (): Promise<ITalle[] | undefined> => {
   try {
-    const response = await axios.get<ITalle[]>(apiUrlController + '/getEnabled')
+    const response = await axios.get<ITalle[]>(import.meta.env.VITE_API_URL + apiUrlController + '/getEnabled')
     return response.data
   } catch (error) {
     console.error("Problemas en getTallesHabilitadosHttp", error)

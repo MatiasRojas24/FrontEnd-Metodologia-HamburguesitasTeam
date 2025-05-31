@@ -2,11 +2,12 @@ import { useFormik } from 'formik'
 import styles from './FormRegister.module.css'
 import { formRegisterSchema } from './formRegister.schema'
 import { useUsuario } from '../../../hooks/useUsuario'
-import { useNavigate } from 'react-router-dom'
+import { navigateTo } from '../../../routes/navigation'
+import { useState } from 'react'
 
 export const FormRegister = () => {
-    const navigate = useNavigate()
     const { registerUsuarioCliente } = useUsuario()
+    const [cargando, setCargando] = useState(false)
 
     const formik = useFormik({
         initialValues: {
@@ -20,7 +21,7 @@ export const FormRegister = () => {
         onSubmit: async (values) => {
             const success = await registerUsuarioCliente(values)
             if (success) {
-                navigate("/home")
+                navigateTo("/home")
             } else {
                 alert("Datos inválidos. Puede que el nombre de usuario ya esté en uso")
             }
@@ -116,7 +117,7 @@ export const FormRegister = () => {
                 >
                     Crear cuenta
                 </button>
-                <button className={styles.cancelButton} onClick={() => { navigate("/home") }}>
+                <button className={styles.cancelButton} onClick={() => { navigateTo("/home") }}>
                     Cancelar
                 </button>
             </div>

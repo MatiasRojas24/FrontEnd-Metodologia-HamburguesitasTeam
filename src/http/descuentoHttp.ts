@@ -6,7 +6,7 @@ const apiUrlController = "/descuentos";
 
 export const getDescuentosHabilitadosHttp = async (): Promise<IDescuento[] | undefined> => {
   try {
-    const response = await axios.get<IDescuento[]>(apiUrlController + '/getEnabled')
+    const response = await axios.get<IDescuento[]>(import.meta.env.VITE_API_URL + apiUrlController + '/getEnabled')
     return response.data
   } catch (error) {
     console.error("Problemas en getDescuentosHabilitadosHttp", error)

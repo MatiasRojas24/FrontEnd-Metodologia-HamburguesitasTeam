@@ -4,9 +4,11 @@ import axios from "axios";
 
 const apiUrlController = "/catalogos";
 
-export const getCatalogosHabilitadosHttp = async (): Promise<ICatalogo[] | undefined> => {
+export const getCatalogosHabilitadosHttp = async (): Promise<
+  ICatalogo[] | undefined
+> => {
   try {
-    const response = await axios.get<ICatalogo[]>(apiUrlController + '/getEnabled')
+    const response = await axios.get<ICatalogo[]>(import.meta.env.VITE_API_URL + apiUrlController + '/getEnabled')
     return response.data
   } catch (error) {
     console.error("Problemas en getCatalogosHabilitadosHttp", error)

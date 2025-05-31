@@ -7,7 +7,7 @@ const apiUrlController = "/usuarios";
 
 export const getUsuariosHabilitadosHttp = async (): Promise<IUsuario[] | undefined> => {
   try {
-    const response = await axios.get<IUsuario[]>(apiUrlController + '/getEnabled')
+    const response = await axios.get<IUsuario[]>(import.meta.env.VITE_API_URL + apiUrlController + '/getEnabled')
     return response.data
   } catch (error) {
     console.error("Problemas en getUsuariosHabilitadosHttp", error)
@@ -24,6 +24,15 @@ export const getUsuariosHttp = async (): Promise<
     console.error("Problemas en getUsuariosController", error);
   }
 };
+
+export const getUsuarioByUsername = async (username: string): Promise<IUsuario | undefined> => {
+  try {
+    const response = await axiosAuth.get<IUsuario>(apiUrlController + `/username/${username}`);
+    return response.data;
+  } catch (error) {
+    console.error("Problemas en getUsuarioByUsername", error);
+  }
+}
 
 export const getUsuarioByIdHttp = async (
   usuarioId: string

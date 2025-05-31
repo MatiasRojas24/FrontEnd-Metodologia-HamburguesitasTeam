@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import styles from "./Login.module.css";
 import { type FC } from "react";
 import { useUsuario } from "../../../hooks/useUsuario";
-import { useNavigate } from "react-router-dom";
+import { navigateTo } from "../../../routes/navigation";
 
 type IPropsLogin = {
   setIsLogin: (state: boolean) => void;
@@ -11,12 +11,11 @@ type IPropsLogin = {
 
 export const Login: FC<IPropsLogin> = ({ setIsLogin }) => {
 
-  const navigate = useNavigate()
   // HOOKS
   const { loginUsuario } = useUsuario();
 
   const handleNavigateToRegister = () => {
-    navigate("/register")
+    navigateTo("/register")
     setIsLogin(false);
   }
   const formik = useFormik({
