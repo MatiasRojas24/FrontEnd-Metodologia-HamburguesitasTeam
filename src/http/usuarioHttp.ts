@@ -7,7 +7,7 @@ const apiUrlController = "/usuarios";
 
 export const getUsuariosHabilitadosHttp = async (): Promise<IUsuario[] | undefined> => {
   try {
-    const response = await axios.get<IUsuario[]>(apiUrlController + '/getEnabled')
+    const response = await axios.get<IUsuario[]>(import.meta.env.VITE_API_URL + apiUrlController + '/getEnabled')
     return response.data
   } catch (error) {
     console.error("Problemas en getUsuariosHabilitadosHttp", error)

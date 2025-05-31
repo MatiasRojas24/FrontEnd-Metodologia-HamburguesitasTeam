@@ -8,7 +8,7 @@ const apiUrlController = "/ordenesDeCompra";
 
 export const getOrdenesComprasHabilitadasHttp = async (): Promise<IOrdenCompra[] | undefined> => {
   try {
-    const response = await axios.get<IOrdenCompra[]>(apiUrlController + '/getEnabled')
+    const response = await axios.get<IOrdenCompra[]>(import.meta.env.VITE_API_URL + apiUrlController + '/getEnabled')
     return response.data
   } catch (error) {
     console.error("Problemas en getOrdenesComprasHabilitadasHttp", error)

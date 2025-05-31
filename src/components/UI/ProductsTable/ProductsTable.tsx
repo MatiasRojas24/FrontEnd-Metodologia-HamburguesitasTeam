@@ -5,16 +5,18 @@ import styles from './ProductsTable.module.css'
 type ProductsTableProp = {
     products: IProducto[]
     showFiltro: boolean
+    openModalCrearCategoria: boolean
 }
-export const ProductsTable: FC<ProductsTableProp> = ({ products, showFiltro }) => {
+export const ProductsTable: FC<ProductsTableProp> = ({ products, showFiltro, openModalCrearCategoria }) => {
     return (
         <table className={styles.tabla}>
-            <thead className={showFiltro ? styles.tablaHeaderHidden : styles.tablaHeader}>
+            <thead className={showFiltro || openModalCrearCategoria ? styles.tablaHeaderHidden : styles.tablaHeader}>
                 <tr>
                     <th>Nombre</th>
                     <th>Categoria</th>
                     <th>Tipo</th>
                     <th>Sexo</th>
+                    <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -25,9 +27,11 @@ export const ProductsTable: FC<ProductsTableProp> = ({ products, showFiltro }) =
                         <td>Deportes</td>
                         <td>Zapatilla</td>
                         <td>Unisex</td>
+                        <td>Habilitado</td>
                         <td>
                             <div className={styles.tdAcciones}>
                                 <i className="bi bi-list-ul"></i>
+                                <i className="bi bi-toggle-on"></i>
                                 <i className="bi bi-pencil-square"></i>
                                 <i className="bi bi-trash"></i>
                             </div>

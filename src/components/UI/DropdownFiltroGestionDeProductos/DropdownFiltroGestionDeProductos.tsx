@@ -1,26 +1,30 @@
-import { type ChangeEvent, type FC } from 'react'
+import { useEffect, type ChangeEvent, type FC } from 'react'
 import styles from './DropdownFiltroGestionDeProductos.module.css'
-import type { IProducto, Sexo, TipoProducto } from '../../../types/IProducto';
+import type { IFiltroProducto } from '../../../types/IFiltroProducto';
+import { useCatalogo } from '../../../hooks/useCatalogo';
+import { catalogoStore } from '../../../store/catalogoStore';
 
-type IFiltro = {
-    nombre?: string;
-    catalago?: string;
-    tipoproducto?: TipoProducto;
-    sexo?: Sexo;
-}
 type IDropdownFiltroGestionDeProductos = {
-    filtros: IFiltro;
-    setFiltros: (filtros: IFiltro) => void;
+    filtros: IFiltroProducto;
+    setFiltros: (filtros: IFiltroProducto) => void;
 }
 export const DropdownFiltroGestionDeProductos: FC<IDropdownFiltroGestionDeProductos> = ({ filtros, setFiltros }) => {
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target
+    const { getCatalogos } = useCatalogo()
+    const catalogos = catalogoStore((state) => state.catalogos)
+    useEffect(() => {
+        getCatalogos()
+    }, [])
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
         const updatedFilter = {
             ...filtros,
-            [name]: name === "tipoProducto" || name === "sexo" ? value.toUpperCase() : value,
+            [name]:
+                value === 'null'
+                    ? null
+                    : (name === 'tipoProducto' || name === 'sexo' ? value.toUpperCase() : value),
         };
-        setFiltros(updatedFilter)
-    }
+        setFiltros(updatedFilter);
+    };
     return (
         <div className={styles.containerDropdownFiltro}>
             <div className={styles.inputFiltroContainer}>
@@ -30,22 +34,38 @@ export const DropdownFiltroGestionDeProductos: FC<IDropdownFiltroGestionDeProduc
                 <input type='text' autoComplete='off' name='nombre' value={filtros.nombre} onChange={handleChange} />
             </div>
             <div className={styles.inputFiltroContainer}>
-                <label htmlFor='catalago'>
+                <label htmlFor='catalogo'>
                     Categoría
                 </label>
-                <input type='text' autoComplete='off' name='catalago' value={filtros.catalago} onChange={handleChange} />
+                <select name='catalogo' value={filtros.idCatalogo ?? 'null'} onChange={handleChange}>
+                    <option value="null">Todas</option>
+                    {catalogos.map((catalogo) => (
+                        <option key={catalogo.id} value={catalogo.id}>{catalogo.nombre}</option>
+                    ))}
+                </select>
             </div>
             <div className={styles.inputFiltroContainer}>
                 <label htmlFor='tipoProducto'>
                     Tipo de Producto
                 </label>
-                <input style={{ textTransform: 'uppercase' }} type='text' autoComplete='off' name='tipoProducto' value={filtros.tipoproducto} onChange={handleChange} />
+                <select name='tipoProducto' value={filtros.tipoProducto ?? 'null'} onChange={handleChange}>
+                    <option value="null">Todos</option>
+                    <option value="REMERA">Remera</option>
+                    <option value="PANTALON">Pantalón</option>
+                    <option value="ZAPATILLA">Zapatillas</option>
+                    <option value="CAMPERA">Campera</option>
+                </select>
             </div>
             <div className={styles.inputFiltroContainer}>
                 <label htmlFor='sexo'>
                     Sexo
                 </label>
-                <input style={{ width: '150px', textTransform: 'uppercase' }} type='text' autoComplete='off' name='sexo' value={filtros.sexo} onChange={handleChange} />
+                <select name='sexo' value={filtros.sexo ?? 'null'} onChange={handleChange}>
+                    <option value="null">Todos</option>
+                    <option value="HOMBRE">Hombre</option>
+                    <option value="MUJER">Mujer</option>
+                    <option value="UNISEX">Unisex</option>
+                </select>
             </div>
         </div>
     )

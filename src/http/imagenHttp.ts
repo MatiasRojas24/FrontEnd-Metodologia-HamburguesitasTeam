@@ -7,7 +7,7 @@ const apiUrlController = "/imagenes";
 
 export const getImagenesHabilitadasHttp = async (): Promise<IImagen[] | undefined> => {
   try {
-    const response = await axios.get<IImagen[]>(apiUrlController + '/getEnabled')
+    const response = await axios.get<IImagen[]>(import.meta.env.VITE_API_URL + apiUrlController + '/getEnabled')
     return response.data
   } catch (error) {
     console.error("Problemas en getImagenesHabilitadasHttp", error)

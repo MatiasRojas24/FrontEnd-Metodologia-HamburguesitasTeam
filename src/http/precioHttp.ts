@@ -8,7 +8,7 @@ const apiUrlController = "/precios";
 
 export const getPreciosHabilitadosHttp = async (): Promise<IPrecio[] | undefined> => {
   try {
-    const response = await axios.get<IPrecio[]>(apiUrlController + '/getEnabled')
+    const response = await axios.get<IPrecio[]>(import.meta.env.VITE_API_URL + apiUrlController + '/getEnabled')
     return response.data
   } catch (error) {
     console.error("Problemas en getPreciosHabilitadosHttp", error)

@@ -5,16 +5,15 @@ interface IUsuarioStore {
     usuarioActivo: IUsuario | null
     usuarioLogeado: IUsuario | null,
     usuarios: IUsuario[]
-
     setUsuarioActivo: (usuario: IUsuario | null) => void
-    setUsuarioLogeado: (usuario: IUsuario | null ) => void
+    setUsuarioLogeado: (usuario: IUsuario | null) => void
     setUsuarios: (arrayUsuarios: IUsuario[]) => void
     añadirUsuario: (usuarioNuevo: IUsuario) => void
-    actualizarUsuario: (usuarioActualizado: IUsuario) => void 
+    actualizarUsuario: (usuarioActualizado: IUsuario) => void
     eliminarUsuario: (idUsuario: string) => void
 }
 
-export const usuarioStore = create <IUsuarioStore>((set)=>({
+export const usuarioStore = create<IUsuarioStore>((set) => ({
     usuarioActivo: null,
     usuarioLogeado: null,
     usuarios: [],
@@ -36,7 +35,7 @@ export const usuarioStore = create <IUsuarioStore>((set)=>({
     },
 
     actualizarUsuario: (usuarioActualizado) => set((state) => (
-        { usuarios: state.usuarios.map((usuario) => usuario.id === usuarioActualizado.id ? {...usuarioActualizado} : usuario) }
+        { usuarios: state.usuarios.map((usuario) => usuario.id === usuarioActualizado.id ? { ...usuarioActualizado } : usuario) }
     )),
 
     eliminarUsuario: (idUsuario) => set((state) => (

@@ -1,0 +1,62 @@
+.containerModal{
+    font-family: latoRegular;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: 2px solid rgba(0, 0, 0, 10%); ;
+    width: 250px;
+    position:fixed;
+    transform: translateY(40px);
+    left: 5vw;
+    z-index: 10;
+    box-sizing: border-box;
+    padding: 5px 10px 5px 10px;
+    gap: 10px;
+}
+.containerExit{
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    font-size: 30px;
+}
+.containerExit i:hover {
+    cursor: pointer;
+}
+.containerForm{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.inputWrapper {
+    display: flex;
+    width: 100%;
+}
+.inputWrapper input {
+    width: 100%;
+}
+.error{
+    display: flex;
+    justify-content: center;
+    width: inherit;
+    position: absolute;
+    font-family: latoRegular;
+    color: rgb(194, 0, 0);
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+.formButton{
+    font-size: 18px;
+    display: flex;
+    border-radius: 1px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: #1f1f1f;
+    color: white;
+    padding: 10px;
+}
+.formButton:disabled{
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: .8;
+}

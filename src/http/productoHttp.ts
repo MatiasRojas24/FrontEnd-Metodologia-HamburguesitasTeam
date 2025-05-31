@@ -2,13 +2,14 @@ import axiosAuth from "./axios.config.ts";
 import type { IProducto } from "../types/IProducto.ts";
 import type { ICatalogo } from "../types/ICatalogo.ts";
 import axios from "axios";
+import type { IFiltroProducto } from "../types/IFiltroProducto.ts";
 
 const apiUrlController = "/productos";
 
 export const getProductosHabilitadosHttp = async (): Promise<IProducto[] | undefined> => {
   try {
-    const response = await axios.get<IProducto[]>(apiUrlController + '/getEnabled')
-    return response.data
+    const response = await axios.get<IProducto[]>(import.meta.env.VITE_API_URL + apiUrlController + '/getEnabled')
+    return response.data;
   } catch (error) {
     console.error("Problemas en getProductosHabilitadosHttp", error)
   }
@@ -107,11 +108,18 @@ export const getProductosByCatalogoIdHttp = async (
 };
 
 export const filtrarPorNombreOSexoOTipoProductoOIdCatalogoHttp = async (
-  nombre: string | null, tipoProducto: string | null, sexo: string | null, idCatalogo: string | null
+  filtro: IFiltroProducto
 ): Promise<IProducto[] | undefined> => {
   try {
+    const params = new URLSearchParams();
+
+    if (filtro.nombre) params.append("nombre", filtro.nombre);
+    if (filtro.tipoProducto) params.append("tipoProducto", filtro.tipoProducto);
+    if (filtro.sexo) params.append("sexo", filtro.sexo);
+    if (filtro.idCatalogo) params.append("idCatalogo", filtro.idCatalogo)
+
     const response = await axiosAuth.get<IProducto[]>(
-      apiUrlController + `/filtro?nombre=${nombre}&tipoProducto=${tipoProducto}&sexo=${sexo}&idCatalogo=${idCatalogo}`
+      apiUrlController + `/filtro?${params.toString()}`
     )
     return response.data
   } catch (error) {

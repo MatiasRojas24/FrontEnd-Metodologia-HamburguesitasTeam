@@ -19,12 +19,13 @@
     align-items: center;
     gap: 10px;
 }
-input{
+input, select{
     background-color: #d0d0d0;
     font-size: 18px;
     border: 1px solid #1f1f1f;
     border-radius: 5px;
     padding: 5px;
+    width: 150px;
 }
 input:focus{
     outline: 1px solid #1f1f1f;

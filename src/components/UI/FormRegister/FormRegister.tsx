@@ -3,9 +3,11 @@ import styles from './FormRegister.module.css'
 import { formRegisterSchema } from './formRegister.schema'
 import { useUsuario } from '../../../hooks/useUsuario'
 import { navigateTo } from '../../../routes/navigation'
+import { useState } from 'react'
 
 export const FormRegister = () => {
     const { registerUsuarioCliente } = useUsuario()
+    const [cargando, setCargando] = useState(false)
 
     const formik = useFormik({
         initialValues: {
