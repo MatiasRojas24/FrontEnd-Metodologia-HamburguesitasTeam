@@ -9,6 +9,7 @@ import { AdminRoutes } from './AdminRoutes'
 import { ClientRoutes } from './ClientRoutes'
 import { useUsuario } from '../hooks/useUsuario'
 import { PantallaCarga } from '../components/screens/PantallaCarga/PantallaCarga'
+import { validateTokenHttp } from '../http/authHttp'
 
 export const AppRouter = () => {
     const usuarioLogged = usuarioStore((state) => state.usuarioLogeado)
@@ -17,14 +18,26 @@ export const AppRouter = () => {
     const [cargandoUsuario, setCargandoUsuario] = useState(true)
     useEffect(() => {
         const handlePersistUsuarioLoggeado = async () => {
-            const userId = localStorage.getItem('usuarioLogeado')
-            if (userId) {
-                const userLogPersist = await getUsuarioById(userId)
-                if (userLogPersist) {
-                    setUsuarioLogeado(userLogPersist)
+            const token = localStorage.getItem('token')
+            if (token) {
+                const validToken = await validateTokenHttp(token)
+                if (validToken) {
+                    const userId = localStorage.getItem('usuarioLogeado')
+                    if (userId) {
+                        const userLogPersist = await getUsuarioById(userId)
+                        if (userLogPersist) {
+                            setUsuarioLogeado(userLogPersist)
+                        } else {
+                            console.error('Usuario no encontrado')
+                        }
+                    }
                 } else {
-                    console.error('Usuario no encontrado')
+                    localStorage.clear()
+                    console.warn("Token inválido. Cerrando sesión.")
                 }
+            } else {
+                localStorage.clear()
+                console.warn("No hay token. Cerrando sesión")
             }
             setCargandoUsuario(false)
         }
