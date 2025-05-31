@@ -3,7 +3,6 @@ import { ProductsTable } from '../../UI/ProductsTable/ProductsTable'
 import styles from './GestionDeProductos.module.css'
 import { DropdownFiltroGestionDeProductos } from '../../UI/DropdownFiltroGestionDeProductos/DropdownFiltroGestionDeProductos'
 import type { IProducto, Sexo, TipoProducto } from '../../../types/IProducto'
-import { useNavigate } from 'react-router-dom'
 
 type IFiltro = {
     nombre?: string;
@@ -20,7 +19,6 @@ export const GestionDeProductos = () => {
     const [productos, setProductos] = useState<IProducto[]>([])
     const [filtros, setFiltros] = useState<IFiltro>(initialFilter)
 
-    const navigate = useNavigate()
     return (
         <div className={styles.containerPage}>
             <div className={styles.containerHeader}>

@@ -25,6 +25,15 @@ export const getUsuariosHttp = async (): Promise<
   }
 };
 
+export const getUsuarioByUsername = async (username: string): Promise<IUsuario | undefined> => {
+  try {
+    const response = await axiosAuth.get<IUsuario>(apiUrlController + `/username/${username}`);
+    return response.data;
+  } catch (error) {
+    console.error("Problemas en getUsuarioByUsername", error);
+  }
+}
+
 export const getUsuarioByIdHttp = async (
   usuarioId: string
 ): Promise<IUsuario | undefined> => {

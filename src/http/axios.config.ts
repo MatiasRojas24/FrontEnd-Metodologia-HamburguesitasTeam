@@ -1,5 +1,5 @@
 import axios from "axios";
-import { validateTokenHttp } from "./authHttp";   // Ajusta la ruta
+import { validateTokenHttp } from "./authHttp";
 import { navigateTo } from "../routes/navigation";
 
 const api = axios.create({

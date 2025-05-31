@@ -1,18 +1,17 @@
 import styles from './Register.module.css'
 import Logo from "../../../assets/img/Logo.png";
 import imagenRegister from '../../../assets/img/imagenRegister.jpg'
-import { useNavigate } from 'react-router-dom';
 import { FormRegister } from '../../UI/FormRegister/FormRegister';
+import { navigateTo } from '../../../routes/navigation';
 
 
 export const Register = () => {
-    const navigate = useNavigate()
     return (
         <div className={styles.containerPage}>
             <div className={styles.registerSegment}>
                 <div className={styles.logoContainer}>
                     <img
-                        onClick={() => navigate('/home')}
+                        onClick={() => navigateTo('/home')}
                         src={Logo}
                         alt="Logo de SPORTWEAR"
                     />

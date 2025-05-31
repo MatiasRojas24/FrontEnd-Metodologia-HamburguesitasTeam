@@ -3,17 +3,18 @@ import styles from "./Navbar.module.css";
 import { useState } from "react";
 import { usuarioStore } from "../../../store/usuarioStore";
 import { Login } from "../Login/Login";
-import { useNavigate } from "react-router-dom";
 import { DropdownAdminOptions } from "../DropdownAdminOptions/DropdownAdminOptions";
 import { DropdownUserOptions } from "../DropdownUserOptions/DropdownUserOptions";
+import { CarritoModal } from "../CarritoModal/CarritoModal";
+import { navigateTo } from "../../../routes/navigation";
 
 export const NavBar = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [openDropdownAdminOptions, setOpenDropdownAdminOptions] = useState(false);
   const [openDropdownUserOptions, setOpenDropdownUserOptions] = useState(false);
+  const [openCarritoModal, setOpenCarritoModal] = useState(false)
 
-  const navigate = useNavigate();
   const setUsuarioLogeado = usuarioStore((state) => state.setUsuarioLogeado)
   const usuarioLogged = usuarioStore((state) => state.usuarioLogeado)
   const stylesI = {
@@ -36,7 +37,7 @@ export const NavBar = () => {
   }
 
   const handleNavigateToHome = () => {
-    navigate("/home")
+    navigateTo("/home")
   }
   return (
     <nav className={styles.navbarContainer}>
@@ -78,8 +79,8 @@ export const NavBar = () => {
         {/* USUARIO NO ESTÁ LOGEADO*/}
         {!usuarioLogged && (
           <div className={styles.containerBotones}>
-            <button className={styles.navbarButton}>
-              <i className="bi bi-person" onClick={handlePersonIcon}></i>
+            <button className={styles.navbarButton} onClick={handlePersonIcon}>
+              <i className="bi bi-person" ></i>
             </button>
           </div>
         )}
@@ -87,11 +88,11 @@ export const NavBar = () => {
         {/* USUARIO LOGEADO COMO ADMIN */}
         {usuarioLogged?.rol === "ADMIN" && (
           <div className={styles.containerBotones}>
-            <button className={styles.navbarButton}>
-              <i className="bi bi-box-arrow-right" onClick={handleLogout}></i>
+            <button className={styles.navbarButton} onClick={handleLogout}>
+              <i className="bi bi-box-arrow-right" ></i>
             </button>
-            <button className={styles.navbarButton}>
-              <i className="bi bi-list" onClick={() => setOpenDropdownAdminOptions(!openDropdownAdminOptions)}></i>
+            <button className={styles.navbarButton} onClick={() => setOpenDropdownAdminOptions(!openDropdownAdminOptions)}>
+              <i className="bi bi-list" ></i>
             </button>
           </div>
         )}
@@ -99,14 +100,14 @@ export const NavBar = () => {
         {/* USUARIO LOGEADO COMO CLIENTE */}
         {usuarioLogged?.rol === "CLIENTE" && (
           <div className={styles.containerBotones}>
-            <button className={styles.navbarButton}>
+            <button className={styles.navbarButton} onClick={() => { console.log("CLICK CARRITO"); setOpenCarritoModal(!openCarritoModal); setOpenDropdownUserOptions(false); }}>
               <i className="bi bi-cart3"></i>
             </button>
-            <button className={styles.navbarButton}>
-              <i className="bi bi-box-arrow-right" onClick={handleLogout}></i>
+            <button className={styles.navbarButton} onClick={handleLogout}>
+              <i className="bi bi-box-arrow-right"></i>
             </button>
-            <button className={styles.navbarButton}>
-              <i className="bi bi-list" onClick={() => { setOpenDropdownUserOptions(!openDropdownUserOptions) }}></i>
+            <button className={styles.navbarButton} onClick={() => { setOpenDropdownUserOptions(!openDropdownUserOptions); setOpenCarritoModal(false) }}>
+              <i className="bi bi-list"></i>
             </button>
           </div>
         )}
@@ -114,6 +115,7 @@ export const NavBar = () => {
         {isLogin && <Login setIsLogin={setIsLogin} />}
         {openDropdownAdminOptions && <DropdownAdminOptions setOpenDropdownAdminOptions={setOpenDropdownAdminOptions} />}
         {openDropdownUserOptions && <DropdownUserOptions setOpenDropdownUserOptions={setOpenDropdownUserOptions} />}
+        {openCarritoModal && <CarritoModal setOpenCarritoModal={setOpenCarritoModal} />}
       </div>
     </nav>
   );

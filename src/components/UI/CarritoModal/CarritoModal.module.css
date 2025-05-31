@@ -1,0 +1,19 @@
+.carritoModalContainer{
+    position: fixed;
+    width: 300px;
+    height: 100px;
+    right: 10px;
+    top: calc(12vh + 10px);
+    display: flex;
+    flex-direction: column;
+    padding: 1px;
+    border: 1px solid white;
+    background-color: #1f1f1f;
+    font-family: latoLight;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    gap: 20px;
+    padding: 5px 20px 5px 20px;
+    z-index: 1;
+}
