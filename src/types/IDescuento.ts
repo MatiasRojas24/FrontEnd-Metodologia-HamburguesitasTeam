@@ -3,4 +3,5 @@ export interface IDescuento {
   fechaInicio: string;
   fechaCierre: string;
   descuento: number;
+  habilitado?: boolean;
 }

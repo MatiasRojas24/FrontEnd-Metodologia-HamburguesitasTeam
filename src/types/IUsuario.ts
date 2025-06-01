@@ -10,4 +10,5 @@ export interface IUsuario {
   dni: string;
   rol?: TipoUsuario;
   direcciones?: IDireccion[];
+  habilitado?: boolean;
 }

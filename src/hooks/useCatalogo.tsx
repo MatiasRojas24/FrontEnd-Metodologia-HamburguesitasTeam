@@ -15,7 +15,6 @@ export const useCatalogo = () => {
             const data = await getCatalogosHabilitadosHttp()
             if (data) {
                 setCatalogos(data)
-                console.log(data)
             }
         } catch (error) {
             console.error("Error en getCatalogos", error)

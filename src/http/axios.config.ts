@@ -14,7 +14,7 @@ api.interceptors.request.use(async (config) => {
       config.headers.Authorization = `Bearer ${token}`;
     } else {
       console.warn("Token inválido o usuario no logueado");
-      localStorage.removeItem("token");
+      localStorage.clear();
       navigateTo("/register");
       throw new axios.Cancel("Token inválido o usuario no logueado");
     }

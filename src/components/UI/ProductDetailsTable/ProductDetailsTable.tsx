@@ -1,4 +1,3 @@
-
 import styles from './ProductDetailsTable.module.css'
 
 export const ProductDetailsTable = () => {

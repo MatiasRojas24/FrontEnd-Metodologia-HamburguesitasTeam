@@ -7,4 +7,5 @@ export interface IDireccion {
   localidad: string;
   departamento: string;
   usuarios?: IUsuario[];
+  habilitado?: boolean;
 }

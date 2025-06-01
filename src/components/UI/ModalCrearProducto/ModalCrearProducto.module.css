@@ -1,0 +1,106 @@
+.backgroundBlur{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(3px);
+    box-sizing: border-box;
+    z-index: 200;
+}
+.containerModal{
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    border: 1px solid white;
+    background-color: #1f1f1f;
+    width: 50%;
+    height: 60%;
+    z-index: 999;
+    padding: 15px 40px 15px 40px;
+    gap:20px;
+}
+.containerModal h2{
+    font-size: 24px;
+    font-family: latoLight;
+}
+.formContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+.containerInputsForm{
+    width:80%;
+    display: flex;
+    gap: 20%;
+    box-sizing: border-box;
+}
+.containerColumn{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    gap: 20px;
+}
+.inputWrapper{
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.inputWrapper input,
+.inputWrapper select {
+    border-radius: 2px;
+    width: 100%;
+    height: 40px;
+    color: white;
+    background-color: #1f1f1f;
+    box-sizing: border-box;
+    border: 1px solid white;
+}
+.inputWrapper hr {
+    width: 100%;
+}
+.error{
+    font-size: 15px;
+    color: red;
+}
+.containerButtons{
+    display: flex;
+    justify-content: space-between;
+    width: 76%;
+}
+.containerButtons button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    padding: 20px;
+    font-size: 18px;
+    border: 1px solid white;
+    border-radius: 2px;
+}
+.containerButtons button:not(:disabled):hover{
+    border-radius: 10px;
+    cursor: pointer;
+}
+.confirmButton{
+    background-color: #1f1f1f;
+}
+.confirmButton:disabled{
+    background-color: #ccc;
+    opacity: .8;
+}
+.confirmButton:disabled:hover{
+    cursor: not-allowed;
+}
+.cancelButton{
+    background-color: #A60000;
+}

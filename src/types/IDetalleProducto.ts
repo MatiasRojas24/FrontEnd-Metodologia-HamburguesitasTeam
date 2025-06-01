@@ -8,4 +8,5 @@ export interface IDetalleProducto {
   estado: boolean;
   talle: ITalle;
   producto: IProducto;
+  habilitado?: boolean;
 }

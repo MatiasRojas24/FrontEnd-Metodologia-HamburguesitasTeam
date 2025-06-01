@@ -7,6 +7,9 @@ import type { IFiltroProducto } from '../../../types/IFiltroProducto'
 import { ModalCrearCategoria } from '../../UI/ModalCrearCategoria/ModalCrearCategoria'
 import { useCatalogo } from '../../../hooks/useCatalogo'
 import { catalogoStore } from '../../../store/catalogoStore'
+import { ModalCrearProducto } from '../../UI/ModalCrearProducto/ModalCrearProducto'
+import { productoStore } from '../../../store/productoStore'
+import { useProducto } from '../../../hooks/useProducto'
 
 const initialFilter: IFiltroProducto = {
     nombre: "",
@@ -14,10 +17,19 @@ const initialFilter: IFiltroProducto = {
 }
 export const GestionDeProductos = () => {
     const [showFiltro, setShowFiltro] = useState(false)
-    const [productos, setProductos] = useState<IProducto[]>([])
     const [openModalCrearCategoria, setOpenModalCrearCategoria] = useState(false)
+    const [openModalCrearProducto, setOpenModalCrearProducto] = useState(false)
     const [filtros, setFiltros] = useState<IFiltroProducto>(initialFilter)
+    const { setProductoActivo } = productoStore()
 
+    const productos = productoStore((state) => state.productos)
+    const { getProductos } = useProducto()
+    useEffect(() => {
+        setProductoActivo(null)
+    }, [])
+    useEffect(() => {
+        getProductos()
+    }, [productos])
     return (
         <div className={styles.containerPage}>
             <div className={styles.containerHeader}>
@@ -33,12 +45,13 @@ export const GestionDeProductos = () => {
             </div>
             <div className={styles.containerBody}>
                 <div className={styles.containerButton}>
-                    <button>Agregar Producto</button>
+                    <button onClick={() => setOpenModalCrearProducto(true)}>Agregar Producto</button>
                 </div>
                 <div className={styles.containerTable}>
-                    <ProductsTable showFiltro={showFiltro} openModalCrearCategoria={openModalCrearCategoria} products={[]} />
+                    <ProductsTable showFiltro={showFiltro} openModalCrearCategoria={openModalCrearCategoria} products={productos} setOpenModalCrearProducto={setOpenModalCrearProducto} />
                 </div>
             </div>
+            {openModalCrearProducto && <ModalCrearProducto setOpenModalCrearProducto={setOpenModalCrearProducto} />}
         </div >
     )
 }

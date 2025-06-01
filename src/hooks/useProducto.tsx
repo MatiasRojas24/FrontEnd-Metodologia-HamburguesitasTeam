@@ -46,16 +46,19 @@ export const useProducto = () => {
         }
     }
 
-    const createProducto = async (producto: IProducto): Promise<void> => {
+    const createProducto = async (producto: IProducto): Promise<boolean> => {
         try {
             const data = await createProductoHttp(producto)
             if (data) {
                 añadirProducto(data)
                 Swal.fire("Éxito", "Producto creado correctamente", "success")
+                return true
             }
+            return false
         } catch (error) {
             console.error("Error en create producto: ", error)
             Swal.fire("Error", "No se pudo crear el producto", "error")
+            return false
         }
     }
 

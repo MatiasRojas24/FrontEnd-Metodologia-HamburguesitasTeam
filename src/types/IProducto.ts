@@ -8,4 +8,5 @@ export interface IProducto {
   tipoProducto: TipoProducto;
   sexo: Sexo;
   catalogo: ICatalogo;
+  habilitado?: boolean;
 }

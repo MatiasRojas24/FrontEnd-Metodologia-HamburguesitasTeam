@@ -7,4 +7,5 @@ export interface IPrecio {
   precioVenta: number;
   detalleProducto: IDetalleProducto;
   descuento?: IDescuento;
+  habilitado?: boolean;
 }

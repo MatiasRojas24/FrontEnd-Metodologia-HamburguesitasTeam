@@ -6,4 +6,5 @@ export interface IImagen {
   publicId?: string;
   url?: string;
   detalleProducto: IDetalleProducto;
+  habilitado?: boolean;
 }
