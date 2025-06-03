@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react'
 import { usuarioStore } from '../store/usuarioStore'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { Footer } from '../components/UI/Footer/Footer'
-import { LandingPage } from '../components/screens/LandingPage/LandingPage'
 import { NavBar } from '../components/UI/NavBar/Navbar'
-import { Register } from '../components/screens/Register/Register'
 import { AdminRoutes } from './AdminRoutes'
 import { ClientRoutes } from './ClientRoutes'
 import { useUsuario } from '../hooks/useUsuario'
-import { PantallaCarga } from '../components/screens/PantallaCarga/PantallaCarga'
 import { validateTokenHttp } from '../http/authHttp'
+import { LandingPage } from '../components/Screens/LandingPage/LandingPage'
+import { Register } from '../components/Screens/Register/Register'
+import { PantallaCarga } from '../components/Screens/PantallaCarga/PantallaCarga'
 
 export const AppRouter = () => {
     const usuarioLogged = usuarioStore((state) => state.usuarioLogeado)
