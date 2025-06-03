@@ -9,4 +9,7 @@ export interface IDetalleProducto {
   talle: ITalle;
   producto: IProducto;
   habilitado?: boolean;
+  precioVenta: number;
+  precioCompra: number;
+
 }

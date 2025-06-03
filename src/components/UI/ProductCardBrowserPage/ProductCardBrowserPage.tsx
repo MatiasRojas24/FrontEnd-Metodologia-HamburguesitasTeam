@@ -14,6 +14,7 @@ export const ProductCardBrowserPage: FC<IPropsProductBrowserPageCard> = ({detall
             <div className={styles.cardInfo}>
                 <p>{detalleProductoHabilitado.producto.sexo}</p>
                 <p>{detalleProductoHabilitado.producto.nombre}</p>
+                <p>{detalleProductoHabilitado.precioVenta}</p>
                 
                 
             </div>
