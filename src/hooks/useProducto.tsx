@@ -2,8 +2,8 @@ import { useShallow } from "zustand/shallow"
 import { productoStore } from "../store/productoStore"
 import type { IProducto } from "../types/IProducto"
 import { createProductoHttp, deleteProductoHttp, filtrarPorNombreOSexoOTipoProductoOIdCatalogoHttp, getProductoByIdHttp, getProductosHabilitadosHttp, getProductosHttp, toggleHabilitadoHttp, updateProductoHttp } from "../http/productoHttp"
-import Swal from "sweetalert2"
 import type { IFiltroProducto } from "../types/IFiltroProducto"
+import { CustomSwal } from "../components/UI/CustomSwal/CustomSwal"
 
 export const useProducto = () => {
     const { setProductos, setProductosHabilitados, añadirProducto, eliminarProducto, actualizarProducto } = productoStore(useShallow((state) => ({
@@ -51,13 +51,13 @@ export const useProducto = () => {
             const data = await createProductoHttp(producto)
             if (data) {
                 añadirProducto(data)
-                Swal.fire("Éxito", "Producto creado correctamente", "success")
+                CustomSwal.fire("Éxito", "Producto creado correctamente", "success")
                 return true
             }
             return false
         } catch (error) {
             console.error("Error en create producto: ", error)
-            Swal.fire("Error", "No se pudo crear el producto", "error")
+            CustomSwal.fire("Error", "No se pudo crear el producto", "error")
             return false
         }
     }
@@ -67,21 +67,17 @@ export const useProducto = () => {
             const data = await updateProductoHttp(productoActualizado)
             if (data) {
                 actualizarProducto(productoActualizado)
-                Swal.fire("Éxito", "Producto creado correctamente", "success")
+                CustomSwal.fire("Éxito", "Producto actualizado correctamente", "success")
             }
         } catch (error) {
             console.error("Error en updateProducto: ", error)
-            Swal.fire("Error", "No se pudo actualizar el producto", "error")
+            CustomSwal.fire("Error", "No se pudo actualizar el producto", "error")
         }
     }
 
     const enableUnableProducto = async (idProducto: string): Promise<void> => {
         try {
-            const data = await toggleHabilitadoHttp(idProducto)
-            if (data) {
-                await getProductos()
-                getProductosHabilitados()
-            }
+            await toggleHabilitadoHttp(idProducto)
         } catch (error) {
             console.error("Error en enableUnableProducto: ", error)
         }
@@ -89,12 +85,12 @@ export const useProducto = () => {
 
     const deleteProducto = async (idProducto: string): Promise<void> => {
         try {
-            const confirm = await Swal.fire({
+            const confirm = await CustomSwal.fire({
                 title: "¿Estás seguro?",
                 text: "Esta acción podría causar problemas. Recomendamos solo deshabilitar",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonText: "Sí, eliminar",
+                confirmButtonText: "Eliminar",
                 cancelButtonText: "Cancelar"
             })
             if (!confirm.isConfirmed) return
@@ -102,11 +98,11 @@ export const useProducto = () => {
             const data = await deleteProductoHttp(idProducto)
             if (data) {
                 eliminarProducto(idProducto)
-                Swal.fire("Éxito", "producto eliminado correctamente", "success")
+                CustomSwal.fire("Éxito", "Producto eliminado correctamente", "success")
             }
         } catch (error) {
             console.error("Error en deleteProducto", error)
-            Swal.fire("Error", "no se pudo eliminar el producto", "error")
+            CustomSwal.fire("Error", "No se pudo eliminar el producto", "error")
         }
     }
 

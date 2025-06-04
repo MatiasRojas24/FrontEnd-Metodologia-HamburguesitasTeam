@@ -36,6 +36,22 @@
     cursor: pointer;
     background-color: rgb(226, 226, 226);
 }
+.talleButton{
+    width: fit-content;
+    padding: 5px 10px 5px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    color: black;
+    border-radius: 5px;
+    font-size: 18px;
+    transition: ease-in-out .3s;
+}
+.talleButton:hover {
+    cursor: pointer;
+    background-color: rgb(226, 226, 226);
+}
 .containerHeader hr{
     font-family: latoRegular;
     width: 90%;
@@ -62,7 +78,7 @@
     justify-content: center;
     align-items: center;
     width: 180px;
-    padding: 15px;
+    padding: 20px 15px 20px 15px;
     font-size: 15px;
     font-family: latoRegular;
     border: none;

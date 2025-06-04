@@ -98,7 +98,7 @@
     background-color: #ccc;
     opacity: .8;
 }
-.confirmButton:disabled:hover{
+.confirmButton:disabled:hover, .cancelButton:disabled:hover{
     cursor: not-allowed;
 }
 .cancelButton{

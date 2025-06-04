@@ -52,8 +52,8 @@ export const ProductsTable: FC<ProductsTableProp> = ({ products, showFiltro, ope
                         <td>
                             <div className={styles.tdAcciones}>
                                 <i className="bi bi-list-ul" onClick={() => handleNavigateToDetalleProducto(p)}></i>
-                                {p.habilitado ? (<i className="bi bi-toggle-on" onClick={() => handleUnableEnable(p)}></i>) : (<i className="bi bi-toggle-off" onClick={() => handleUnableEnable(p)}></i>)}
                                 <i className="bi bi-pencil-square" onClick={() => handleEditProducto(p)}></i>
+                                {p.habilitado ? (<i className="bi bi-toggle-on" onClick={() => handleUnableEnable(p)}></i>) : (<i className="bi bi-toggle-off" onClick={() => handleUnableEnable(p)}></i>)}
                                 <i className="bi bi-trash" onClick={() => handleDeleteProducto(p.id!)}></i>
                             </div>
                         </td>

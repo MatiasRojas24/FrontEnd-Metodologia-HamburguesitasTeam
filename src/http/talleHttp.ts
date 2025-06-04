@@ -41,6 +41,11 @@ export const createTalleHttp = async (
     return response.data;
   } catch (error) {
     console.error("Problemas en createTalleController", error);
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 403) {
+        throw new Error("403");
+      }
+    }
   }
 };
 

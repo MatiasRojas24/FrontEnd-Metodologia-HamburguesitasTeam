@@ -12,6 +12,13 @@
     position: sticky;
     top: 0;
 }
+.tablaHeaderHidden tr th{
+    background-color: #1f1f1f;
+    height: 40px;
+    font-size: 20px;
+    color: white;
+    top: 0;
+}
 tr th:not(:last-child){
     border-right: 2px solid white;
 }

@@ -1,5 +1,5 @@
 export interface ITalle {
   id?: string;
-  talle: number;
+  talle: string;
   habilitado?: boolean;
 }

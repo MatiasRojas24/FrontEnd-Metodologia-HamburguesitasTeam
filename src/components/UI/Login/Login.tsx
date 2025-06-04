@@ -53,6 +53,7 @@ export const Login: FC<IPropsLogin> = ({ setIsLogin }) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.username}
+            autoComplete="off"
           />
           {formik.touched.username && formik.errors.username && (
             <div className={styles.error}>{formik.errors.username}</div>
@@ -65,6 +66,7 @@ export const Login: FC<IPropsLogin> = ({ setIsLogin }) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.password}
+            autoComplete="off"
           />
           {formik.touched.password && formik.errors.password && (
             <div className={styles.error}>{formik.errors.password}</div>

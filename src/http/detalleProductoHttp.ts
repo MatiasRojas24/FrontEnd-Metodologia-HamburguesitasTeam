@@ -4,6 +4,7 @@ import type { IProducto } from "../types/IProducto.ts";
 import type { ITalle } from "../types/ITalle.ts";
 import axios from "axios";
 import type { FiltroDetalleProducto } from "../types/IFiltroDetalleProducto";
+import type { IDescuento } from "../types/IDescuento.ts";
 
 const apiUrlController = "/detallesProductos";
 
@@ -156,6 +157,33 @@ export const getDetallesProductosByProductoIdHttp = async (
       "Problemas en getDetalleProductoByProductoIdController",
       error
     );
+  }
+};
+export const addDescuentoToDetalleProductoHttp = async (
+  descuento: IDescuento,
+  detalleProducto: string
+): Promise<IDetalleProducto | undefined> => {
+  try {
+    const response = await axiosAuth.post<IDetalleProducto>(
+      apiUrlController + `/descuentos/${detalleProducto}`,
+      descuento
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Problemas en addDescuentoToDetalleProductoHttp", error);
+  }
+};
+
+export const getDetallesProductosByDescuentoIdHttp = async (
+  descuentoId: string
+): Promise<IDetalleProducto[] | undefined> => {
+  try {
+    const response = await axiosAuth.get<IDetalleProducto[]>(
+      apiUrlController + `/descuentos/${descuentoId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Problemas en getDetallesProductosByDescuentoIdHttp", error);
   }
 };
 

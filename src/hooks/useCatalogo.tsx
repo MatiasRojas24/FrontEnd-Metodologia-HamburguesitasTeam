@@ -2,7 +2,7 @@ import { useShallow } from "zustand/shallow";
 import { catalogoStore } from "../store/catalogoStore";
 import { createCatalogoHttp, getCatalogosByIdHttp, getCatalogosHabilitadosHttp } from "../http/catalogoHttp";
 import type { ICatalogo } from "../types/ICatalogo";
-import Swal from "sweetalert2";
+import { CustomSwal } from "../components/UI/CustomSwal/CustomSwal";
 
 export const useCatalogo = () => {
     const { setCatalogos, añadirCatalogo } = catalogoStore(useShallow((state) => ({
@@ -36,13 +36,13 @@ export const useCatalogo = () => {
             const data = await createCatalogoHttp(catalogo)
             if (data) {
                 añadirCatalogo(data)
-                Swal.fire("Éxito", "Categoría creada correctamente", "success")
+                CustomSwal.fire("Éxito", "Categoría creada correctamente", "success")
                 return true;
             }
             return false;
         } catch (error) {
             console.error("Error en createCatalogo: ", error)
-            Swal.fire("Error", "Error al crear categoría", "error")
+            CustomSwal.fire("Error", "Error al crear categoría", "error")
             return false;
         }
     }

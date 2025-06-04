@@ -1,3 +1,4 @@
+import type { IDescuento } from "./IDescuento";
 import type { IProducto } from "./IProducto";
 import type { ITalle } from "./ITalle";
 
@@ -8,5 +9,8 @@ export interface IDetalleProducto {
   estado: boolean;
   talle: ITalle;
   producto: IProducto;
+  precioCompra: number;
+  precioVenta: number;
+  descuento?: IDescuento;
   habilitado?: boolean;
 }

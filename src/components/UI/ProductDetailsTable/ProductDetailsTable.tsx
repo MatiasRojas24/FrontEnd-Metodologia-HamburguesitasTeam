@@ -1,9 +1,13 @@
+import type { FC } from 'react'
 import styles from './ProductDetailsTable.module.css'
 
-export const ProductDetailsTable = () => {
+interface IProductTableProp {
+    openDropdownCrearTalle: boolean
+}
+export const ProductDetailsTable: FC<IProductTableProp> = ({ openDropdownCrearTalle }) => {
     return (
         <table className={styles.tabla}>
-            <thead className={styles.tablaHeader}>
+            <thead className={openDropdownCrearTalle ? styles.tablaHeaderHidden : styles.tablaHeader}>
                 <tr>
                     <th>Talle</th>
                     <th>Stock</th>
