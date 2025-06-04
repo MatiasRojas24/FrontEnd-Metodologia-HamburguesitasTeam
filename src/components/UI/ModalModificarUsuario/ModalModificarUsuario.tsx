@@ -26,7 +26,7 @@ export const ModalModificarUsuario: FC<IPropsModalUsuario> = ({ usuarioLogeado, 
             nombre: usuarioLogeado?.nombre ? usuarioLogeado.nombre : "",
             email: usuarioLogeado?.email ? usuarioLogeado.email : "",
             username: usuarioLogeado?.username ? usuarioLogeado.username : "",
-            password: "",
+            password: usuarioLogeado?.password ? usuarioLogeado.password: "" ,
             dni: usuarioLogeado?.dni ? usuarioLogeado.dni : "",
             rol: usuarioLogeado?.rol ? usuarioLogeado.rol : "CLIENTE"
         },
@@ -35,7 +35,7 @@ export const ModalModificarUsuario: FC<IPropsModalUsuario> = ({ usuarioLogeado, 
             nombre: Yup.string().required("Requerido"),
             email: Yup.string().required("Requerido"),
             username: Yup.string().required("Requerido"),
-            password: Yup.string().required("Requerido"),
+            password: Yup.string(),
             dni: Yup.string().required("Requerido"),
             rol: Yup.string()
         }),
@@ -51,10 +51,12 @@ export const ModalModificarUsuario: FC<IPropsModalUsuario> = ({ usuarioLogeado, 
                     alert("Algo salio mal al actualizar, corrige los campos o intentalo mas tarde")
                 }
             } else {
-                // Hacer un register de usuario
+                console.log("non")
             }
         }
     })
+
+    console.log("password: ", usuarioLogeado ? usuarioLogeado.password : "No hay usuario logeado")
 
     return (
         <div className={styles.formOverlay}>
@@ -85,14 +87,6 @@ export const ModalModificarUsuario: FC<IPropsModalUsuario> = ({ usuarioLogeado, 
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.email}
-                        />
-                    </div>
-                    <div className={styles.item}>
-                        <p>Contraseña</p>
-                        <input type="password"name="password"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.password}
                         />
                     </div>
                 </div>

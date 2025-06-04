@@ -45,32 +45,38 @@ export const ModalDirection: FC<IPropsModalDirection> = ({ setIsModal, direccion
       pais: Yup.string().matches(soloLetras, 'Minimo 3 letras, numeros no admitidos').required('Requerido'),
     }),
     onSubmit: async (values) => {
-      if (direccionActiva) {
-        const succes = await updateDireccion(values)
+      if (usuarioLogeado) {
+        if (direccionActiva) {
+            const succes = await updateDireccion(values)
 
-        if (succes) {
-            setIsModal(false);
-            setDireccionActiva(null)
-        } else {
-            alert("No se lograron enviar los datos, corrígelos o intentalo mas tarde")
-        }
-      } else {
-        try {
-            const succes_a = await createDireccion(values)
-            if (!succes_a) throw new Error
-
-            const succes_b = await addDireccionesToUsuario([values], usuarioLogeado!.id!)
-            if (!succes_b) {
-                deleteDireccion(values.id)
-                throw new Error
+            if (succes) {
+                setIsModal(false);
+                setDireccionActiva(null)
+            } else {
+                alert("No se lograron enviar los datos, corrígelos o intentalo mas tarde")
             }
-            
-            setIsModal(false);
-            setDireccionActiva(null);
-            
-        } catch (error) {
-            alert("Algo no salio bien al crear la direccion, corrige los datos o intentalo mas tarde")
-            console.log("Error en el on submit: ", error)
+        } else {
+            try {
+                const direccionesUsuario = usuarioLogeado.direcciones || []; // --- > guardamos las direcciones previas a añadir la nueva por si a caso
+                const nuevasDireccionesUsuario = [...direccionesUsuario , values];
+
+                const succes = await addDireccionesToUsuario(nuevasDireccionesUsuario, usuarioLogeado?.id!)
+
+                if (!succes) {
+                    deleteDireccion(values.id)
+
+                    usuarioLogeado.direcciones = direccionesUsuario
+                    updateUsuario(usuarioLogeado)
+                    throw new Error
+                }
+                
+                setIsModal(false);
+                setDireccionActiva(null);
+                
+            } catch (error) {
+                alert("Algo no salio bien al crear la direccion, corrige los datos o intentalo mas tarde")
+                console.log("Error en el on submit: ", error)
+            }
         }
       }
     },

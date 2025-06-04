@@ -53,9 +53,6 @@ export const CuentasUsuarios = () => {
     setIsModificarUsuario(true)
   }
 
-  console.log("Usuarios: ", usuarios)
-  console.log("Usuario logeado: ", usuarioLogeado)
-
   return (
     <div className={styles.pageContainer}>
         <header className={styles.headerPage}>
@@ -66,7 +63,7 @@ export const CuentasUsuarios = () => {
                 <h2>Email</h2>
                 <h3>{usuarioLogeado ? usuarioLogeado.email : "No hay email"}</h3>
             </section>
-            <section className={styles.sectionContainer}>
+            {/* <section className={styles.sectionContainer}>
                 <h2>Contraseña</h2>
                 {isVisible ?
                     <article>
@@ -79,12 +76,12 @@ export const CuentasUsuarios = () => {
                     <i className="bi bi-eye" onClick={() => setIsVisible(true)}></i>
                     </article>
                 }
-            </section>
+            </section> */}
             <section className={styles.sectionContainer}>
                 <h2>Nombre</h2>
                 <h3>{usuarioLogeado ? usuarioLogeado.nombre : 'No hay nombre'}</h3>
             </section>
-            <section className={styles.sectionContainer}>
+            <section className={styles.sectionContainer} >
                 <h2>DNI</h2>
                 <h3>{usuarioLogeado ? usuarioLogeado.dni : 'No hay DNI'}
                 </h3>
@@ -95,10 +92,11 @@ export const CuentasUsuarios = () => {
                     {direcciones.map((direccion) => <DirectionCard key={direccion.id} setIsModal={setIsModalDirection} direccion={direccion}/>)}
                 </article>
             </section>
-            <section className={styles.buttonContainer}>
-                <button onClick={handleOpenModificarUsuario}>Modificar Datos</button>
-            </section>
         </main>
+
+        <div className={styles.buttonContainer}>
+            <button onClick={handleOpenModificarUsuario}>Modificar Datos</button>
+        </div>
 
         {isModalDirection && <ModalDirection setIsModal={setIsModalDirection} direccionActiva={direccionActiva} usuarioLogeado={usuarioLogeado}/>}
         {isModificarUsuario && <ModalModificarUsuario usuarioLogeado={usuarioLogeado} setIsModificarUsuario={setIsModificarUsuario}/>}
