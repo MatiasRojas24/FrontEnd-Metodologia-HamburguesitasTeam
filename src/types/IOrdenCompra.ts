@@ -8,4 +8,5 @@ export interface IOrdenCompra {
   fechaCompra: string;
   direccionEnvio?: IDireccion;
   usuario?: IUsuario;
+  habilitado?: boolean;
 }

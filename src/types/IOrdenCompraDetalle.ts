@@ -7,4 +7,5 @@ export interface IOrdenCompraDetalle {
   cantidad: number;
   subtotal: number;
   ordenCompra: IOrdenCompra;
+  habilitado?: boolean;
 }

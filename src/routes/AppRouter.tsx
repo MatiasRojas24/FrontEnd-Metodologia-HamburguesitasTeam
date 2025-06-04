@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react'
 import { usuarioStore } from '../store/usuarioStore'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { Footer } from '../components/UI/Footer/Footer'
-import { LandingPage } from '../components/Screens/LandingPage/LandingPage'
 import { NavBar } from '../components/UI/NavBar/Navbar'
-import { Register } from '../components/Screens/Register/Register'
 import { AdminRoutes } from './AdminRoutes'
 import { ClientRoutes } from './ClientRoutes'
 import { useUsuario } from '../hooks/useUsuario'
+import { validateTokenHttp } from '../http/authHttp'
+import { LandingPage } from '../components/Screens/LandingPage/LandingPage'
+import { Register } from '../components/Screens/Register/Register'
 import { PantallaCarga } from '../components/Screens/PantallaCarga/PantallaCarga'
 
 export const AppRouter = () => {
@@ -17,14 +18,26 @@ export const AppRouter = () => {
     const [cargandoUsuario, setCargandoUsuario] = useState(true)
     useEffect(() => {
         const handlePersistUsuarioLoggeado = async () => {
-            const userId = localStorage.getItem('usuarioLogeado')
-            if (userId) {
-                const userLogPersist = await getUsuarioById(userId)
-                if (userLogPersist) {
-                    setUsuarioLogeado(userLogPersist)
+            const token = localStorage.getItem('token')
+            if (token) {
+                const validToken = await validateTokenHttp(token)
+                if (validToken) {
+                    const userId = localStorage.getItem('usuarioLogeado')
+                    if (userId) {
+                        const userLogPersist = await getUsuarioById(userId)
+                        if (userLogPersist) {
+                            setUsuarioLogeado(userLogPersist)
+                        } else {
+                            console.error('Usuario no encontrado')
+                        }
+                    }
                 } else {
-                    console.error('Usuario no encontrado')
+                    localStorage.clear()
+                    console.warn("Token inválido. Cerrando sesión.")
                 }
+            } else {
+                localStorage.clear()
+                console.warn("No hay token. Cerrando sesión")
             }
             setCargandoUsuario(false)
         }
