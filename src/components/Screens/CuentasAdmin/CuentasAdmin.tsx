@@ -5,6 +5,7 @@ import { useUsuario } from '../../../hooks/useUsuario'
 import { usuarioStore } from '../../../store/usuarioStore'
 import Swal from 'sweetalert2'
 import type { IUsuario } from '../../../types/IUsuario'
+import { useShallow } from 'zustand/shallow'
 
 export const CuentasAdmin = () => {
   // Estados locales
@@ -12,17 +13,20 @@ export const CuentasAdmin = () => {
 
 
   // STORE
-  const usuariosAdmin = usuarioStore((state) => state.usuarios).filter((usuario) => usuario.rol === "ADMIN")
-  const setUsuarioActivo = usuarioStore((state) => state.setUsuarioActivo)
-  const usuarioActivo = usuarioStore((state) => state.usuarioActivo)
+  const { usuarios, setUsuarioActivo, usuarioActivo, usuarioLogeado } = usuarioStore(useShallow((state)=>({
+    usuarios: state.usuarios,
+    setUsuarioActivo: state.setUsuarioActivo,
+    usuarioActivo: state.usuarioActivo,
+    usuarioLogeado: state.usuarioLogeado,
+  })))
+  const usuariosAdmin = usuarios.filter((u) => u.rol === "ADMIN")
 
 
   // HOOKS
   const { getUsuarios, deleteUsuario } = useUsuario()
-
   useEffect( () => {
     getUsuarios()
-  }, [])
+  }, [usuarioLogeado])
 
 
   // Metodos de accion
@@ -30,13 +34,11 @@ export const CuentasAdmin = () => {
     setIsModal(true)
   }
 
-  // Abrir modal editar usuario
   const handleOpenEdit = (usuarioActivo: IUsuario) => {
     setUsuarioActivo(usuarioActivo)
     setIsModal(true)
   }
 
-  // Eliminar un usuario
   const handleDelete = (usuarioActivo: IUsuario) => {
     Swal.fire({
       title: "¿Estás seguro?",

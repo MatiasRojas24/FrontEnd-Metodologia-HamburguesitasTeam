@@ -39,6 +39,12 @@ export const NavBar = () => {
   const handleNavigateToHome = () => {
     navigateTo("/home")
   }
+
+  const handleGoToCuentaUsuario = () => {
+    setOpenDropdownUserOptions(false)
+    navigateTo("/cuenta-del-usuario")
+  }
+  
   return (
     <nav className={styles.navbarContainer}>
       <div className={styles.navbarLogoSegment}>

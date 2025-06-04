@@ -157,14 +157,24 @@ export const useUsuario = () => {
         }
     }
 
-    return {
-        getUsuarios,
-        loginUsuario,
-        registerUsuarioAdmin,
-        registerUsuarioCliente,
-        deleteUsuario,
-        updateUsuario,
-        getUsuarioById,
-        addDireccionesToUsuario,
+    const updateUsuarioLogeadoById = async (idUsuaio: string): Promise<void> => {
+        try {
+            const usuarioBd = await getUsuarioByIdHttp(idUsuaio)
+            if (usuarioBd) setUsuarioLogeado(usuarioBd)
+        } catch (error) {
+            console.error("hubo un error en updateUsuarioLogeado: ", error)
+        }
     }
+
+  return {
+    getUsuarios,
+    loginUsuario,
+    registerUsuarioAdmin,
+    deleteUsuario,
+    updateUsuario,
+    getUsuarioById,
+    addDireccionesToUsuario,
+    updateUsuarioLogeadoById,
+    registerUsuarioCliente,
+  }
 }

@@ -1,5 +1,5 @@
 import { useShallow } from "zustand/shallow"
-import { addUsuariosToDireccionHttp, createDireccionHttp, deleteDireccionHttp, getDireccionByIdHttp, getDireccionesHttp, updateDireccionHttp } from "../http/direccionHttp"
+import { addUsuariosToDireccionHttp, createDireccionHttp, deleteDireccionHttp, getDireccionByIdHttp, getDireccionesByUsuarioIdHttp, getDireccionesHttp, updateDireccionHttp } from "../http/direccionHttp"
 import { direccionStore } from "../store/direccionStore"
 import type { IDireccion } from "../types/IDireccion"
 import type { IUsuario } from "../types/IUsuario"
@@ -100,11 +100,22 @@ export const useDireccion = () => {
         }
     }
 
-    return {
-        getDirecciones,
-        createDireccion,
-        updateDireccion,
-        deleteDireccion,
-        addUsuariosToDirecciones,
+    const getDireccionesByUsuarioId = async (idUsuario: string): Promise<void> => {
+        try {
+            const direcciones = await getDireccionesByUsuarioIdHttp(idUsuario)
+            if (direcciones) setDirecciones(direcciones)
+                
+        } catch (error) {
+            console.error("Hubo un problema en getDireccionesByUsuarioId: ", error)
+        }
     }
+    
+  return {
+    getDirecciones,
+    createDireccion,
+    updateDireccion,
+    deleteDireccion,
+    addUsuariosToDirecciones,
+    getDireccionesByUsuarioId,
+  }
 }

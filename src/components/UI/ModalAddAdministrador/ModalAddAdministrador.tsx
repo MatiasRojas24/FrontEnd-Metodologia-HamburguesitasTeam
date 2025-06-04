@@ -33,7 +33,7 @@ export const ModalAddAdministrador: FC<IPropsModalAddAdmin> = ({ setIsModal, set
       email: usuarioActivo?.email ? usuarioActivo.email : "",
       nombre: usuarioActivo?.nombre ? usuarioActivo.nombre : "",
       dni: usuarioActivo?.dni ? usuarioActivo.dni : "",
-      rol: usuarioActivo?.rol ? usuarioActivo.rol : undefined,
+      rol: usuarioActivo?.rol ? usuarioActivo.rol : "ADMIN"
     },
     enableReinitialize: true, // "enableReinitializable" es para reusar el formulario con nuevos datos
     validationSchema: Yup.object({
@@ -71,45 +71,46 @@ export const ModalAddAdministrador: FC<IPropsModalAddAdmin> = ({ setIsModal, set
         <div className={styles.modalContainer}>
             <h2 className={styles.modalTitle}>{usuarioActivo ? usuarioActivo.rol === "CLIENTE" ? "MODIFICAR USUARIO" : "EDITAR ADMINISTRADOR" : "AGREGAR ADMINISTRADOR" }</h2>
             <section className={styles.modalBody}>
-                <p>Nombre <input
-                  type="text"
-                  name="nombre"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.nombre}
-                /></p>
-
-                <p>DNI <input
-                  type="text"
-                  name="dni"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.dni}
-                /></p>
-
-                <p>Usuario <input
-                  type="text"
-                  name="username"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                 value={formik.values.username}
-                /></p>
-
-                <p>Email <input
-                  type="email"
-                  name="email"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.email}
-                /></p>
-
-                <p>Contraseña <input
-                  type="password"
-                  name="password"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.password}
-                /></p>
+                <div className={styles.item}>
+                  <p>Nombre</p>
+                  <input type="text" name="nombre"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.nombre}
+                  />
+                </div>
+                <div className={styles.item}>
+                  <p>DNI</p>
+                  <input type="text" name="dni"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.dni}
+                  />
+                </div>
+                <div className={styles.item}>
+                  <p>Usuario</p>
+                  <input type="text" name="username"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.username}
+                  />
+                </div>
+                <div className={styles.item}>
+                  <p>Email</p>
+                  <input type="email"name="email"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.email}
+                  />
+                </div>
+                <div className={styles.item}>
+                  <p>Contraseña</p>
+                  <input type="password"name="password"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.password}
+                  />
+                </div>
             </section>
             <section className={styles.buttonsContainer}>
                 <button className={styles.cancelButton} onClick={handleCloseModal}>Cancelar</button>
