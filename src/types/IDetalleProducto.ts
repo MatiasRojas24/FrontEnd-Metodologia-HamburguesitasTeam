@@ -13,4 +13,7 @@ export interface IDetalleProducto {
   precioVenta: number;
   descuento?: IDescuento;
   habilitado?: boolean;
+  precioVenta: number;
+  precioCompra: number;
+
 }
