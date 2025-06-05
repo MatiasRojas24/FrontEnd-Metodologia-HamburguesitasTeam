@@ -63,3 +63,14 @@ tr:last-child td {
     cursor: pointer;
     color: rgba(255, 0, 0);
 }
+.descuentoAmarillo {
+    text-decoration: underline yellow;
+}
+
+.descuentoVerde {
+    text-decoration: underline #38b000;
+}
+
+.descuentoRojo {
+    text-decoration: underline red;
+}

@@ -1,13 +1,14 @@
 import { useShallow } from "zustand/shallow"
 import { descuentoStore } from "../store/descuentoStore"
-import { createDescuentoHttp, deleteDescuentoHttp, getDescuentoByIdHttp, getDescuentosHttp, updateDescuentoHttp } from "../http/descuentoHttp"
+import { createDescuentoHttp, deleteDescuentoHttp, getDescuentoByIdHttp, getDescuentosHabilitadosHttp, getDescuentosHttp, toggleHabilitadoHttp, updateDescuentoHttp } from "../http/descuentoHttp"
 import type { IDescuento } from "../types/IDescuento"
 import { CustomSwal } from "../components/UI/CustomSwal/CustomSwal"
 import { getDetallesProductosByDescuentoIdHttp } from "../http/detalleProductoHttp"
 
 export const useDescuento = () => {
-    const { setDescuentos, añadirDescuento, actualizarDescuento, eliminarDescuento } = descuentoStore(useShallow((state) => ({
+    const { setDescuentos, setDescuentosHabilitados, añadirDescuento, actualizarDescuento, eliminarDescuento } = descuentoStore(useShallow((state) => ({
         setDescuentos: state.setDescuentos,
+        setDescuentosHabilitados: state.setDescuentosHabilitados,
         añadirDescuento: state.añadirDescuento,
         actualizarDescuento: state.actualizarDescuento,
         eliminarDescuento: state.eliminarDescuento
@@ -20,11 +21,21 @@ export const useDescuento = () => {
                 setDescuentos(data)
             }
         } catch (error) {
-            console.error('Error en getDescuentos', error)
+            console.error('Error en getDescuentos: ', error)
         }
     }
 
-    const getDescuentosById = async (idDescuento: string): Promise<IDescuento | undefined> => {
+    const getDescuentosHabilitados = async (): Promise<void> => {
+        try {
+            const data = await getDescuentosHabilitadosHttp()
+            if (data) {
+                setDescuentosHabilitados(data)
+            }
+        } catch (error) {
+            console.error('Error en getDescuentosHabilitados: ', error)
+        }
+    }
+    const getDescuentoById = async (idDescuento: string): Promise<IDescuento | undefined> => {
         try {
             const data = await getDescuentoByIdHttp(idDescuento)
             if (!data) throw new Error;
@@ -91,11 +102,20 @@ export const useDescuento = () => {
         }
     }
 
+    const enableUnableDescuento = async (idDescuento: string): Promise<void> => {
+        try {
+            await toggleHabilitadoHttp(idDescuento)
+        } catch (error) {
+            console.error("Error en enableUnableDescuento: ", error)
+        }
+    }
     return {
         getDescuentos,
-        getDescuentosById,
+        getDescuentosHabilitados,
+        getDescuentoById,
         createDescuento,
         updateDescuento,
-        deleteDescuento
+        deleteDescuento,
+        enableUnableDescuento
     }
 }

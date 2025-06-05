@@ -42,7 +42,19 @@ export const createImagenHttp = async (
   imagenNueva: IImagen
 ): Promise<IImagen | undefined> => {
   try {
-    const response = await axiosAuth.post<IImagen>(apiUrlController, imagenNueva);
+    const formData = new FormData();
+    formData.append("file", imagenNueva.imagen!);
+    formData.append("detalleProductoId", imagenNueva.detalleProducto.id!);
+
+    const response = await axiosAuth.post<IImagen>(
+      apiUrlController + '/subirImagen',
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Problemas en createImagenController", error);

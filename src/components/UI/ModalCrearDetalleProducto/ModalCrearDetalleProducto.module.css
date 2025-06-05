@@ -11,7 +11,8 @@
     box-sizing: border-box;
     z-index: 200;
 }
-.containerModal{
+.modalContainer{
+    font-family: latoRegular;
     color: white;
     display: flex;
     flex-direction: column;
@@ -20,41 +21,49 @@
     border: 1px solid white;
     background-color: #1f1f1f;
     width: 50%;
-    height: 60%;
+    height: 80%;
     z-index: 999;
     padding: 15px 40px 15px 40px;
     gap:20px;
 }
-.containerModal h2{
+.modalHeader{
+    display: flex;
+    justify-content: center;
+    width: 100%;
     font-size: 24px;
-    font-family: latoLight;
 }
-.formContainer {
+.modalBody{
+    width: 100%;
+}
+.containerForm{
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 40px;
+}
+.inputsForm{
     gap: 30px;
-}
-.containerInputsForm{
-    width:80%;
-    display: flex;
-    gap: 20%;
-    box-sizing: border-box;
-}
-.containerColumn{
+    width: 100%;
     display: flex;
     flex-direction: column;
-    width: 40%;
-    gap: 20px;
+}
+.inputsFormRow{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
 }
 .inputWrapper{
+    width: 30%;
     font-size: 20px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     position: relative;
+}
+.inputsFormRow:last-child .inputWrapper{
+    width: 50%;
 }
 .inputWrapper input,
 .inputWrapper select {
@@ -69,6 +78,12 @@
 .inputWrapper hr {
     width: 100%;
 }
+.inputWrapper input[type='number']::-webkit-outer-spin-button,
+.inputWrapper input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 .error{
     position: absolute;
     bottom: 0;
@@ -76,35 +91,36 @@
     font-size: 15px;
     color: red;
 }
-.containerButtons{
+
+.buttonsForm{
     display: flex;
-    justify-content: space-between;
-    width: 76%;
+    justify-content: space-around;
+    width: 80%;
 }
-.containerButtons button{
+.buttonsForm button{
     display: flex;
+    border-radius: 2px;
+    border: 1px solid white;
     justify-content: center;
     align-items: center;
-    width: 180px;
-    padding: 20px;
+    width: 150px;
     font-size: 18px;
-    border: 1px solid white;
-    border-radius: 2px;
+    padding: 20px 0px 20px 0px;
 }
-.containerButtons button:not(:disabled):hover{
-    border-radius: 10px;
+.buttonsForm button:hover{
     cursor: pointer;
+    border-radius: 10px;
+}
+.buttonsForm button:disabled{
+    background-color: #ccc;
+}
+.buttonsForm button:hover:disabled{
+    cursor: not-allowed;
+    border-radius: 2px;
 }
 .confirmButton{
     background-color: #1f1f1f;
 }
-.confirmButton:disabled{
-    background-color: #ccc;
-    opacity: .8;
-}
-.confirmButton:disabled:hover, .cancelButton:disabled:hover{
-    cursor: not-allowed;
-}
 .cancelButton{
-    background-color: #A60000;
+    background-color: var(--dark-red);
 }
