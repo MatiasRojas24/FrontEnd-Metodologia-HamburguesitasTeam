@@ -8,13 +8,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 6%;
 }
 
 
 
 
 .headerPage {
-    height: 6%;
+    min-height: 8%;
     width: 90%;
     max-width: 90%;
     border-bottom: 2px solid var(--white-gray-2);
@@ -30,10 +31,9 @@
 
 
 .bodyPage {
-    width: 100%;
-    min-height: 60%;
-    max-height: 80%;
-    padding: 0% 24% 0% 24%;
+    width: 50%;
+    min-height: 30%;
+    max-height: 30%;
     box-sizing: border-box;
 
     display: grid;
@@ -45,11 +45,12 @@
 
 
 .sectionContainer {
-    min-height: 50%;
-    max-height: 70%;
-    min-width: 70%;
-    max-width: 70%;
-    box-sizing:content-box;
+    min-height: 100%;
+    max-height: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    padding: 5% 8% 0% 8%;
+    box-sizing:border-box;
 
     display: flex;
     flex-direction: column;
@@ -78,6 +79,7 @@
     max-height: 60px;
     font-size: large;
     word-wrap: break-word;
+    font-family: LatoLight;
 }
 .sectionContainer i:hover {
     cursor: pointer;
@@ -85,9 +87,12 @@
 
 
 .direccionesContainer {
-    min-height: 40%;
-    max-height: 90%;
-    width: 70%;
+    min-height: 100%;
+    max-height: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    padding: 5% 8% 0% 8%;
+    box-sizing: border-box;
 
     display: flex;
     flex-direction: column;
@@ -104,6 +109,7 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
 .direccionesContainer button {
     width: 10%;
 }
@@ -113,6 +119,7 @@
 }
 
 .direcciones {
+    min-height: 60px;
     min-width: 100%;
     min-width: 100%;
     height: 77%;

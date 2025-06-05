@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import styles from './CuentasUsuarios.module.css'
+import styles from './CuentaUsuario.module.css'
 import { DirectionCard } from '../../UI/DireccionCard/DirectionCard'
 import { ModalDirection } from '../../UI/ModalDirection/ModalDirection'
 import { direccionStore } from '../../../store/direccionStore'
@@ -7,7 +7,7 @@ import { useDireccion } from '../../../hooks/useDireccion'
 import { usuarioStore } from '../../../store/usuarioStore'
 import { ModalModificarUsuario } from '../../UI/ModalModificarUsuario/ModalModificarUsuario'
 
-export const CuentasUsuarios = () => {
+export const CuentaUsuario = () => {
   // Estados locales
   const [isVisible, setIsVisible] = useState(false)
   const [isModificarUsuario, setIsModificarUsuario] = useState(false) // Estado apra el modal "modificar usuario"
@@ -63,20 +63,6 @@ export const CuentasUsuarios = () => {
                 <h2>Email</h2>
                 <h3>{usuarioLogeado ? usuarioLogeado.email : "No hay email"}</h3>
             </section>
-            {/* <section className={styles.sectionContainer}>
-                <h2>Contraseña</h2>
-                {isVisible ?
-                    <article>
-                        <h3>{usuarioLogeado ? usuarioLogeado.password : 'No hay contraseña'}</h3>
-                        <i className="bi bi-eye-slash" onClick={() => setIsVisible(false)}></i>
-                    </article>
-                :
-                    <article>
-                    <h3>{usuarioLogeado ? handleHidePassword(usuarioLogeado.password) : 'No hay contraseña'}</h3>
-                    <i className="bi bi-eye" onClick={() => setIsVisible(true)}></i>
-                    </article>
-                }
-            </section> */}
             <section className={styles.sectionContainer}>
                 <h2>Nombre</h2>
                 <h3>{usuarioLogeado ? usuarioLogeado.nombre : 'No hay nombre'}</h3>
@@ -86,8 +72,8 @@ export const CuentasUsuarios = () => {
                 <h3>{usuarioLogeado ? usuarioLogeado.dni : 'No hay DNI'}
                 </h3>
             </section>
-            <section className={styles.direccionesContainer}>
-                <h2>Direcciones <button><i className="bi bi-plus-square" onClick={() => setIsModalDirection(true)}></i></button></h2>
+            <section className={styles.sectionContainer}>
+                <h2 className={styles.h2Direcciones}>Direcciones <button><i className="bi bi-plus-square" onClick={() => setIsModalDirection(true)}></i></button></h2>
                 <article className={styles.direcciones}>
                     {direcciones.map((direccion) => <DirectionCard key={direccion.id} setIsModal={setIsModalDirection} direccion={direccion}/>)}
                 </article>
