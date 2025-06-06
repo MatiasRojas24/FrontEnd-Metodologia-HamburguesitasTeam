@@ -1,0 +1,55 @@
+.cardContainerGrid{
+    display: grid;
+    /* espacio entre tarjetas */
+    
+    padding: 20px;
+}
+.cardContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 180px; 
+    height: 100%;
+    max-height: 320px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    margin-bottom: 20px;
+    
+    
+}
+.cardContainer:hover {
+    transform: translateY(-5px); 
+}
+
+.cardImage img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.cardInfo {
+    padding: 15px;
+    background-color: #1F1F1F;
+    color: white;
+    height: 100%;
+}
+
+.cardInfo p {
+    margin: 8px;
+    
+}
+.letraSexo{
+    font-family: LatoLight;
+    font-size: 10px;
+}
+.letraNombre{
+    font-family: LatoBold;
+    font-size: 14px;
+}
+.letraPrecio{
+    font-family: LatoBold;
+    font-size: 14px;
+}

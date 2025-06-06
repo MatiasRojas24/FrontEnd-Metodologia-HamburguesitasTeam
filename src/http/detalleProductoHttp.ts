@@ -3,25 +3,24 @@ import type { IDetalleProducto } from "../types/IDetalleProducto.ts";
 import type { IProducto } from "../types/IProducto.ts";
 import type { ITalle } from "../types/ITalle.ts";
 import axios from "axios";
-import type { FiltroDetalleProducto } from "../types/IFiltroDetalleProducto";
+import type { IFiltroDetalleProducto } from "../types/IFiltroDetalleProducto";
 import type { IDescuento } from "../types/IDescuento.ts";
 
 const apiUrlController = "/detallesProductos";
 
 
 
-export const filtrarDetalleProductosHttp = async (filtro: FiltroDetalleProducto): Promise<IProducto[] | undefined> => {
+export const filtrarDetalleProductosHttp = async (filtro: IFiltroDetalleProducto): Promise<IDetalleProducto[] | undefined> => {
   try {
     const params = new URLSearchParams();
 
     if (filtro.idTalle) params.append("idTalle", filtro.idTalle);
     if (filtro.tipoProducto) params.append("tipoProducto", filtro.tipoProducto);
     if (filtro.sexo) params.append("sexo", filtro.sexo);
-    if (filtro.minPrecio !== null && filtro.minPrecio !== undefined) params.append("minPrecio", filtro.minPrecio.toString());
-    if (filtro.maxPrecio !== null && filtro.maxPrecio !== undefined) params.append("maxPrecio", filtro.maxPrecio.toString());
+    if (filtro.minPrecio != null) params.append("minPrecio", filtro.minPrecio.toString());
+    if (filtro.maxPrecio != null) params.append("maxPrecio", filtro.maxPrecio.toString());
 
-    const response = await axiosAuth.get<IProducto[]>(apiUrlController + `/productos/filtro?${params.toString}`)
-
+    const response = await axiosAuth.get<IDetalleProducto[]>(apiUrlController + `/filtro?${params.toString()}`)
     return response.data
   } catch (error) {
     console.log("Error en el filtrarDetalleProductos", error);
