@@ -1,4 +1,4 @@
-import React, { useEffect, type Dispatch, type FC, type SetStateAction } from 'react'
+import { useEffect, type Dispatch, type FC, type SetStateAction } from 'react'
 import { usuarioStore } from '../../../store/usuarioStore';
 import styles from './DropdownUserOptions.module.css'
 import { navigateTo } from '../../../routes/navigation';

@@ -1,11 +1,14 @@
-.dropdownContainer{
+.dropdownContainer {
     position: fixed;
-    right: 0;
-    top: 12vh;
+    top: 12vh; /* Lo mantiene en la parte superior */
+    left: 100%; /* Lo centra horizontalmente */
+    transform: translateX(-100%); /* Ajusta el centrado */
+
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 1px;
+
+    padding: 20px;
     border: 1px solid white;
     background-color: #1f1f1f;
     font-family: latoLight;
@@ -13,13 +16,14 @@
     font-size: 18px;
     text-align: center;
     gap: 20px;
-    padding: 20px;
     z-index: 1;
 }
-.dropdownContainer hr{
+
+.dropdownContainer hr {
     width: 100%;
 }
-.dropdownContainer p:hover{
+
+.dropdownContainer p:hover {
     cursor: pointer;
     text-decoration: underline;
 }

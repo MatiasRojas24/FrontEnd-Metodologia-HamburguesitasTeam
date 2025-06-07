@@ -2,14 +2,12 @@ import { useEffect, useState } from 'react'
 import { ProductsTable } from '../../UI/ProductsTable/ProductsTable'
 import styles from './GestionDeProductos.module.css'
 import { DropdownFiltroGestionDeProductos } from '../../UI/DropdownFiltroGestionDeProductos/DropdownFiltroGestionDeProductos'
-import type { IProducto } from '../../../types/IProducto'
 import type { IFiltroProducto } from '../../../types/IFiltroProducto'
 import { ModalCrearCategoria } from '../../UI/ModalCrearCategoria/ModalCrearCategoria'
-import { useCatalogo } from '../../../hooks/useCatalogo'
-import { catalogoStore } from '../../../store/catalogoStore'
 import { ModalCrearProducto } from '../../UI/ModalCrearProducto/ModalCrearProducto'
 import { productoStore } from '../../../store/productoStore'
 import { useProducto } from '../../../hooks/useProducto'
+import { PantallaCarga } from '../PantallaCarga/PantallaCarga'
 
 const initialFilter: IFiltroProducto = {
     nombre: "",
@@ -20,16 +18,29 @@ export const GestionDeProductos = () => {
     const [openModalCrearCategoria, setOpenModalCrearCategoria] = useState(false)
     const [openModalCrearProducto, setOpenModalCrearProducto] = useState(false)
     const [filtros, setFiltros] = useState<IFiltroProducto>(initialFilter)
-    const { setProductoActivo } = productoStore()
+    const [ cargandoProducto ,setCargandoProducto ] = useState<boolean>(true)
 
+    const { setProductoActivo } = productoStore()
     const productos = productoStore((state) => state.productos)
+
     const { getProductos } = useProducto()
+
     useEffect(() => {
         setProductoActivo(null)
     }, [])
+
+    const handleTraerProductos = async () => {
+        setCargandoProducto(true)
+        await getProductos()
+        setCargandoProducto(false)
+    }
+
     useEffect(() => {
-        getProductos()
+        handleTraerProductos()
     }, [productos])
+
+    if (cargandoProducto) return <PantallaCarga />
+
     return (
         <div className={styles.containerPage}>
             <div className={styles.containerHeader}>

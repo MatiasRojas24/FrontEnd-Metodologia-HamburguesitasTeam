@@ -40,7 +40,7 @@ export const NavBar = () => {
     navigateTo("/home")
   }
 
-  const handleGoToCuentaUsuario = () => {
+  const handleGoToCuentaUsuario = () => { // ===> y esto¿?????????????
     setOpenDropdownUserOptions(false)
     navigateTo("/cuenta-del-usuario")
   }

@@ -6,10 +6,12 @@ import { usuarioStore } from '../../../store/usuarioStore'
 import Swal from 'sweetalert2'
 import type { IUsuario } from '../../../types/IUsuario'
 import { useShallow } from 'zustand/shallow'
+import { PantallaCarga } from '../PantallaCarga/PantallaCarga'
 
 export const CuentasAdmin = () => {
   // Estados locales
-  const [isModal, setIsModal] = useState(false)
+  const [isModal, setIsModal] = useState<boolean>(false)
+  const [cargandoUsuarios, setCargandoUsuarios] = useState<boolean>(true)
 
 
   // STORE
@@ -24,8 +26,15 @@ export const CuentasAdmin = () => {
 
   // HOOKS
   const { getUsuarios, deleteUsuario } = useUsuario()
+
+  const handleTraerUsuarios = async () => {
+    setCargandoUsuarios(true)
+    await getUsuarios()
+    setCargandoUsuarios(false)
+  }
+
   useEffect( () => {
-    getUsuarios()
+    handleTraerUsuarios()
   }, [usuarioLogeado])
 
 
@@ -59,6 +68,8 @@ export const CuentasAdmin = () => {
       }
     });
   }
+
+  if (cargandoUsuarios) return <PantallaCarga />;
 
   return (
     <div className={styles.pageContainer}>
