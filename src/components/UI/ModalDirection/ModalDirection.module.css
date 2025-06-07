@@ -86,5 +86,13 @@
 .acceptButton:hover {
     cursor: pointer;
     background-color: var(--white-gray-3);
+    color: black;
     transition: 0.4s;
+}
+/* Estilo cuando el botón está deshabilitado */
+.containerButtons button:disabled {
+    background-color: var(--white-gray-3);
+    color: black;
+    cursor: auto;
+    transform: none;
 }
