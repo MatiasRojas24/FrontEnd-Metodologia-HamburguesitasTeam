@@ -28,6 +28,7 @@ export const ModalModificarUsuario: FC<IPropsModalUsuario> = ({ usuarioLogeado, 
             username: usuarioLogeado?.username ? usuarioLogeado.username : "",
             password: usuarioLogeado?.password ? usuarioLogeado.password: "" ,
             dni: usuarioLogeado?.dni ? usuarioLogeado.dni : "",
+            direcciones: usuarioLogeado?.direcciones ? usuarioLogeado.direcciones : [],
             rol: usuarioLogeado?.rol ? usuarioLogeado.rol : "CLIENTE"
         },
         enableReinitialize: true,
@@ -37,6 +38,7 @@ export const ModalModificarUsuario: FC<IPropsModalUsuario> = ({ usuarioLogeado, 
             username: Yup.string().required("Requerido"),
             password: Yup.string(),
             dni: Yup.string().required("Requerido"),
+            direcciones: Yup.array(),
             rol: Yup.string()
         }),
         onSubmit: async (values) => {
@@ -55,8 +57,6 @@ export const ModalModificarUsuario: FC<IPropsModalUsuario> = ({ usuarioLogeado, 
             }
         }
     })
-
-    console.log("password: ", usuarioLogeado ? usuarioLogeado.password : "No hay usuario logeado")
 
     return (
         <div className={styles.formOverlay}>

@@ -1,21 +1,25 @@
 .pageContainer{
     min-width: 100%;
     max-width: 100%;
-    height: 90vh;
-    min-height: 90vh;
-    font-family: LatoRegular;
+    min-height: 80vh;
+    max-height: 80vh;
 
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6%;
+}
+.pageContainer * {
+    font-family: LatoLight;
+}
+.pageContainer h2 {
+    font-family: LatoRegular;
 }
 
 
 
 
 .headerPage {
-    min-height: 8%;
+    height: 6vh;
     width: 90%;
     max-width: 90%;
     border-bottom: 2px solid var(--white-gray-2);
@@ -31,25 +35,26 @@
 
 
 .bodyPage {
-    width: 50%;
-    min-height: 30%;
-    max-height: 30%;
-    box-sizing: border-box;
+    margin-top: 6vh;
+    margin-bottom: 6vh;
+    width: 42%;
+    min-height: 40%;
+    max-height: 40%;
 
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
     justify-items: center;
-    align-items: center; 
+    align-items: start; 
 }
 
 
 .sectionContainer {
-    min-height: 100%;
-    max-height: 100%;
-    min-width: 100%;
-    max-width: 100%;
-    padding: 5% 8% 0% 8%;
+    min-height: 50%;
+    max-height: 50%;
+    min-width: 95%;
+    max-width: 95%;
+    padding: 0% 6% 0% 6%;
     box-sizing:border-box;
 
     display: flex;
@@ -59,10 +64,15 @@
     gap: 10%;
 }
 .sectionContainer h2 {
-    padding-bottom: 2%;
     width: 100%;
     max-width: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    padding-bottom: 2%;
     border-bottom: 2px solid var(--black-gray);
+
+    display: flex;
+    justify-content: space-between;
 }
 .sectionContainer article {
     min-width: 93%;
@@ -72,57 +82,60 @@
     flex-direction: row;
     gap: 2%;
 }
-.sectionContainer h3 {
+.sectionTitle {
     min-width: 100%;
     max-width: 100%;
-    min-height: 60px;
-    max-height: 60px;
+    min-height: 100%;
+    max-height: 100%;
+    padding-top: 8px;
+    font-family: LatoLight;
     font-size: large;
     word-wrap: break-word;
-    font-family: LatoLight;
 }
 .sectionContainer i:hover {
     cursor: pointer;
 }
 
 
-.direccionesContainer {
+.sectionContainer_B {
     min-height: 100%;
     max-height: 100%;
-    min-width: 100%;
-    max-width: 100%;
-    padding: 5% 8% 0% 8%;
-    box-sizing: border-box;
+    min-width: 95%;
+    max-width: 95%;
+    padding: 0% 6% 0% 6%;
+    box-sizing:border-box;
 
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 4%;
+    align-items: start;
+    justify-content: center;
+    gap: 10%;
 }
-.direccionesContainer h2 {
+.sectionContainer_B h2 {
     padding-bottom: 2%;
+    padding-right: 2%;
     min-width: 100%;
     max-width: 100%;
+    min-height: 100%;
+    max-height: 100%;
     border-bottom: 2px solid var(--black-gray);
 
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
-
-.direccionesContainer button {
-    width: 10%;
-}
-.direccionesContainer i {
+.sectionContainer_B i {
     color: var(--black-gray);
-    font-size: 22px;
+    font-size: 24px;
 }
-
+.sectionContainer_B i:hover {
+    cursor: pointer;
+}
 .direcciones {
-    min-height: 60px;
     min-width: 100%;
     min-width: 100%;
-    height: 77%;
+    min-height: 90px;
+    max-height: 90px;
     color: white;
     padding: 2% 2% 2% 2%;
     box-sizing: border-box;
@@ -131,7 +144,7 @@
 
     display: flex;
     flex-direction: column;
-    gap: 8%;
+    gap: 16px;
 }
 .direcciones::-webkit-scrollbar {
   width: 4px;

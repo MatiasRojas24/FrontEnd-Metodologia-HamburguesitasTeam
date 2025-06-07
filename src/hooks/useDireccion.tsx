@@ -1,20 +1,23 @@
 import { useShallow } from "zustand/shallow"
-import { addUsuariosToDireccionHttp, createDireccionHttp, deleteDireccionHttp, getDireccionByIdHttp, getDireccionesByUsuarioIdHttp, getDireccionesHttp, updateDireccionHttp } from "../http/direccionHttp"
+import { addUsuariosToDireccionHttp, createDireccionHttp, deleteDireccionHttp, getDireccionByIdHttp, getDireccionesHttp, updateDireccionHttp } from "../http/direccionHttp"
 import { direccionStore } from "../store/direccionStore"
 import type { IDireccion } from "../types/IDireccion"
 import type { IUsuario } from "../types/IUsuario"
+import { toggleHabilitadoHttp } from "../http/direccionHttp"
+import { usuarioStore } from "../store/usuarioStore"
 
 export const useDireccion = () => {
 
     // STORE
-    const { setDirecciones, añadirDireccion, actualizarDireccion, eliminarDireccion } = direccionStore(useShallow((state) => (
+    const { setDirecciones, añadirDireccion, actualizarDireccion, eliminarDireccion, } = direccionStore(useShallow((state) => (
         {
             setDirecciones: state.setDirecciones,
             añadirDireccion: state.añadirDireccion,
             actualizarDireccion: state.actualizarDireccion,
-            eliminarDireccion: state.eliminarDireccion
+            eliminarDireccion: state.eliminarDireccion,
         }
     )))
+    const setDireccionesUsuario = usuarioStore((state) => state.setDireccionesUsuario)
 
 
     // METODOS DEL HOOK
@@ -77,8 +80,6 @@ export const useDireccion = () => {
     }
 
     const addUsuariosToDirecciones = async (usuarios: IUsuario[], idDireccion: string): Promise<boolean> => {
-        console.log(usuarios)
-        console.log(idDireccion)
         try {
             const response = await addUsuariosToDireccionHttp(usuarios, idDireccion)
             if (!response) throw new Error
@@ -93,20 +94,28 @@ export const useDireccion = () => {
 
             return true
         } catch (error) {
-            console.log(usuarios)
-            console.log(idDireccion)
             console.log("Hubo un error en addUsuariosToDirecciones: ", error)
             return false
         }
     }
 
-    const getDireccionesByUsuarioId = async (idUsuario: string): Promise<void> => {
+    const toggleEnableDireccion = async (idDireccion: string): Promise<boolean> => {
         try {
-            const direcciones = await getDireccionesByUsuarioIdHttp(idUsuario)
-            if (direcciones) setDirecciones(direcciones)
+            const response = await toggleHabilitadoHttp(idDireccion)
+            if (!response) throw new Error
                 
+            const direccionActualizadaDB = await getDireccionByIdHttp(idDireccion)
+            if (!direccionActualizadaDB) {
+                await toggleHabilitadoHttp(idDireccion) // ===> si algo sale mal restauramos el estado de la direccion
+                throw new Error
+            }
+
+            updateDireccion(direccionActualizadaDB)
+            
+            return true
         } catch (error) {
-            console.error("Hubo un problema en getDireccionesByUsuarioId: ", error)
+            console.log("Hubo un erro en toggleEnableUsuario: ", error)
+            return false
         }
     }
     
@@ -116,6 +125,6 @@ export const useDireccion = () => {
     updateDireccion,
     deleteDireccion,
     addUsuariosToDirecciones,
-    getDireccionesByUsuarioId,
+    toggleEnableDireccion,
   }
 }

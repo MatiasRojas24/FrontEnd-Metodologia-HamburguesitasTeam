@@ -5,15 +5,18 @@ import { useShallow } from 'zustand/shallow'
 import type { ILoginRequest } from '../types/ILoginRequest'
 import type { IUsuario } from '../types/IUsuario'
 import type { IDireccion } from '../types/IDireccion'
+import { getDireccionesByUsuarioIdHttp } from '../http/direccionHttp'
 
 export const useUsuario = () => {
 
-    const { setUsuarios, añadirUsuario, eliminarUsuario, actualizarUsuario, setUsuarioLogeado, } = usuarioStore(useShallow((state) => ({
+    const { setUsuarios, añadirUsuario, eliminarUsuario, actualizarUsuario, setUsuarioLogeado, setDireccionesUsuario, direccionesUsuario, } = usuarioStore(useShallow((state) => ({
         setUsuarios: state.setUsuarios,
         añadirUsuario: state.añadirUsuario,
         eliminarUsuario: state.eliminarUsuario,
         actualizarUsuario: state.actualizarUsuario,
         setUsuarioLogeado: state.setUsuarioLogeado,
+        setDireccionesUsuario: state.setDireccionesUsuario,
+        direccionesUsuario: state.direccionesUsuario,
     })))
 
     const getUsuarios = async (): Promise<void> => {
@@ -131,29 +134,29 @@ export const useUsuario = () => {
     }
 
     const addDireccionesToUsuario = async (direcciones: IDireccion[], idUsuario: string): Promise<boolean> => {
-        console.log("direcciones: ", direcciones)
-        console.log("idusuario: ", idUsuario)
         try {
             const data = await addDireccionesToUsuarioHttp(direcciones, idUsuario)
             if (!data) throw new Error
 
             const usuario = await getUsuarioById(idUsuario)
-            console.log('usuario del getById: ', usuario)
-            if (!usuario) {
-                const usuarioActualizado = await getUsuarioById(idUsuario)
-                usuarioActualizado!.direcciones = []
-                actualizarUsuario(usuarioActualizado!)
-                throw new Error
-            }
+            if (!usuario) throw new Error
 
-            actualizarUsuario(usuario)
+            setUsuarioLogeado(usuario)
 
             return true
         } catch (error) {
-            console.log("direcciones: ", direcciones)
-            console.log("idusuario: ", idUsuario)
             console.error('Error en addDireccionesToUsuario: ', error)
             return false
+        }
+    }
+
+    const getDireccionesByUsuarioId = async (idUsuario: string): Promise<void> => {
+        try {
+            const direccionesDB = await getDireccionesByUsuarioIdHttp(idUsuario)
+            if (direccionesDB) setDireccionesUsuario(direccionesDB)
+                            
+        } catch (error) {
+            console.error("Hubo un problema en getDireccionesByUsuarioId: ", error)
         }
     }
 
@@ -176,5 +179,6 @@ export const useUsuario = () => {
     addDireccionesToUsuario,
     updateUsuarioLogeadoById,
     registerUsuarioCliente,
+    getDireccionesByUsuarioId,
   }
 }

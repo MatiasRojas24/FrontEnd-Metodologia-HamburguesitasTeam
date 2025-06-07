@@ -83,6 +83,7 @@ export const addDireccionesToUsuarioHttp = async (
       apiUrlController + `/direcciones/${usuarioId}`,
       direcciones
     );
+    console.log("data desde el controller: ", response.data)
     return response.data;
   } catch (error) {
     console.error("Problemas en addDireccionesToUsuarioController", error);

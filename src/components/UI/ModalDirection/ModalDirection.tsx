@@ -20,8 +20,8 @@ export const ModalDirection: FC<IPropsModalDirection> = ({ setIsModal, direccion
 
 
   // HOOKS
-  const { updateDireccion, createDireccion, addUsuariosToDirecciones, deleteDireccion } = useDireccion()
-  const { addDireccionesToUsuario, updateUsuario } = useUsuario()
+  const { updateDireccion } = useDireccion()
+  const { addDireccionesToUsuario } = useUsuario()
 
 
   // Configuración de Formik
@@ -56,26 +56,18 @@ export const ModalDirection: FC<IPropsModalDirection> = ({ setIsModal, direccion
                 alert("No se lograron enviar los datos, corrígelos o intentalo mas tarde")
             }
         } else {
-            try {
-                const direccionesUsuario = usuarioLogeado.direcciones || []; // --- > guardamos las direcciones previas a añadir la nueva por si a caso
-                const nuevasDireccionesUsuario = [...direccionesUsuario , values];
+            const direccionesUsuario = usuarioLogeado.direcciones || []; // --- > guardamos las direcciones previas a añadir la nueva por si a caso
+            console.log(direccionesUsuario)
+            const nuevasDireccionesUsuario = [...direccionesUsuario, values];
+            console.log(nuevasDireccionesUsuario)
 
-                const succes = await addDireccionesToUsuario(nuevasDireccionesUsuario, usuarioLogeado?.id!)
+            const succes = await addDireccionesToUsuario(nuevasDireccionesUsuario, usuarioLogeado?.id!)
 
-                if (!succes) {
-                    deleteDireccion(values.id)
-
-                    usuarioLogeado.direcciones = direccionesUsuario
-                    updateUsuario(usuarioLogeado)
-                    throw new Error
-                }
-                
+            if (succes) {
                 setIsModal(false);
                 setDireccionActiva(null);
-                
-            } catch (error) {
-                alert("Algo no salio bien al crear la direccion, corrige los datos o intentalo mas tarde")
-                console.log("Error en el on submit: ", error)
+            } else {
+                alert("No se pudo crear la direccion, revisa lo datos o intentalo mas tarde")
             }
         }
       }
@@ -132,7 +124,7 @@ export const ModalDirection: FC<IPropsModalDirection> = ({ setIsModal, direccion
             </section>
             <section className={styles.containerButtons}>
                 <button className={styles.cancelButton} onClick={() => setIsModal(false)}>Cancelar</button>
-                <button className={styles.acceptButton}> {direccionActiva ? "Editar" : "Agregar"}</button>
+                <button className={styles.acceptButton} type='submit'>Aceptar</button>
             </section>
         </div>
     </form>
