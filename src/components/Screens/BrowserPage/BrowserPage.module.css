@@ -70,20 +70,21 @@
     
 }
 
-.active {
-    border: 2px solid green;
+.talleButtonActive {
+    background-color: white;
     color: green;
     font-weight: bold;
-}   
+    border: 2px solid darkgreen;
+}
 
 
 .containerProductos {
     flex: 1;
-    background-color: red;
     padding: 20px;
-    display: flex;
-    justify-content: center; /* CENTRA HORIZONTALMENTE */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    justify-content: center; 
     align-items: flex-start;
-    flex-wrap: wrap; /* Para que los productos se acomoden si hay muchos */
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
 }

@@ -1,8 +1,10 @@
 import { useShallow } from "zustand/shallow"
 import { detalleProductoStore } from "../store/detalleProductoStore"
-import { createDetalleProductoHttp, deleteDetalleProductoHttp, getDetalleProductoByIdHttp, getDetallesProductosByProductoIdHttp, getDetallesProductosHabilitadosHttp, toggleHabilitadoHttp, updateDetalleProductoHttp } from "../http/detalleProductoHttp"
+import { createDetalleProductoHttp, deleteDetalleProductoHttp, filtrarDetalleProductosHttp, getDetalleProductoByIdHttp, getDetallesProductosByProductoIdHttp, getDetallesProductosHabilitadosHttp, toggleHabilitadoHttp, updateDetalleProductoHttp } from "../http/detalleProductoHttp"
 import type { IDetalleProducto } from "../types/IDetalleProducto"
 import { CustomSwal } from "../components/UI/CustomSwal/CustomSwal"
+import type { IFiltroDetalleProducto } from "../types/IFiltroDetalleProducto"
+
 
 export const useDetalleProducto = () => {
     const { setDetallesDeProducto, setDetallesProductosHabilitados, añadirDetalleDeProducto, actualizarDetalleDeProducto, eliminarDetalleDeProducto } = detalleProductoStore(useShallow((state) => ({
@@ -104,7 +106,16 @@ export const useDetalleProducto = () => {
             CustomSwal.fire("Error", "No se pudo eliminar el detalle", "error")
         }
     }
-
+    const filtrarDetalleProducto = async (filtro: IFiltroDetalleProducto): Promise<void> => {
+        try {
+            const data = await filtrarDetalleProductosHttp(filtro);
+            if (data) {
+                setDetallesProductosHabilitados(data);
+            }
+        } catch (error) {
+            console.error("Error en filtrarDetalleProducto: ", error);
+        }
+};
     return {
         getDetallesDeProducto,
         getDetallesProductosHabilitados,
@@ -112,6 +123,7 @@ export const useDetalleProducto = () => {
         createDetalleProducto,
         updateDetalleProducto,
         enableUnableDetalleProducto,
-        deleteDetalleProducto
+        deleteDetalleProducto,
+        filtrarDetalleProducto
     }
 }

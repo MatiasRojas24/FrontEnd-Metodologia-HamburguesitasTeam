@@ -5,6 +5,7 @@ import { createProductoHttp, deleteProductoHttp, filtrarPorNombreOSexoOTipoProdu
 import type { IFiltroProducto } from "../types/IFiltroProducto"
 import { CustomSwal } from "../components/UI/CustomSwal/CustomSwal"
 
+
 export const useProducto = () => {
     const { setProductos, setProductosHabilitados, añadirProducto, eliminarProducto, actualizarProducto } = productoStore(useShallow((state) => ({
         setProductos: state.setProductos,
@@ -116,6 +117,7 @@ export const useProducto = () => {
             console.error("Error en filtrarProductos: ", error)
         }
     }
+    
     return {
         getProductos,
         getProductosHabilitados,
@@ -125,5 +127,6 @@ export const useProducto = () => {
         enableUnableProducto,
         deleteProducto,
         filtrarProductos,
+    
     }
 }

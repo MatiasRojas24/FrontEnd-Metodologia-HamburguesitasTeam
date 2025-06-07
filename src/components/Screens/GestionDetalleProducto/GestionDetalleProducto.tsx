@@ -7,6 +7,9 @@ import { DropdownCrearTalle } from '../../UI/DropdownCrearTalle/DropdownCrearTal
 import { useSearchParams } from 'react-router-dom'
 import { useProducto } from '../../../hooks/useProducto'
 import { ModalDescuentos } from '../../UI/ModalDescuentos/ModalDescuentos'
+import { ModalCrearDetalleProducto } from '../../UI/ModalCrearDetalleProducto/ModalCrearDetalleProducto'
+import { detalleProductoStore } from '../../../store/detalleProductoStore'
+import { useDetalleProducto } from '../../../hooks/useDetalleProducto'
 
 export const GestionDetalleProducto = () => {
     const { getProductoById } = useProducto()
@@ -15,6 +18,10 @@ export const GestionDetalleProducto = () => {
     const { setProductoActivo } = productoStore()
     const [openDropdownCrearTalle, setOpenDropdownCrearTalle] = useState(false)
     const [openModalDescuentos, setOpenModalDescuentos] = useState(false)
+    const [openModalCrearDetalleProducto, setOpenModalCrearDetalleProducto] = useState(false)
+
+    const detallesDeProducto = detalleProductoStore((state) => state.detallesDeProducto)
+    const { getDetallesDeProducto } = useDetalleProducto()
 
     const handleGoBackToProductos = () => {
         setProductoActivo(null)
@@ -24,11 +31,19 @@ export const GestionDetalleProducto = () => {
     const handlePersistActiveProduct = async () => {
         const urlProductId = searchParams.get("producto")
         const persistedProduct = await getProductoById(urlProductId!)
-        setProductoActivo(persistedProduct!)
+        if (persistedProduct) {
+            setProductoActivo(persistedProduct!)
+            getDetallesDeProducto(productoActivo!.id!)
+        } else {
+            navigateTo('/gestion-de-productos')
+        }
     }
     useEffect(() => {
         handlePersistActiveProduct()
     }, [])
+    useEffect(() => {
+        getDetallesDeProducto(productoActivo?.id!)
+    }, [detallesDeProducto])
     return (
         <div className={styles.containerPage}>
             <div className={styles.containerHeader}>
@@ -46,13 +61,14 @@ export const GestionDetalleProducto = () => {
             </div>
             <div className={styles.containerBody}>
                 <div className={styles.containerButton}>
-                    <button>Agregar detalle</button>
+                    <button onClick={() => setOpenModalCrearDetalleProducto(true)}>Agregar detalle</button>
                 </div>
                 <div className={styles.containerTable}>
-                    <ProductDetailsTable openDropdownCrearTalle={openDropdownCrearTalle} />
+                    <ProductDetailsTable openDropdownCrearTalle={openDropdownCrearTalle} detallesDeProducto={detallesDeProducto} setOpenModalCrearDetalleProducto={setOpenModalCrearDetalleProducto} />
                 </div>
             </div>
             {openModalDescuentos && <ModalDescuentos setOpenModalDescuentos={setOpenModalDescuentos} />}
+            {openModalCrearDetalleProducto && <ModalCrearDetalleProducto setOpenModalCrearDetalleProducto={setOpenModalCrearDetalleProducto} />}
         </div >
     )
 }

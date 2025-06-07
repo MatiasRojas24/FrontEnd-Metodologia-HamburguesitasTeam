@@ -3,10 +3,12 @@ import { talleStore } from "../store/talleStore"
 import type { ITalle } from "../types/ITalle"
 import { createTalleHttp, getTalleByIdHttp, getTallesHabilitadosHttp } from "../http/talleHttp"
 import { CustomSwal } from "../components/UI/CustomSwal/CustomSwal"
+import type { TipoProducto } from "../types/IProducto"
 
 export const useTalle = () => {
-    const { setTalles, añadirTalle } = talleStore(useShallow((state) => ({
+    const { setTalles, setTallesFiltrados, añadirTalle } = talleStore(useShallow((state) => ({
         setTalles: state.setTalles,
+        setTallesFiltrados: state.setTallesFiltrados,
         añadirTalle: state.añadirTalle
     })))
 
@@ -21,6 +23,28 @@ export const useTalle = () => {
         }
     }
 
+    const getTallesFiltrados = async (tipoProducto: TipoProducto): Promise<void> => {
+        try {
+            const data = await getTallesHabilitadosHttp()
+            let dataFiltrada;
+            if (data) {
+                const esNumerico = (valor: string) => /^\d+$/.test(valor);
+                const esAlfabetico = (valor: string) => /^[A-Za-z]+$/.test(valor);
+                dataFiltrada = data.filter((d) => {
+                    if (tipoProducto === 'ZAPATILLA') {
+                        return esNumerico(d.talle)
+                    } else {
+                        return esAlfabetico(d.talle)
+                    }
+                })
+            }
+            if (dataFiltrada) {
+                setTallesFiltrados(dataFiltrada)
+            }
+        } catch (error) {
+            console.error('Error en getTallesFiltrados: ', error)
+        }
+    }
     const getTalleById = async (talleId: string): Promise<ITalle | undefined> => {
         try {
             const data = getTalleByIdHttp(talleId)
@@ -53,6 +77,7 @@ export const useTalle = () => {
     }
     return {
         getTalles,
+        getTallesFiltrados,
         getTalleById,
         createTalle
     }

@@ -3,8 +3,10 @@ import type { IDescuento } from "../types/IDescuento";
 
 interface IDescuentoStore {
     descuentos: IDescuento[];
+    descuentosHabilitados: IDescuento[];
     descuentoActivo: IDescuento | null;
     setDescuentos: (descuentos: IDescuento[]) => void;
+    setDescuentosHabilitados: (descuentos: IDescuento[]) => void;
     setDescuentoActivo: (descuento: IDescuento | null) => void;
     añadirDescuento: (descuentoNuevo: IDescuento) => void;
     actualizarDescuento: (descuentoActualizado: IDescuento) => void;
@@ -13,9 +15,13 @@ interface IDescuentoStore {
 
 export const descuentoStore = create<IDescuentoStore>((set) => ({
     descuentos: [],
+    descuentosHabilitados: [],
     descuentoActivo: null,
     setDescuentos: (descuentosIn) => {
         set(() => ({ descuentos: descuentosIn }))
+    },
+    setDescuentosHabilitados: (descuentosIn) => {
+        set(() => ({ descuentosHabilitados: descuentosIn }))
     },
     setDescuentoActivo: (descuentoIn) => {
         set(() => ({ descuentoActivo: descuentoIn }))

@@ -140,14 +140,14 @@ export const ModalCrearProducto: FC<IModalProp> = ({ setOpenModalCrearProducto }
                         </div>
                     </div>
                     <div className={styles.containerButtons}>
+                        <button type='button' disabled={cargando} className={styles.cancelButton} onClick={() => { setOpenModalCrearProducto(false); setProductoActivo(null) }}>
+                            Cancelar
+                        </button>
                         <button
                             type="submit"
                             className={styles.confirmButton}
                             disabled={!(formik.isValid && formik.dirty) || cargando}
                         >{productoActivo ? "Editar" : "Crear"} producto</button>
-                        <button type='button' disabled={cargando} className={styles.cancelButton} onClick={() => { setOpenModalCrearProducto(false); setProductoActivo(null) }}>
-                            Cancelar
-                        </button>
                     </div>
                 </form>
             </div>

@@ -14,7 +14,7 @@ export const ModalDescuentos: FC<IModalProp> = ({ setOpenModalDescuentos }) => {
     const descuentoActivo = descuentoStore((state) => state.descuentoActivo)
     const descuentos = descuentoStore((state) => state.descuentos)
     const { setDescuentoActivo } = descuentoStore()
-    const { getDescuentos, createDescuento, updateDescuento, deleteDescuento } = useDescuento()
+    const { getDescuentos, createDescuento, updateDescuento, deleteDescuento, enableUnableDescuento } = useDescuento()
     const [cargando, setCargando] = useState(false)
 
     useEffect(() => {
@@ -28,6 +28,9 @@ export const ModalDescuentos: FC<IModalProp> = ({ setOpenModalDescuentos }) => {
         setCargando(true)
         await deleteDescuento(descuento.id!)
         setCargando(false)
+    }
+    const handleUnableEnable = async (descuento: IDescuento) => {
+        await enableUnableDescuento(descuento.id!)
     }
     const formik = useFormik({
         initialValues: descuentoActivo ? {
@@ -121,6 +124,7 @@ export const ModalDescuentos: FC<IModalProp> = ({ setOpenModalDescuentos }) => {
                             </div>
                             <div className={styles.containerAcciones}>
                                 <i className="bi bi-pencil-square" onClick={() => setDescuentoActivo(descuento)}></i>
+                                {descuento.habilitado ? (<i className="bi bi-toggle-on" onClick={() => handleUnableEnable(descuento)}></i>) : (<i className="bi bi-toggle-off" onClick={() => handleUnableEnable(descuento)}></i>)}
                                 <i className="bi bi-trash" onClick={() => handleDeleteDescuento(descuento)}></i>
                             </div>
                         </div>
