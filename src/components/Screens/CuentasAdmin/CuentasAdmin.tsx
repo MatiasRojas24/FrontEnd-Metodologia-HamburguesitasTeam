@@ -28,7 +28,6 @@ export const CuentasAdmin = () => {
   const { getUsuarios, deleteUsuario } = useUsuario()
 
   const handleTraerUsuarios = async () => {
-    setCargandoUsuarios(true)
     await getUsuarios()
     setCargandoUsuarios(false)
   }

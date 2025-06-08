@@ -6,7 +6,8 @@
   --white-gray-2: #D0D0D0;
   --white-gray-3: #666666;
   --yellow: #FFCD27;
-  --dark-red: #A60000;
+  --dark-red: #a80000;
+  --dark-red-2: #c50000;
 }
 
 input {
@@ -57,4 +58,11 @@ button:hover {
     justify-content: center;
     align-items: center;
     color: white;
+}
+/* Estilo cuando el botón está deshabilitado */
+button:disabled {
+    background-color: var(--white-gray-3);
+    color: black;
+    cursor: auto;
+    transform: none;
 }

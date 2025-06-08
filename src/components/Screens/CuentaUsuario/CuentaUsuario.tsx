@@ -7,12 +7,14 @@ import { usuarioStore } from '../../../store/usuarioStore'
 import { ModalModificarUsuario } from '../../UI/ModalModificarUsuario/ModalModificarUsuario'
 import { useUsuario } from '../../../hooks/useUsuario'
 import { PantallaCarga } from '../PantallaCarga/PantallaCarga'
+import { ModalDeleteAccount } from '../../UI/ModalDeleteAccount/ModalDeleteAccount'
 
 export const CuentaUsuario = () => {
     // Estados locales
     const [isModificarUsuario, setIsModificarUsuario] = useState(false) // Estado apra el modal "modificar usuario"
     const [isModalDirection, setIsModalDirection] = useState<boolean>(false) // Estado para el modal "agregar/modificar direccion"
-    const [cargandoUsuarios, setCargandoUsuarios] = useState<boolean>(false)
+    const [cargandoUsuarios, setCargandoUsuarios] = useState<boolean>(true)
+    const [isDeleteAccount, setIsDeleteAccount] = useState<boolean>(false)
 
     // STORES
     const direccionActiva = direccionStore((state) => state.direccionActiva)
@@ -23,7 +25,6 @@ export const CuentaUsuario = () => {
     const { getDireccionesByUsuarioId } = useUsuario()
 
     const handleGetUsuarios = async () => {
-        setCargandoUsuarios(true)
         if (usuarioLogeado && usuarioLogeado.id) {
             await getDireccionesByUsuarioId(usuarioLogeado.id)
         } else {
@@ -33,17 +34,17 @@ export const CuentaUsuario = () => {
     }
 
     useEffect(() => {
-        if (usuarioLogeado && usuarioLogeado.id) {
-            handleGetUsuarios()
-        } else {
-            console.warn("Usuario logeado o su id son null")
-        }
+        handleGetUsuarios()
     }, [direccionesUsuario])
 
 
     // Mtodos de accion
     const handleOpenModificarUsuario = () => {
         setIsModificarUsuario(true)
+    }
+
+    const handleDeleteAccount = async () => {
+        setIsDeleteAccount(true)
     }
 
     if (cargandoUsuarios) return <PantallaCarga />;
@@ -79,11 +80,13 @@ export const CuentaUsuario = () => {
                 </main>
 
                 <div className={styles.buttonContainer}>
-                    <button onClick={handleOpenModificarUsuario}>Modificar Datos</button>
+                    <button className={styles.buttonModificateUser} onClick={handleOpenModificarUsuario}>Modificar Datos</button>
+                    <button className={styles.buttonDeleteAccount} onClick={handleDeleteAccount}>Eliminar cuenta</button>
                 </div>
 
                 {isModalDirection && <ModalDirection setIsModal={setIsModalDirection} direccionActiva={direccionActiva} usuarioLogeado={usuarioLogeado} />}
                 {isModificarUsuario && <ModalModificarUsuario usuarioLogeado={usuarioLogeado} setIsModificarUsuario={setIsModificarUsuario} />}
+                {isDeleteAccount && <ModalDeleteAccount setIsDeleteAccount={setIsDeleteAccount} idUsuario={usuarioLogeado?.id} />}
             </div>
         </>
     )

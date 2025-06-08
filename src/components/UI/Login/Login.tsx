@@ -14,10 +14,13 @@ export const Login: FC<IPropsLogin> = ({ setIsLogin }) => {
   // HOOKS
   const { loginUsuario } = useUsuario();
 
+  // Metodos de accion
   const handleNavigateToRegister = () => {
     navigateTo("/register")
     setIsLogin(false);
   }
+
+  // COnfiguracion de formik
   const formik = useFormik({
     initialValues: {
       username: "",

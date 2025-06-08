@@ -30,7 +30,6 @@ export const GestionDeProductos = () => {
     }, [])
 
     const handleTraerProductos = async () => {
-        setCargandoProducto(true)
         await getProductos()
         setCargandoProducto(false)
     }

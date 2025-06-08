@@ -1,0 +1,84 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.modalContainer {
+    width: 500px;
+    max-width: 500px;
+    height: 280px;
+    max-height: 280px;
+    background-color: var(--black-gray);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4%;
+}
+
+
+.headerModal {
+    height: 25%;
+    max-height: 25%;
+    width: 67%;
+    max-width: 67%;
+
+    display: flex;
+    align-items: end;
+    justify-content: center;
+}
+
+
+.bodyContainer {
+    height: 50%;
+    max-height: 50%;
+    width: 67%;
+    max-width: 67%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.bodyContainer h3 {
+    font-size: 18px;
+    font-family: LatoLight;
+    transition: 0.3s;
+}
+.bodyContainer input {
+    margin-top: 12px;
+    width: 96%;
+}
+
+
+.buttonsContainer {
+    height: 25%;
+    max-height: 25%;
+    width: 67%;
+    max-width: 67%;
+    font-family: LatoRegular;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+.buttonsContainer button {
+    width: 140px;
+}
+.acceptButton:hover {
+    background-color: brown;
+}
+.cancelButton:hover {
+    background-color: var(--black-gray-3);
+}

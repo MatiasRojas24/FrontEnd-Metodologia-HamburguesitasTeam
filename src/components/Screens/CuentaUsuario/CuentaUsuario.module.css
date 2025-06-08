@@ -164,7 +164,10 @@
     max-height: 100%;
 
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    gap: 16px;
 }
 .buttonContainer button {
     font-family: latoBold;
@@ -175,8 +178,13 @@
     color: var(--black-gray);
     font-size: 18px;
 }
-.buttonContainer button:hover {
+.buttonModificateUser:hover {
     border-color: var(--black-gray-2);
     background-color: var(--black-gray-2);
     color: var(--white-gray-2);
+}
+.buttonDeleteAccount:hover {
+    border: 2px solid rgb(212, 52, 52);
+    background-color: var(--dark-red);
+    color: var(--white-gray);
 }
