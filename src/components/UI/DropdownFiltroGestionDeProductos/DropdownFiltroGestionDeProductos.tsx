@@ -34,10 +34,10 @@ export const DropdownFiltroGestionDeProductos: FC<IDropdownFiltroGestionDeProduc
                 <input type='text' autoComplete='off' name='nombre' value={filtros.nombre} onChange={handleChange} />
             </div>
             <div className={styles.inputFiltroContainer}>
-                <label htmlFor='catalogo'>
+                <label htmlFor='idCatalogo'>
                     Categoría
                 </label>
-                <select name='catalogo' value={filtros.idCatalogo ?? 'null'} onChange={handleChange}>
+                <select name='idCatalogo' value={filtros.idCatalogo ?? 'null'} onChange={handleChange}>
                     <option value="null">Todas</option>
                     {catalogos.map((catalogo) => (
                         <option key={catalogo.id} value={catalogo.id}>{catalogo.nombre}</option>

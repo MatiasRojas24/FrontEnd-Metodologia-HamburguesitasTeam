@@ -18,12 +18,12 @@ export const GestionDeProductos = () => {
     const [openModalCrearCategoria, setOpenModalCrearCategoria] = useState(false)
     const [openModalCrearProducto, setOpenModalCrearProducto] = useState(false)
     const [filtros, setFiltros] = useState<IFiltroProducto>(initialFilter)
-    const [ cargandoProducto ,setCargandoProducto ] = useState<boolean>(true)
+    const [cargandoProducto, setCargandoProducto] = useState<boolean>(true)
 
     const { setProductoActivo } = productoStore()
     const productos = productoStore((state) => state.productos)
 
-    const { getProductos } = useProducto()
+    const { getProductos, filtrarProductos } = useProducto()
 
     useEffect(() => {
         setProductoActivo(null)
@@ -36,8 +36,14 @@ export const GestionDeProductos = () => {
 
     useEffect(() => {
         handleTraerProductos()
-    }, [productos])
+    }, [])
 
+    const handleFiltrarProductos = async () => {
+        await filtrarProductos(filtros)
+    }
+    useEffect(() => {
+        handleFiltrarProductos()
+    }, [filtros])
     if (cargandoProducto) return <PantallaCarga />
 
     return (

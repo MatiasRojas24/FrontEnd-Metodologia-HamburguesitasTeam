@@ -10,6 +10,7 @@ import { ModalDescuentos } from '../../UI/ModalDescuentos/ModalDescuentos'
 import { ModalCrearDetalleProducto } from '../../UI/ModalCrearDetalleProducto/ModalCrearDetalleProducto'
 import { detalleProductoStore } from '../../../store/detalleProductoStore'
 import { useDetalleProducto } from '../../../hooks/useDetalleProducto'
+import { imagenStore } from '../../../store/imagenStore'
 
 export const GestionDetalleProducto = () => {
     const { getProductoById } = useProducto()
@@ -20,11 +21,15 @@ export const GestionDetalleProducto = () => {
     const [openModalDescuentos, setOpenModalDescuentos] = useState(false)
     const [openModalCrearDetalleProducto, setOpenModalCrearDetalleProducto] = useState(false)
 
+    const { setImagenesDetalle } = imagenStore()
     const detallesDeProducto = detalleProductoStore((state) => state.detallesDeProducto)
     const { getDetallesDeProducto } = useDetalleProducto()
+    const { setDetallesDeProducto } = detalleProductoStore()
 
     const handleGoBackToProductos = () => {
         setProductoActivo(null)
+        setImagenesDetalle([])
+        setDetallesDeProducto([])
         navigateTo('/gestion-de-productos')
     }
 
@@ -35,6 +40,8 @@ export const GestionDetalleProducto = () => {
             setProductoActivo(persistedProduct!)
             getDetallesDeProducto(productoActivo!.id!)
         } else {
+            setImagenesDetalle([])
+            setDetallesDeProducto([])
             navigateTo('/gestion-de-productos')
         }
     }

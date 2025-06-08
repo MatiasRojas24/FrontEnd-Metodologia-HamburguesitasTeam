@@ -3,7 +3,7 @@
     top: 12vh; /* Lo mantiene en la parte superior */
     left: 100%; /* Lo centra horizontalmente */
     transform: translateX(-100%); /* Ajusta el centrado */
-
+    width: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -22,7 +22,9 @@
 .dropdownContainer hr {
     width: 100%;
 }
-
+.dropdownContainer p{
+    white-space: nowrap;
+}
 .dropdownContainer p:hover {
     cursor: pointer;
     text-decoration: underline;

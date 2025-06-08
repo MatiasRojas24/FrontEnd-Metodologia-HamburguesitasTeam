@@ -4,6 +4,7 @@ import { formRegisterSchema } from './formRegister.schema'
 import { useUsuario } from '../../../hooks/useUsuario'
 import { navigateTo } from '../../../routes/navigation'
 import { useState } from 'react'
+import { CustomSwal } from '../CustomSwal/CustomSwal'
 
 export const FormRegister = () => {
     const { registerUsuarioCliente } = useUsuario()
@@ -19,12 +20,14 @@ export const FormRegister = () => {
             dni: "",
         }, validationSchema: formRegisterSchema,
         onSubmit: async (values) => {
+            setCargando(true)
             const success = await registerUsuarioCliente(values)
             if (success) {
                 navigateTo("/home")
             } else {
-                alert("Datos inválidos. Puede que el nombre de usuario ya esté en uso")
+                CustomSwal.fire('Datos inválidos', 'Puede que el nombre de usuario ya esté en uso', 'error')
             }
+            setCargando(false)
         }
     })
     return (
@@ -110,15 +113,15 @@ export const FormRegister = () => {
                 </div>
             </div>
             <div className={styles.containerButtons}>
+                <button disabled={cargando} className={styles.cancelButton} onClick={() => { navigateTo("/home") }}>
+                    Cancelar
+                </button>
                 <button
                     type='submit'
                     className={styles.acceptButton}
-                    disabled={!(formik.isValid && formik.dirty)}
+                    disabled={!(formik.isValid && formik.dirty) || cargando}
                 >
                     Crear cuenta
-                </button>
-                <button className={styles.cancelButton} onClick={() => { navigateTo("/home") }}>
-                    Cancelar
                 </button>
             </div>
         </form>

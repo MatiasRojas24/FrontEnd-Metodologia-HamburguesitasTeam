@@ -11,7 +11,6 @@ export const AdminRoutes = () => {
                 <Route path='/gestion-de-productos' element={<GestionDeProductos />} />
                 <Route path='/gestion-de-productos/detalle' element={<GestionDetalleProducto />} />
                 <Route path='/gestion-de-cuentas' element={<CuentasAdmin />} />
-                <Route path='/browser-page' element={<BrowserPage/>} />
             </Routes>
         </>
     )

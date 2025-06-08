@@ -1,12 +1,13 @@
 import Logo from "../../../assets/img/Logo.png";
 import styles from "./Navbar.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usuarioStore } from "../../../store/usuarioStore";
 import { Login } from "../Login/Login";
 import { DropdownAdminOptions } from "../DropdownAdminOptions/DropdownAdminOptions";
 import { DropdownUserOptions } from "../DropdownUserOptions/DropdownUserOptions";
 import { CarritoModal } from "../CarritoModal/CarritoModal";
 import { navigateTo } from "../../../routes/navigation";
+import { SlideNotification } from "../SlideNotification/SlideNotification";
 
 export const NavBar = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -14,6 +15,7 @@ export const NavBar = () => {
   const [openDropdownAdminOptions, setOpenDropdownAdminOptions] = useState(false);
   const [openDropdownUserOptions, setOpenDropdownUserOptions] = useState(false);
   const [openCarritoModal, setOpenCarritoModal] = useState(false)
+  const [mensajeNotificacion, setMensajeNotificacion] = useState<string | null>(null);
 
   const setUsuarioLogeado = usuarioStore((state) => state.setUsuarioLogeado)
   const usuarioLogged = usuarioStore((state) => state.usuarioLogeado)
@@ -27,6 +29,21 @@ export const NavBar = () => {
     justifyContent: "center",
   };
 
+
+  useEffect(() => {
+    if (usuarioLogged) {
+      setMensajeNotificacion(`Accediste como: ${usuarioLogged.username}`);
+    }
+  }, [usuarioLogged]);
+  useEffect(() => {
+    if (!mensajeNotificacion) return;
+    const timeout = setTimeout(() => {
+      setMensajeNotificacion(null);
+    }, 3500);
+    return () => clearTimeout(timeout);
+  }, [mensajeNotificacion]);
+
+
   const handlePersonIcon = () => {
     setIsLogin(true)
   }
@@ -34,17 +51,13 @@ export const NavBar = () => {
     localStorage.removeItem("token")
     setUsuarioLogeado(null)
     localStorage.removeItem('usuarioLogeado')
+    setMensajeNotificacion("Se ha cerrado la sesión");
   }
 
   const handleNavigateToHome = () => {
     navigateTo("/home")
   }
 
-  const handleGoToCuentaUsuario = () => { // ===> y esto¿?????????????
-    setOpenDropdownUserOptions(false)
-    navigateTo("/cuenta-del-usuario")
-  }
-  
   return (
     <nav className={styles.navbarContainer}>
       <div className={styles.navbarLogoSegment}>
@@ -123,6 +136,7 @@ export const NavBar = () => {
         {openDropdownUserOptions && <DropdownUserOptions setOpenDropdownUserOptions={setOpenDropdownUserOptions} />}
         {openCarritoModal && <CarritoModal setOpenCarritoModal={setOpenCarritoModal} />}
       </div>
+      {mensajeNotificacion && <SlideNotification mensaje={mensajeNotificacion} />}
     </nav>
   );
 };

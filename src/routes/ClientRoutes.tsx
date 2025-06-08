@@ -1,4 +1,4 @@
-import { CuentaUsuario } from '../components/Screens/CuentaUsuario/CuentaUsuario'
+import { CuentaUsuario } from "../components/screens/CuentaUsuario/CuentaUsuario"
 import { Route, Routes } from 'react-router-dom'
 
 export const ClientRoutes = () => {

@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styles from "./Login.module.css";
-import { type FC } from "react";
+import { useState, type FC } from "react";
 import { useUsuario } from "../../../hooks/useUsuario";
 import { navigateTo } from "../../../routes/navigation";
 
@@ -11,6 +11,7 @@ type IPropsLogin = {
 
 export const Login: FC<IPropsLogin> = ({ setIsLogin }) => {
 
+  const [cargando, setCargando] = useState(false)
   // HOOKS
   const { loginUsuario } = useUsuario();
 
@@ -27,16 +28,18 @@ export const Login: FC<IPropsLogin> = ({ setIsLogin }) => {
       password: "",
     },
     validationSchema: Yup.object({
-      username: Yup.string().required("Requerido"),
-      password: Yup.string().required("Requerido"),
+      username: Yup.string().required("Requerido").min(2, 'Requerido'),
+      password: Yup.string().required("Requerido").min(2, 'Requerido'),
     }),
     onSubmit: async (values) => {
+      setCargando(true)
       const success = await loginUsuario(values);
       if (success) {
         setIsLogin(false);
       } else {
         alert("Usuario o contraseña incorrectos");
       }
+      setCargando(false)
     },
   });
 
@@ -49,31 +52,35 @@ export const Login: FC<IPropsLogin> = ({ setIsLogin }) => {
         </div>
 
         <div className={styles.inputsContainer}>
-          <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.username}
-            autoComplete="off"
-          />
-          {formik.touched.username && formik.errors.username && (
-            <div className={styles.error}>{formik.errors.username}</div>
-          )}
+          <div className={styles.inputWrapper}>
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.username}
+              autoComplete="off"
+            />
+            {formik.touched.username && formik.errors.username && (
+              <div className={styles.error}>{formik.errors.username}</div>
+            )}
+          </div>
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Contraseña"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.password}
-            autoComplete="off"
-          />
-          {formik.touched.password && formik.errors.password && (
-            <div className={styles.error}>{formik.errors.password}</div>
-          )}
+          <div className={styles.inputWrapper}>
+            <input
+              type="password"
+              name="password"
+              placeholder="Contraseña"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+              autoComplete="off"
+            />
+            {formik.touched.password && formik.errors.password && (
+              <div className={styles.error}>{formik.errors.password}</div>
+            )}
+          </div>
         </div>
 
         <div className={styles.buttonsContainer}>
@@ -81,10 +88,11 @@ export const Login: FC<IPropsLogin> = ({ setIsLogin }) => {
             type="button"
             className={styles.cancelButton}
             onClick={() => setIsLogin(false)}
+            disabled={cargando}
           >
             Cancelar
           </button>
-          <button type="submit" className={styles.acceptButton}>
+          <button type="submit" className={styles.acceptButton} disabled={!(formik.dirty && formik.isValid) || cargando}>
             Acceder
           </button>
         </div>

@@ -79,6 +79,7 @@ export const useProducto = () => {
     const enableUnableProducto = async (idProducto: string): Promise<void> => {
         try {
             await toggleHabilitadoHttp(idProducto)
+            await getProductos()
         } catch (error) {
             console.error("Error en enableUnableProducto: ", error)
         }
@@ -117,7 +118,7 @@ export const useProducto = () => {
             console.error("Error en filtrarProductos: ", error)
         }
     }
-    
+
     return {
         getProductos,
         getProductosHabilitados,
@@ -127,6 +128,6 @@ export const useProducto = () => {
         enableUnableProducto,
         deleteProducto,
         filtrarProductos,
-    
+
     }
 }

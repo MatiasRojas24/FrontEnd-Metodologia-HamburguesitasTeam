@@ -51,7 +51,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10%;
+    gap: 15%;
+}
+.inputWrapper {
+    position: relative;
+    width: 100%;
 }
 .inputsContainer input {
     padding: 0px 5px 0px 5px;
@@ -83,9 +87,20 @@
     background-color: var(--white-gray-3);
     transition: 0.4s;
 }
+.buttonsContainer button:disabled {
+    background-color: #ccc;
+    border-radius: 1px;
+    color: white;
+    opacity: .8;
+}
+.buttonsContainer button:disabled:hover {
+    cursor: not-allowed;
+}
 .error{
+    position: absolute;
     width: fit-content;
     height: fit-content;
+    color: red;
     padding: 0;
     font-size: 12px;
 }
