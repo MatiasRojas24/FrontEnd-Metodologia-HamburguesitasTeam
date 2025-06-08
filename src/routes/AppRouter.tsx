@@ -20,7 +20,9 @@ export const AppRouter = () => {
   const { getUsuarioById } = useUsuario();
   const [cargandoUsuario, setCargandoUsuario] = useState(true);
 
-  const [mensajeNotificacion, setMensajeNotificacion] = useState<string | null>(null);
+  const [mensajeNotificacion, setMensajeNotificacion] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     if (!mensajeNotificacion) return;
@@ -33,8 +35,16 @@ export const AppRouter = () => {
   const location = useLocation();
   // Si intenta acceder a rutas protegidas sin usuario, seteamos mensaje
   useEffect(() => {
-    const rutasProtegidas = ["/gestion-de-productos", "/gestion-de-productos/detalle", "/gestion-de-cuentas", "/cuenta-de-usuario", '/carrito'];
-    const esRutaProtegida = rutasProtegidas.some((ruta) => location.pathname.startsWith(ruta));
+    const rutasProtegidas = [
+      "/gestion-de-productos",
+      "/gestion-de-productos/detalle",
+      "/gestion-de-cuentas",
+      "/cuenta-de-usuario",
+      "/carrito",
+    ];
+    const esRutaProtegida = rutasProtegidas.some((ruta) =>
+      location.pathname.startsWith(ruta)
+    );
     if (!usuarioLogged && esRutaProtegida) {
       setMensajeNotificacion("Inicie sesión para continuar");
     }
@@ -101,8 +111,9 @@ export const AppRouter = () => {
         />
       </Routes>
       {!ocultarFooter && <Footer />}
-      {mensajeNotificacion && <SlideNotification mensaje={mensajeNotificacion} />}
+      {mensajeNotificacion && (
+        <SlideNotification mensaje={mensajeNotificacion} />
+      )}
     </>
   );
 };
-

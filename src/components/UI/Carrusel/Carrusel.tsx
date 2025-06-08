@@ -1,57 +1,96 @@
-import { useState } from "react";
-import { Container, Row, Col, Button, Card } from "react-bootstrap";
+import React, { useState, useRef } from "react";
+import { Button } from "react-bootstrap";
 import styles from "./Carrusel.module.css";
+import type { IDetalleProducto } from "../../../types/IDetalleProducto";
+import { ProductCardBrowserPage } from "../ProductCardBrowserPage/ProductCardBrowserPage";
 
-const items = Array.from({ length: 10 }, () => ``);
+interface CarruselProps {
+  productos: IDetalleProducto[];
+}
 
-export const Carrusel = () => {
-  // Estados
-  const [startIndex, setStartIndex] = useState(0);
+export const Carrusel: React.FC<CarruselProps> = ({ productos }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
-  // Variables
-  const visibleCount = 4;
-  const visibleItems = items.slice(startIndex, startIndex + visibleCount);
+  const itemsPerView = 4;
 
-  // Funciones de accion
+  // Duplicar productos si son menos que itemsPerView
+  const productosExtendidos =
+    productos.length < itemsPerView
+      ? [...productos, ...productos, ...productos].slice(
+          0,
+          Math.max(itemsPerView, productos.length * 2)
+        )
+      : productos;
+
+  const maxIndex = Math.max(0, productosExtendidos.length - itemsPerView);
+
   const handlePrev = () => {
-    if (startIndex > 0) {
-      setStartIndex(startIndex - 1);
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+      carouselRef.current?.scrollBy({
+        left: -carouselRef.current.offsetWidth / itemsPerView,
+        behavior: "smooth",
+      });
     }
   };
 
   const handleNext = () => {
-    if (startIndex + visibleCount < items.length) {
-      setStartIndex(startIndex + 1);
+    if (currentIndex < maxIndex) {
+      setCurrentIndex(currentIndex + 1);
+      carouselRef.current?.scrollBy({
+        left: carouselRef.current.offsetWidth / itemsPerView,
+        behavior: "smooth",
+      });
     }
   };
 
   return (
-    <Container className={styles.componentCarrusel}>
+    <div className={styles.componentCarrusel}>
       <Button
         variant="outline-secondary"
         onClick={handlePrev}
-        disabled={startIndex === 0}
+        disabled={currentIndex === 0}
+        className={styles.navButton}
       >
-        <i className="bi bi-caret-left-fill" style={{ color: "#1F1F1F" }}></i>
+        <i className="bi bi-caret-left-fill"></i>
       </Button>
 
-      <Row className={styles.row} style={{ width: "100%" }}>
-        {visibleItems.map((item, idx) => (
-          <Col className={styles.col} key={idx} xs={3}>
-            <Card>
-              <Card.Body className={styles.cardBody}>{item}</Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+      <div className={styles.carouselContainer}>
+        <div ref={carouselRef} className={styles.carouselTrack}>
+          {productosExtendidos.length > 0 ? (
+            productosExtendidos.map((producto, index) => {
+              const isLastVisible = index === currentIndex + itemsPerView - 1;
+
+              return (
+                <div
+                  key={`${producto.id}-${index}`}
+                  className={`${styles.carouselItem} ${
+                    isLastVisible ? styles.lastVisibleItem : ""
+                  }`}
+                >
+                  <ProductCardBrowserPage
+                    detalleProductoHabilitado={producto}
+                  />
+                </div>
+              );
+            })
+          ) : (
+            <div className={styles.noProducts}>
+              <p>No hay productos disponibles</p>
+            </div>
+          )}
+        </div>
+      </div>
 
       <Button
         variant="outline-secondary"
         onClick={handleNext}
-        disabled={startIndex + visibleCount >= items.length}
+        disabled={currentIndex >= maxIndex}
+        className={styles.navButton}
       >
-        <i className="bi bi-caret-right-fill" style={{ color: "#1F1F1F" }}></i>
+        <i className="bi bi-caret-right-fill"></i>
       </Button>
-    </Container>
+    </div>
   );
 };

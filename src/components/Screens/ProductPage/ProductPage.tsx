@@ -87,8 +87,6 @@ export const ProductPage = () => {
       <div className={styles.productosSimilaresContainer}>
         <h2>Productos Similares</h2>
         <hr />
-
-        {/* Este carrusel podrías filtrarlo por tipo y sexo usando detalleProducto.producto.tipo y .sexo */}
       </div>
     </div>
   );
