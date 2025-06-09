@@ -6,7 +6,7 @@ import { direccionStore } from '../../../store/direccionStore'
 import { usuarioStore } from '../../../store/usuarioStore'
 import { ModalModificarUsuario } from '../../UI/ModalModificarUsuario/ModalModificarUsuario'
 import { useUsuario } from '../../../hooks/useUsuario'
-import { PantallaCarga } from '../PantallaCarga/PantallaCarga'
+import { PantallaCarga } from '../../Screens/PantallaCarga/PantallaCarga'
 import { ModalDeleteAccount } from '../../UI/ModalDeleteAccount/ModalDeleteAccount'
 
 export const CuentaUsuario = () => {
@@ -84,7 +84,7 @@ export const CuentaUsuario = () => {
                     <button className={styles.buttonDeleteAccount} onClick={handleDeleteAccount}>Eliminar cuenta</button>
                 </div>
 
-                {isModalDirection && <ModalDirection setIsModal={setIsModalDirection} direccionActiva={direccionActiva} usuarioLogeado={usuarioLogeado} />}
+                {isModalDirection && <ModalDirection setIsModal={setIsModalDirection} direccionActiva={direccionActiva} usuarioLogeado={usuarioLogeado}/>}
                 {isModificarUsuario && <ModalModificarUsuario usuarioLogeado={usuarioLogeado} setIsModificarUsuario={setIsModificarUsuario} />}
                 {isDeleteAccount && <ModalDeleteAccount setIsDeleteAccount={setIsDeleteAccount} idUsuario={usuarioLogeado?.id} />}
             </div>

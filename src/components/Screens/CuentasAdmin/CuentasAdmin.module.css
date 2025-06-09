@@ -58,7 +58,7 @@
 .accountCard {
     background-color: var(--black-gray);
     min-height: 140px;
-    width: 770px;
+    width: 100%;
     padding: 2% 3% 2% 5%;
     box-sizing: border-box;
     color: white;

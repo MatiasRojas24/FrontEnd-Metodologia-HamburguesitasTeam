@@ -62,7 +62,7 @@ button:hover {
 /* Estilo cuando el botón está deshabilitado */
 button:disabled {
     background-color: var(--white-gray-3);
-    color: black;
+    color: var(--black-gray);
     cursor: auto;
     transform: none;
 }

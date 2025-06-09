@@ -17,7 +17,7 @@
 /*CONTENEDOR DEL MODAL*/
 .modalContainer {
     background-color: var(--black-gray);
-    height: 500px;
+    height: 400px;
     width: 450px;
     color: white;
 
@@ -50,15 +50,16 @@
     width: 70%;
     max-width: 70%;
     height: 60%;
+    padding-top: 3%;
+    box-sizing: border-box;
 
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: end;
+    justify-content: center;
+    gap: 5%;
 }
 .item {
-    height: 18%;
-    max-height: 18%;
     width: 90%;
 
     display: flex;
@@ -67,14 +68,12 @@
 }
 .item p {
     border-bottom: 1px solid var(--white-gray-3);
-    height: 35%;
     width: 100%;
 }
 .item input {
     background-color: var(--black-gray-2);
     border: 1px solid var(--white-gray-3);
     border-radius: 3px;
-    height: 100%;
     max-height: 24px;
     width: 100%;
     caret-color: white;

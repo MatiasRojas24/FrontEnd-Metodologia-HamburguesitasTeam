@@ -6,6 +6,7 @@
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
     font-family: latoRegular;
+    z-index: 9999;
 
     display: flex;
     align-items: center;

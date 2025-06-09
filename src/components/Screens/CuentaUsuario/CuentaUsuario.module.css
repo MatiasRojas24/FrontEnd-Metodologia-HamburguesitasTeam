@@ -125,8 +125,7 @@
     justify-content: space-between;
 }
 .sectionContainer_B i {
-    color: var(--black-gray);
-    font-size: 24px;
+    font-size: 1.3rem;
 }
 .sectionContainer_B i:hover {
     cursor: pointer;
