@@ -39,11 +39,23 @@ export const BrowserPage = () => {
 
   useEffect(() => {
     if (tipoProductoParam) {
-      actualizarFiltro({ tipoProducto: tipoProductoParam });
+      if (tipoProductoParam === "ROPA") {
+        const productosFiltrados = detalleProductoHabilitado.filter(
+          (dp) =>
+            dp.producto.tipoProducto === "REMERA" ||
+            dp.producto.tipoProducto === "PANTALON" ||
+            dp.producto.tipoProducto === "CAMPERA"
+        );
+        detalleProductoStore
+          .getState()
+          .setDetallesProductosHabilitados(productosFiltrados);
+      } else {
+        actualizarFiltro({ tipoProducto: tipoProductoParam });
+      }
     } else {
       filtrarDetalleProducto({});
     }
-  }, []);
+  }, [tipoProductoParam]);
 
   const handleSexoChange = (e: ChangeEvent<HTMLInputElement>) => {
     actualizarFiltro({ sexo: e.target.value });

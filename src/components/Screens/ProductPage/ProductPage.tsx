@@ -1,18 +1,30 @@
 import styles from "./ProductPage.module.css";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-
+import { Carrusel } from "../../UI/Carrusel/Carrusel";
 import { getDetalleProductoByIdHttp } from "../../../http/detalleProductoHttp";
 import { getImagenesByDetalleProductoIdHttp } from "../../../http/imagenHttp";
-
+import { useDetalleProducto } from "../../../hooks/useDetalleProducto";
+import { detalleProductoStore } from "../../../store/detalleProductoStore";
+import { useSearchParams } from "react-router-dom";
 import type { IDetalleProducto } from "../../../types/IDetalleProducto";
 import type { IImagen } from "../../../types/IImagen";
 
 export const ProductPage = () => {
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const tipoProductoParam = searchParams.get("tipoProducto") ?? "";
   const [detalleProducto, setDetalleProducto] =
     useState<IDetalleProducto | null>(null);
   const [imagenes, setImagenes] = useState<IImagen[]>([]);
+  const { getDetallesProductosHabilitados, filtrarDetalleProducto } =
+    useDetalleProducto();
+  const detalleProductoHabilitado = detalleProductoStore(
+    (state) => state.detallesProductosHabilitados
+  );
+  const [productosSimilares, setProductosSimilares] = useState<
+    IDetalleProducto[]
+  >([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,11 +40,52 @@ export const ProductPage = () => {
         if (imagenesData) {
           setImagenes(imagenesData);
         }
+
+        const tipoProducto = detalle.producto.tipoProducto || tipoProductoParam;
+        if (tipoProducto) {
+          await getDetallesProductosHabilitados();
+          filtrarDetalleProducto({ tipoProducto });
+          if (detalleProductoHabilitado.length > 0) {
+            const similares = getProductosSimilares(
+              detalle,
+              detalleProductoHabilitado
+            );
+            setProductosSimilares(similares);
+          }
+        }
       }
     };
 
     fetchData();
-  }, [id]);
+  }, [
+    id,
+    getDetallesProductosHabilitados,
+    filtrarDetalleProducto,
+    tipoProductoParam,
+  ]);
+
+  const getProductosSimilares = (
+    producto: IDetalleProducto,
+    todosProductos: IDetalleProducto[]
+  ): IDetalleProducto[] => {
+    const maxSimilares = 8;
+    console.log(
+      "Filtrando productos similares para tipo:",
+      producto.producto.tipoProducto
+    );
+    console.log("Productos disponibles:", todosProductos);
+    const similares = todosProductos.filter(
+      (p) =>
+        p.id !== producto.id &&
+        p.producto.tipoProducto === producto.producto.tipoProducto
+    );
+    const uniqueSimilares = Array.from(new Set(similares.map((p) => p.id))).map(
+      (id) => similares.find((p) => p.id === id)!
+    );
+    const shuffled = [...uniqueSimilares].sort(() => Math.random() - 0.5);
+    console.log("Productos similares encontrados:", shuffled);
+    return shuffled.slice(0, Math.min(maxSimilares, shuffled.length));
+  };
 
   if (!detalleProducto) return <p>Cargando producto...</p>;
 
@@ -87,6 +140,7 @@ export const ProductPage = () => {
       <div className={styles.productosSimilaresContainer}>
         <h2>Productos Similares</h2>
         <hr />
+        <Carrusel productos={productosSimilares} />
       </div>
     </div>
   );
