@@ -1,47 +1,47 @@
 .componentCarrusel {
-  width: 100%; /* Ajuste para adaptarse al contenedor padre */
-  max-width: 1300px; /* Límite máximo para mantener diseño */
-  margin: 20px auto 50px; /* Centrado horizontal */
+  width: 100%;
+  max-width: 1300px;
+  margin: 20px auto 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 0 20px; /* Margen lateral para botones */
+  padding: 0 20px;
 }
 
 .carouselContainer {
   overflow: hidden;
   flex: 1;
-  width: 100%; /* Asegura que ocupe el contenedor */
+  width: 100%;
 }
 
 .carouselTrack {
   display: flex;
-  justify-content: center; /* Centrar el bloque de ítems */
+  justify-content: center;
   transition: transform 0.3s ease-in-out;
   width: 100%;
-  padding: 0 20px; /* Padding lateral para espacio uniforme */
+  padding: 0 20px;
   box-sizing: border-box;
 }
 
 .carouselInner {
   display: flex;
-  width: max-content; /* Ajustar al contenido */
-  gap: 0.8rem; /* Espacio uniforme entre ítems */
+  width: max-content;
+  gap: 0.8rem;
 }
 
 .carouselItem {
-  flex: 0 0 24%; /* Ancho fijo para cada ítem (100% / 5 ítems ajustados) */
+  flex: 0 0 24%;
   box-sizing: border-box;
-  min-width: 0; /* Evitar que se desborde */
+  min-width: 0;
 }
 
 .carouselItem:first-child {
-  padding-left: 0; /* Eliminar padding desigual */
+  padding-left: 0;
 }
 
 .carouselItem:last-child {
-  padding-right: 0; /* Eliminar padding desigual */
+  padding-right: 0;
 }
 
 .navButton {
@@ -58,20 +58,20 @@
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
   border-radius: 50%;
   transition: background-color 0.2s;
-  position: absolute; /* Posicionar absolutamente */
+  position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 10; /* Asegurar que esté encima de los ítems */
+  z-index: 10;
 }
 
 .navButton:first-child {
-  left: 0; /* Ajustar al borde izquierdo */
-  margin-left: 10px; /* Espacio para evitar superposición */
+  left: 0;
+  margin-left: 10px;
 }
 
 .navButton:last-child {
-  right: 0; /* Ajustar al borde derecho */
-  margin-right: 10px; /* Espacio para evitar superposición */
+  right: 0;
+  margin-right: 10px;
 }
 
 .navButton:hover:not(:disabled) {

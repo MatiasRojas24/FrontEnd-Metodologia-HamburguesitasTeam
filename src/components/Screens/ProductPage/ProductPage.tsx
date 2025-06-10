@@ -64,7 +64,6 @@ export const ProductPage = () => {
     tipoProductoParam,
   ]);
 
-  // Función para obtener productos similares sin duplicados
   const getProductosSimilares = (
     producto: IDetalleProducto,
     todosProductos: IDetalleProducto[]
@@ -82,7 +81,7 @@ export const ProductPage = () => {
     );
     const uniqueSimilares = Array.from(new Set(similares.map((p) => p.id))).map(
       (id) => similares.find((p) => p.id === id)!
-    ); // Eliminar duplicados por ID
+    );
     const shuffled = [...uniqueSimilares].sort(() => Math.random() - 0.5);
     console.log("Productos similares encontrados:", shuffled);
     return shuffled.slice(0, Math.min(maxSimilares, shuffled.length));

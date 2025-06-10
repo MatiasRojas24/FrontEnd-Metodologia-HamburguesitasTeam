@@ -40,7 +40,6 @@ export const BrowserPage = () => {
   useEffect(() => {
     if (tipoProductoParam) {
       if (tipoProductoParam === "ROPA") {
-        // Filtrar manualmente los tipos de ropa
         const productosFiltrados = detalleProductoHabilitado.filter(
           (dp) =>
             dp.producto.tipoProducto === "REMERA" ||
@@ -51,7 +50,6 @@ export const BrowserPage = () => {
           .getState()
           .setDetallesProductosHabilitados(productosFiltrados);
       } else {
-        // Filtrar por el tipo específico (como ZAPATILLA)
         actualizarFiltro({ tipoProducto: tipoProductoParam });
       }
     } else {

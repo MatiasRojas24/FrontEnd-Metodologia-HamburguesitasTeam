@@ -16,7 +16,7 @@
   justify-content: center;
   align-items: center;
   gap: 20px;
-  max-width: 1300px; /* Alinear con el carrusel */
+  max-width: 1300px;
   width: 100%;
 }
 
@@ -102,12 +102,11 @@
   margin: 5px 0;
 }
 
-/* Estilo específico para el carrusel en ProductPage */
 .productosSimilaresContainer .carouselItem {
-  flex: 0 0 24%; /* Mantener el ancho similar al carrusel general */
+  flex: 0 0 24%;
 }
 
 .productosSimilaresContainer .carouselItem img {
-  width: 1500px !important; /* Aumentar el tamaño de la imagen */
-  height: auto; /* Mantener proporción */
+  width: 1500px !important;
+  height: auto;
 }

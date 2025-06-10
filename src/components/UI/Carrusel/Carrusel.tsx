@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import styles from "./Carrusel.module.css";
 import type { IDetalleProducto } from "../../../types/IDetalleProducto";
 import { ProductCardBrowserPage } from "../ProductCardBrowserPage/ProductCardBrowserPage";
-import { useNavigate } from "react-router-dom"; // Para navegar al detalle
+import { useNavigate } from "react-router-dom";
 
 interface CarruselProps {
   productos: IDetalleProducto[];
@@ -16,15 +16,13 @@ export const Carrusel: React.FC<CarruselProps> = ({ productos }) => {
 
   const itemsPerView = 4;
 
-  // Mostrar solo los productos disponibles sin duplicar si son menos de itemsPerView
   const productosExtendidos =
     productos.length < itemsPerView ? productos : productos;
 
   const maxIndex = Math.max(0, productosExtendidos.length - itemsPerView);
 
-  // Fijar el carrusel en el primer producto al cargar
   useEffect(() => {
-    setCurrentIndex(0); // Iniciar en el primer producto
+    setCurrentIndex(0);
     if (carouselRef.current) {
       carouselRef.current.scrollTo({
         left: 0,
@@ -53,7 +51,6 @@ export const Carrusel: React.FC<CarruselProps> = ({ productos }) => {
     }
   };
 
-  // Función para navegar al detalle del producto seleccionado
   const handleSelectProduct = (producto: IDetalleProducto) => {
     navigate(
       `/product-page/${producto.id}?tipoProducto=${producto.producto.tipoProducto}`
@@ -79,7 +76,7 @@ export const Carrusel: React.FC<CarruselProps> = ({ productos }) => {
                 <div
                   key={`${producto.id}-${index}`}
                   className={styles.carouselItem}
-                  onClick={() => handleSelectProduct(producto)} // Seleccionar al hacer clic
+                  onClick={() => handleSelectProduct(producto)}
                 >
                   <ProductCardBrowserPage
                     detalleProductoHabilitado={producto}
