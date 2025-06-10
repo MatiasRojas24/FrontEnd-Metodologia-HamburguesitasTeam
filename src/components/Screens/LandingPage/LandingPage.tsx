@@ -65,11 +65,11 @@ export const LandingPage = () => {
   }, [detalleProductoHabilitado]);
 
   const irARopa = () => {
-    navigate("/browser-page?tipoProducto=ROPA");
+    navigate("/browser-page?tipoProducto=ROPA"); // Pasamos "ROPA" como categoría general
   };
 
   const irACalzado = () => {
-    navigate("/browser-page?tipoProducto=ZAPATILLA");
+    navigate("/browser-page?tipoProducto=ZAPATILLA"); // Solo ZAPATILLA
   };
 
   return (
