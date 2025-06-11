@@ -31,6 +31,8 @@
 }
 
 .carouselItem {
+  min-width: calc(100% / 4);
+  flex-shrink: 0;
   flex: 0 0 24%;
   box-sizing: border-box;
   min-width: 0;

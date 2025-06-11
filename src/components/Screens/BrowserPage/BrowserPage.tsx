@@ -1,3 +1,4 @@
+import React from "react"; // Añadido para resolver el error
 import { useEffect, useState, type ChangeEvent } from "react";
 import styles from "./BrowserPage.module.css";
 import { detalleProductoStore } from "../../../store/detalleProductoStore";
@@ -12,9 +13,12 @@ export const BrowserPage = () => {
   const [sexoSeleccionado, setSexoSeleccionado] = useState<string | null>(null);
   const tipoProductoParam = searchParams.get("tipoProducto") ?? "";
 
-  const [minPrecioSeleccionado, setMinPrecioSeleccionado] = useState<number | null>(null);
-  const [maxPrecioSeleccionado, setMaxPrecioSeleccionado] = useState<number | null>(null);
-
+  const [minPrecioSeleccionado, setMinPrecioSeleccionado] = useState<
+    number | null
+  >(null);
+  const [maxPrecioSeleccionado, setMaxPrecioSeleccionado] = useState<
+    number | null
+  >(null);
 
   const mapTipoToCategoria: Record<string, string> = {
     REMERA: "ROPA",
@@ -25,7 +29,9 @@ export const BrowserPage = () => {
 
   const categoria = mapTipoToCategoria[tipoProductoParam] || tipoProductoParam;
 
-  const [talleSeleccionado, setTalleSeleccionado] = useState<number | string | null>(null);
+  const [talleSeleccionado, setTalleSeleccionado] = useState<
+    number | string | null
+  >(null);
 
   const detalleProductoHabilitado = detalleProductoStore(
     (state) => state.detallesProductosHabilitados
@@ -45,29 +51,30 @@ export const BrowserPage = () => {
     const nuevoFiltro: Partial<IFiltroDetalleProducto> = {};
 
     if (tipoProductoParam) {
-      nuevoFiltro.tipoProducto = tipoProductoParam;
+      if (tipoProductoParam === "ROPA") {
+        nuevoFiltro.tipoProducto = "REMERA";
+      } else {
+        nuevoFiltro.tipoProducto = tipoProductoParam;
+      }
     }
 
     if (sexoParam) {
       nuevoFiltro.sexo = sexoParam;
+      setSexoSeleccionado(sexoParam);
     }
-    if (sexoParam) {
-    nuevoFiltro.sexo = sexoParam;
-      setSexoSeleccionado(sexoParam); 
-  }
 
     if (Object.keys(nuevoFiltro).length > 0) {
       actualizarFiltro(nuevoFiltro);
     } else {
       filtrarDetalleProducto({});
     }
-  }, [tipoProductoParam]);
+  }, [tipoProductoParam, sexoParam]);
 
   const handleSexoChange = (e: ChangeEvent<HTMLInputElement>) => {
-  const nuevoSexo = e.target.value;
-  setSexoSeleccionado(nuevoSexo);
-  actualizarFiltro({ sexo: nuevoSexo });
-};
+    const nuevoSexo = e.target.value;
+    setSexoSeleccionado(nuevoSexo);
+    actualizarFiltro({ sexo: nuevoSexo });
+  };
 
   const handleTipoProductoChange = (e: ChangeEvent<HTMLInputElement>) => {
     actualizarFiltro({ tipoProducto: e.target.value });
@@ -87,26 +94,32 @@ export const BrowserPage = () => {
     actualizarFiltro({ maxPrecio: nuevoValor });
   };
 
-const handleTalleClick = (talle: number | string) => {
-  const detalleProduct = detalleProductoHabilitado.find(
-    (detalle) => detalle.talle.talle === talle.toString()
-  );
+  const handleTalleClick = (talle: number | string) => {
+    const detalleProduct = detalleProductoHabilitado.find(
+      (detalle) => detalle.talle.talle === talle.toString()
+    );
 
-  if (!detalleProduct) {
-    actualizarFiltro({ idTalle: "" });
-    setTalleSeleccionado(null);
-    return;
-  }
+    if (!detalleProduct) {
+      actualizarFiltro({ idTalle: "" });
+      setTalleSeleccionado(null);
+      return;
+    }
 
-  if (filtro.idTalle === detalleProduct.talle.id) {
-    actualizarFiltro({ idTalle: "" });
-    setTalleSeleccionado(null);
-  } else {
-    actualizarFiltro({ idTalle: detalleProduct.talle.id });
-    setTalleSeleccionado(talle);
-  }
-};
-  
+    if (filtro.idTalle === detalleProduct.talle.id) {
+      actualizarFiltro({ idTalle: "" });
+      setTalleSeleccionado(null);
+    } else {
+      actualizarFiltro({ idTalle: detalleProduct.talle.id });
+      setTalleSeleccionado(talle);
+    }
+  };
+
+  const tiposDisponibles =
+    tipoProductoParam === "ROPA"
+      ? ["REMERA", "PANTALON", "CAMPERA"]
+      : tipoProductoParam === "ZAPATILLA"
+      ? ["ZAPATILLA"]
+      : ["REMERA", "PANTALON", "CAMPERA", "ZAPATILLA"];
 
   return (
     <div className={styles.pageContainer}>
@@ -117,18 +130,25 @@ const handleTalleClick = (talle: number | string) => {
         <div className={styles.filtros}>
           <h3>Filtrar por</h3>
           <button
-              className={styles.resetButton}
-              onClick={() => {
-                setSexoSeleccionado(null);
-                setTalleSeleccionado(null);
-                setMinPrecioSeleccionado(null);
-                setMaxPrecioSeleccionado(null);
-                setFiltro({});
+            className={styles.resetButton}
+            onClick={() => {
+              setSexoSeleccionado(null);
+              setTalleSeleccionado(null);
+              setMinPrecioSeleccionado(null);
+              setMaxPrecioSeleccionado(null);
+              setFiltro({});
+
+              if (tipoProductoParam === "ROPA") {
+                actualizarFiltro({ tipoProducto: "REMERA" });
+              } else if (tipoProductoParam === "ZAPATILLA") {
+                actualizarFiltro({ tipoProducto: "ZAPATILLA" });
+              } else {
                 filtrarDetalleProducto({});
-              }}
-            >
-              Todos los productos
-            </button>
+              }
+            }}
+          >
+            Todos los productos
+          </button>
           <h4>Genero</h4>
           <div className={styles.inputsSexo}>
             <input
@@ -162,7 +182,10 @@ const handleTalleClick = (talle: number | string) => {
           <h4>Precio</h4>
           <div className={styles.containerSelect}>
             <p>Precio mínimo</p>
-            <select onChange={handleMinPrecioChange} value={minPrecioSeleccionado ?? 0}>
+            <select
+              onChange={handleMinPrecioChange}
+              value={minPrecioSeleccionado ?? 0}
+            >
               <option value="0">0</option>
               <option value="50000">50.000</option>
               <option value="100000">100.000</option>
@@ -179,7 +202,10 @@ const handleTalleClick = (talle: number | string) => {
             </select>
 
             <p>Precio máximo</p>
-            <select onChange={handleMaxPrecioChange} value={maxPrecioSeleccionado ?? 0}>
+            <select
+              onChange={handleMaxPrecioChange}
+              value={maxPrecioSeleccionado ?? 0}
+            >
               <option value="0">0</option>
               <option value="50000">50.000</option>
               <option value="100000">100.000</option>
@@ -238,37 +264,23 @@ const handleTalleClick = (talle: number | string) => {
 
           <h4>Tipo Producto</h4>
           <div className={styles.inputsRopa}>
-            <input
-              type="radio"
-              name="tipoProducto"
-              value="ZAPATILLA"
-              onChange={handleTipoProductoChange}
-            />{" "}
-            Zapatilla
-            <br />
-            <input
-              type="radio"
-              name="tipoProducto"
-              value="REMERA"
-              onChange={handleTipoProductoChange}
-            />{" "}
-            Remera
-            <br />
-            <input
-              type="radio"
-              name="tipoProducto"
-              value="PANTALON"
-              onChange={handleTipoProductoChange}
-            />{" "}
-            Pantalon
-            <br />
-            <input
-              type="radio"
-              name="tipoProducto"
-              value="CAMPERA"
-              onChange={handleTipoProductoChange}
-            />{" "}
-            Campera
+            {tiposDisponibles.map((tipo) => (
+              <React.Fragment key={tipo}>
+                <input
+                  type="radio"
+                  name="tipoProducto"
+                  value={tipo}
+                  onChange={handleTipoProductoChange}
+                  checked={filtro.tipoProducto === tipo}
+                  disabled={
+                    tipo !== filtro.tipoProducto &&
+                    !tiposDisponibles.includes(tipo)
+                  }
+                />{" "}
+                {tipo === "ZAPATILLA" ? "Zapatilla" : tipo}
+                <br />
+              </React.Fragment>
+            ))}
           </div>
         </div>
 
