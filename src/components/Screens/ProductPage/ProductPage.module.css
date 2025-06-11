@@ -12,10 +12,12 @@
 }
 
 .mainContentContainer {
-  display: flex; /* Alinea horizontalmente las secciones principales */
+  display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
+  max-width: 1300px;
+  width: 100%;
 }
 
 .productImagesContainer {
@@ -87,8 +89,7 @@
 }
 
 .productosSimilaresContainer {
-  width: 100%;
-  max-width: 1040px;
+  width: 80%;
   text-align: left;
   margin-top: 60px;
 }
@@ -99,4 +100,13 @@
   background-color: black;
   border: none;
   margin: 5px 0;
+}
+
+.productosSimilaresContainer .carouselItem {
+  flex: 0 0 24%;
+}
+
+.productosSimilaresContainer .carouselItem img {
+  width: 1500px !important;
+  height: auto;
 }

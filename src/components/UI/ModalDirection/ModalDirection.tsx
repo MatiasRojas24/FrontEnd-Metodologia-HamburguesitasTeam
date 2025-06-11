@@ -58,10 +58,8 @@ export const ModalDirection: FC<IPropsModalDirection> = ({ setIsModal, direccion
                         alert("No se lograron enviar los datos, corrígelos o intentalo mas tarde")
                     }
                 } else {
-                    const direccionesUsuario = usuarioLogeado.direcciones || []; // --- > guardamos las direcciones previas a añadir la nueva por si a caso
-                    console.log(direccionesUsuario)
+                    const direccionesUsuario = (usuarioLogeado.direcciones || []).filter(d => d.habilitado===true); // --- > guardamos las direcciones previas a añadir la nueva por si a caso
                     const nuevasDireccionesUsuario = [...direccionesUsuario, values];
-                    console.log(nuevasDireccionesUsuario)
 
                     const succes = await addDireccionesToUsuario(nuevasDireccionesUsuario, usuarioLogeado?.id!)
 

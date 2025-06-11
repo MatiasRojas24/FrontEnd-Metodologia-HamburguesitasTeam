@@ -45,6 +45,7 @@ export const BrowserPage = () => {
     const nuevoFiltro: Partial<IFiltroDetalleProducto> = {};
 
     if (tipoProductoParam) {
+<<<<<<< HEAD
       nuevoFiltro.tipoProducto = tipoProductoParam;
     }
 
@@ -58,10 +59,25 @@ export const BrowserPage = () => {
 
     if (Object.keys(nuevoFiltro).length > 0) {
       actualizarFiltro(nuevoFiltro);
+=======
+      if (tipoProductoParam === "ROPA") {
+        const productosFiltrados = detalleProductoHabilitado.filter(
+          (dp) =>
+            dp.producto.tipoProducto === "REMERA" ||
+            dp.producto.tipoProducto === "PANTALON" ||
+            dp.producto.tipoProducto === "CAMPERA"
+        );
+        detalleProductoStore
+          .getState()
+          .setDetallesProductosHabilitados(productosFiltrados);
+      } else {
+        actualizarFiltro({ tipoProducto: tipoProductoParam });
+      }
+>>>>>>> 4d3a2ebcbd9789f1869d3bf9903c7664c3fc61c0
     } else {
       filtrarDetalleProducto({});
     }
-  }, []);
+  }, [tipoProductoParam]);
 
   const handleSexoChange = (e: ChangeEvent<HTMLInputElement>) => {
     actualizarFiltro({ sexo: e.target.value });

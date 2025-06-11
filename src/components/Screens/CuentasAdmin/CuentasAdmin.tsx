@@ -7,6 +7,9 @@ import Swal from 'sweetalert2'
 import type { IUsuario } from '../../../types/IUsuario'
 import { useShallow } from 'zustand/shallow'
 import { PantallaCarga } from '../PantallaCarga/PantallaCarga'
+import { useWaitingAction } from '../../../hooks/useWaiting'
+import { PantallaCargaAlternativa } from '../PantallaCargaAlternativa/PantallaCargaAlternativa'
+import { navigateTo } from '../../../routes/navigation'
 
 export const CuentasAdmin = () => {
   // Estados locales
@@ -15,7 +18,7 @@ export const CuentasAdmin = () => {
 
 
   // STORE
-  const { usuarios, setUsuarioActivo, usuarioActivo, usuarioLogeado } = usuarioStore(useShallow((state)=>({
+  const { usuarios, setUsuarioActivo, usuarioActivo, usuarioLogeado } = usuarioStore(useShallow((state) => ({
     usuarios: state.usuarios,
     setUsuarioActivo: state.setUsuarioActivo,
     usuarioActivo: state.usuarioActivo,
@@ -26,13 +29,15 @@ export const CuentasAdmin = () => {
 
   // HOOKS
   const { getUsuarios, deleteUsuario } = useUsuario()
+  const { isLoading, setIsLoading } = useWaitingAction()
+  const setUsuarioLogeado = usuarioStore((state) => state.setUsuarioLogeado)
 
   const handleTraerUsuarios = async () => {
     await getUsuarios()
     setCargandoUsuarios(false)
   }
 
-  useEffect( () => {
+  useEffect(() => {
     handleTraerUsuarios()
   }, [usuarioLogeado])
 
@@ -55,52 +60,64 @@ export const CuentasAdmin = () => {
       showCancelButton: true,
       confirmButtonText: "Sí, eliminar",
       cancelButtonText: "Cancelar"
-    }).then((result) => {
+    }).then( async(result) => {
       if (result.isConfirmed) {
         if (usuarioActivo.id) {
-          deleteUsuario(usuarioActivo.id)
+          setIsLoading(true)
+          await deleteUsuario(usuarioActivo.id)
+
+          if (usuarioActivo.id === localStorage.getItem("usuarioLogeado")) {
+            localStorage.removeItem('token')
+            localStorage.removeItem('usuarioLogeado')
+            setUsuarioLogeado(null)
+            navigateTo("/home")
+          }
         } else {
           Swal.fire("Error", "Hay un error con el ID del usuario y no puedo eliminarse", "error")
         }
+
+        setIsLoading(false)
       } else {
-        console.log("Cancelado");
+        alert("Algo salio mal al eliminar el usuario, intentalo mas tarde");
+        setIsLoading(false)
       }
     });
   }
-
+  
   if (cargandoUsuarios) return <PantallaCarga />;
 
   return (
     <div className={styles.pageContainer}>
-        <div className={styles.accounts}>
-          <h2>ADMINISTRADORES</h2>
-          <div className={styles.accountCardsContainer}>
-            {usuariosAdmin.map((usuario) =>
-              <div key={usuario.id} className={styles.accountCard}>
-                <div className={styles.cardInfo}>
-                  <div>
-                    <h3>Administrador:</h3>
-                    <p>{usuario.nombre}</p>
-                  </div>
-                  <div>
-                    <h3>Email:</h3>
-                    <p>{usuario.email}</p>
-                  </div>
+      <div className={styles.accounts}>
+        <h2>ADMINISTRADORES</h2>
+        <div className={styles.accountCardsContainer}>
+          {usuariosAdmin.map((usuario) =>
+            <div key={usuario.id} className={styles.accountCard}>
+              <div className={styles.cardInfo}>
+                <div>
+                  <h3>Administrador:</h3>
+                  <p>{usuario.nombre}</p>
                 </div>
-                <div className={styles.butonsContainer}>
-                  <i className="bi bi-pencil-square" onClick={() => handleOpenEdit(usuario)}></i>
-                  <i className="bi bi-trash" onClick={() => handleDelete(usuario)}></i>
+                <div>
+                  <h3>Email:</h3>
+                  <p>{usuario.email}</p>
                 </div>
               </div>
-            )}
-          </div>
+              <div className={styles.butonsContainer}>
+                <i className="bi bi-pencil-square" onClick={() => handleOpenEdit(usuario)}></i>
+                <i className="bi bi-trash" onClick={() => handleDelete(usuario)}></i>
+              </div>
+            </div>
+          )}
         </div>
+      </div>
 
-        <div className={styles.addAccountContainer}>
-            <button onClick={handleOpenModal}>Agregar administrador</button>
-        </div>
+      <div className={styles.addAccountContainer}>
+        <button onClick={handleOpenModal}>Agregar administrador</button>
+      </div>
 
-        {isModal && <ModalAddAdministrador setIsModal={setIsModal} setUsuarioActivo={setUsuarioActivo} usuarioActivo={usuarioActivo}/>}
+      {isModal && <ModalAddAdministrador setIsModal={setIsModal} setUsuarioActivo={setUsuarioActivo} usuarioActivo={usuarioActivo} />}
+      {isLoading && <PantallaCargaAlternativa />}
     </div>
   )
 }

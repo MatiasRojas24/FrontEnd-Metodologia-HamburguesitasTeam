@@ -7,11 +7,11 @@ import { AdminRoutes } from "./AdminRoutes";
 import { ClientRoutes } from "./ClientRoutes";
 import { useUsuario } from "../hooks/useUsuario";
 import { validateTokenHttp } from "../http/authHttp";
-import { LandingPage } from "../components/screens/LandingPage/LandingPage";
-import { Register } from "../components/screens/Register/Register";
+import { LandingPage } from "../components/Screens/LandingPage/LandingPage";
+import { Register } from "../components/Screens/Register/Register";
 import { PantallaCarga } from "../components/Screens/PantallaCarga/PantallaCarga";
 import { BrowserPage } from "../components/Screens/BrowserPage/BrowserPage";
-import { ProductPage } from "../components/screens/ProductPage/ProductPage";
+import { ProductPage } from "../components/Screens/ProductPage/ProductPage";
 import { SlideNotification } from "../components/UI/SlideNotification/SlideNotification";
 import { CarritoPage } from "../components/Screens/CarritoPage/CarritoPage";
 

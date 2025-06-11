@@ -1,5 +1,5 @@
 .dropdownContainer {
-    position: fixed;
+    position: absolute;
     top: 12vh;
     right: 0;
 

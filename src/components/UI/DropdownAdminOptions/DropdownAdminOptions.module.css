@@ -1,5 +1,5 @@
 .dropdownContainer {
-    position: fixed;
+    position: absolute; /*ABSOLUTE EN LUGAR DE FIXED, EVITA QUE BAJE JUNTO CON EL SCROLL DE LA PAGINA*/
     top: 12vh; /* Lo mantiene en la parte superior */
     left: 100%; /* Lo centra horizontalmente */
     transform: translateX(-100%); /* Ajusta el centrado */

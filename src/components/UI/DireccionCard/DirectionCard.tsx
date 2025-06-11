@@ -4,7 +4,7 @@ import type { IDireccion } from '../../../types/IDireccion'
 import { direccionStore } from '../../../store/direccionStore'
 import Swal from 'sweetalert2'
 import { useDireccion } from '../../../hooks/useDireccion'
-import { useDisableButton } from '../../../hooks/useDisableButton'
+import { PantallaCargaAlternativa } from '../../Screens/PantallaCargaAlternativa/PantallaCargaAlternativa'
 
 type IPropsDirectionCard = {
     setIsModal: (state: boolean) => void
@@ -12,13 +12,14 @@ type IPropsDirectionCard = {
 }
 
 export const DirectionCard: FC<IPropsDirectionCard> = ({ setIsModal, direccion }) => {
+    // Estados locales
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+
     // STORE
     const setDireccionActiva = direccionStore((state) => state.setDireccionActiva)
 
     // HOOKS
     const { toggleEnableDireccion } = useDireccion()
-    const { isDisabled, setIsDisabled } = useDisableButton()
-
 
     // METODOS DE ACCION
     const handleEditDireccion = (direccion: IDireccion | null) => {
@@ -31,7 +32,6 @@ export const DirectionCard: FC<IPropsDirectionCard> = ({ setIsModal, direccion }
     }
 
     const handleDeleteDireccion = (idDireccion: string | undefined) => {
-        setIsDisabled(true)
         if (idDireccion && idDireccion != undefined) {
             Swal.fire({
                 title: "¿Estás seguro?",
@@ -42,6 +42,8 @@ export const DirectionCard: FC<IPropsDirectionCard> = ({ setIsModal, direccion }
                 cancelButtonText: "Cancelar"
             }).then(async (result) => {
                 if (result.isConfirmed) {
+                    setIsLoading(true)
+
                     if (idDireccion) {
                         const succes = await toggleEnableDireccion(idDireccion)
 
@@ -56,15 +58,16 @@ export const DirectionCard: FC<IPropsDirectionCard> = ({ setIsModal, direccion }
                 } else {
                     console.log("Cancelado");
                 }
+
+                setIsLoading(false)
+                setDireccionActiva(null)
             });
         } else {
             console.log('No se pudo eliminar en "handleDeleteDireccion"')
         }
-        
-        setIsDisabled(false)
-        setDireccionActiva(null) // No se porque pero en una de las pruebas eliminando direcciones, despues de eliminar una quedo activa...
-        //... y al querer crear una, se cargaron los datos en el modal de crear direccion, asi que cada que se elimine una direccion se settea la direccion activa en "null"
     }
+
+    if (isLoading) return <PantallaCargaAlternativa /> 
     
     return (
         <div className={styles.direccionCard}>
@@ -73,8 +76,8 @@ export const DirectionCard: FC<IPropsDirectionCard> = ({ setIsModal, direccion }
                 <p>{direccion?.provincia}, {direccion?.pais}</p>
             </div>
             <div className={styles.iconsContainer}>
-                <button onClick={() => handleEditDireccion(direccion)}><i className="bi bi-pencil-square"></i></button>
-                <button disabled={isDisabled} onClick={() => handleDeleteDireccion(direccion?.id)}><i className="bi bi-trash"></i></button>
+                <i className="bi bi-pencil-square" onClick={() => handleEditDireccion(direccion)} ></i>
+                <i className="bi bi-trash" onClick={() => handleDeleteDireccion(direccion?.id)} ></i>
             </div>
         </div>
     )

@@ -23,7 +23,6 @@ export const LandingPage = () => {
   >([]);
   const [productosCargados, setProductosCargados] = useState(false);
 
-  // Función para seleccionar productos aleatorios
   const getRandomProducts = (
     productos: IDetalleProducto[],
     count: number
@@ -33,9 +32,8 @@ export const LandingPage = () => {
     return shuffled.slice(0, Math.min(count, productos.length));
   };
 
-  // Cargar productos habilitados y asignarlos a los carruseles solo una vez
   useEffect(() => {
-    if (productosCargados) return; // Evitar recargas
+    if (productosCargados) return;
 
     const fetchProductos = async () => {
       console.log("Cargando productos habilitados...");
@@ -59,7 +57,6 @@ export const LandingPage = () => {
     fetchProductos();
   }, [getDetallesProductosHabilitados, productosCargados]);
 
-  // Log para depurar cambios en detalleProductoHabilitado
   useEffect(() => {
     console.log("detalleProductoHabilitado cambió:", detalleProductoHabilitado);
   }, [detalleProductoHabilitado]);
