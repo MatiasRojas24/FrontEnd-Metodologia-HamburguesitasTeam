@@ -64,8 +64,10 @@ export const BrowserPage = () => {
   }, [tipoProductoParam]);
 
   const handleSexoChange = (e: ChangeEvent<HTMLInputElement>) => {
-    actualizarFiltro({ sexo: e.target.value });
-  };
+  const nuevoSexo = e.target.value;
+  setSexoSeleccionado(nuevoSexo);
+  actualizarFiltro({ sexo: nuevoSexo });
+};
 
   const handleTipoProductoChange = (e: ChangeEvent<HTMLInputElement>) => {
     actualizarFiltro({ tipoProducto: e.target.value });
@@ -85,25 +87,25 @@ export const BrowserPage = () => {
     actualizarFiltro({ maxPrecio: nuevoValor });
   };
 
-  const handleTalleClick = (talle: number | string) => {
-  
-    const detalleProduct = detalleProductoHabilitado.find(
-      (detalle) => detalle.talle.talle === talle.toString()
-    );
+const handleTalleClick = (talle: number | string) => {
+  const detalleProduct = detalleProductoHabilitado.find(
+    (detalle) => detalle.talle.talle === talle.toString()
+  );
 
-    if (!detalleProduct) {
-      actualizarFiltro({ idTalle: "" });
-      return;
-    }
+  if (!detalleProduct) {
+    actualizarFiltro({ idTalle: "" });
+    setTalleSeleccionado(null);
+    return;
+  }
 
-    if (filtro.idTalle === detalleProduct.talle.id) {
+  if (filtro.idTalle === detalleProduct.talle.id) {
     actualizarFiltro({ idTalle: "" });
     setTalleSeleccionado(null);
   } else {
     actualizarFiltro({ idTalle: detalleProduct.talle.id });
     setTalleSeleccionado(talle);
   }
-  };
+};
   
 
   return (
