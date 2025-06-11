@@ -7,12 +7,31 @@ import { getImagenesByDetalleProductoIdHttp } from "../../../http/imagenHttp";
 
 import type { IDetalleProducto } from "../../../types/IDetalleProducto";
 import type { IImagen } from "../../../types/IImagen";
+import { carritoStore } from "../../../store/carritoStore";
+import Swal from "sweetalert2";
 
 export const ProductPage = () => {
   const { id } = useParams();
   const [detalleProducto, setDetalleProducto] =
     useState<IDetalleProducto | null>(null);
   const [imagenes, setImagenes] = useState<IImagen[]>([]);
+  const { agregarProductoCarrito } = carritoStore()
+
+
+  
+
+  const addToCarrito = () => {
+  if (detalleProducto) {
+    agregarProductoCarrito(detalleProducto);
+    Swal.fire({
+      icon: 'success',
+      title: '¡Producto agregado!',
+      text: `${detalleProducto.producto.nombre} se agregó al carrito.`,
+      timer: 2000,
+      showConfirmButton: false,
+    });
+  }
+};
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,7 +99,7 @@ export const ProductPage = () => {
 
           <p>Color: {detalleProducto.color}</p>
 
-          <button>AGREGAR AL CARRITO</button>
+          <button onClick={addToCarrito}>AGREGAR AL CARRITO</button>
         </div>
       </div>
 

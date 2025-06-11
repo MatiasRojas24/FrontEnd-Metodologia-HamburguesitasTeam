@@ -8,7 +8,13 @@ import type { IFiltroDetalleProducto } from "../../../types/IFiltroDetalleProduc
 
 export const BrowserPage = () => {
   const [searchParams] = useSearchParams();
+  const sexoParam = searchParams.get("sexo") ?? "";
+  const [sexoSeleccionado, setSexoSeleccionado] = useState<string | null>(null);
   const tipoProductoParam = searchParams.get("tipoProducto") ?? "";
+
+  const [minPrecioSeleccionado, setMinPrecioSeleccionado] = useState<number | null>(null);
+  const [maxPrecioSeleccionado, setMaxPrecioSeleccionado] = useState<number | null>(null);
+
 
   const mapTipoToCategoria: Record<string, string> = {
     REMERA: "ROPA",
@@ -19,9 +25,7 @@ export const BrowserPage = () => {
 
   const categoria = mapTipoToCategoria[tipoProductoParam] || tipoProductoParam;
 
-  const [talleSeleccionado, setTalleSeleccionado] = useState<
-    number | string | null
-  >(null);
+  const [talleSeleccionado, setTalleSeleccionado] = useState<number | string | null>(null);
 
   const detalleProductoHabilitado = detalleProductoStore(
     (state) => state.detallesProductosHabilitados
@@ -38,8 +42,22 @@ export const BrowserPage = () => {
   };
 
   useEffect(() => {
+    const nuevoFiltro: Partial<IFiltroDetalleProducto> = {};
+
     if (tipoProductoParam) {
-      actualizarFiltro({ tipoProducto: tipoProductoParam });
+      nuevoFiltro.tipoProducto = tipoProductoParam;
+    }
+
+    if (sexoParam) {
+      nuevoFiltro.sexo = sexoParam;
+    }
+    if (sexoParam) {
+    nuevoFiltro.sexo = sexoParam;
+      setSexoSeleccionado(sexoParam); 
+  }
+
+    if (Object.keys(nuevoFiltro).length > 0) {
+      actualizarFiltro(nuevoFiltro);
     } else {
       filtrarDetalleProducto({});
     }
@@ -55,18 +73,20 @@ export const BrowserPage = () => {
 
   const handleMinPrecioChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const valor = parseInt(e.target.value);
-    actualizarFiltro({ minPrecio: valor === 0 ? null : valor });
+    const nuevoValor = valor === 0 ? null : valor;
+    setMinPrecioSeleccionado(nuevoValor);
+    actualizarFiltro({ minPrecio: nuevoValor });
   };
 
   const handleMaxPrecioChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const valor = parseInt(e.target.value);
-    actualizarFiltro({ maxPrecio: valor === 0 ? null : valor });
+    const nuevoValor = valor === 0 ? null : valor;
+    setMaxPrecioSeleccionado(nuevoValor);
+    actualizarFiltro({ maxPrecio: nuevoValor });
   };
 
   const handleTalleClick = (talle: number | string) => {
-    setTalleSeleccionado((prevTalle) =>
-      prevTalle?.toString() === talle ? null : talle
-    );
+  
     const detalleProduct = detalleProductoHabilitado.find(
       (detalle) => detalle.talle.talle === talle.toString()
     );
@@ -91,11 +111,25 @@ export const BrowserPage = () => {
       <div className={styles.contenidoFiltros}>
         <div className={styles.filtros}>
           <h3>Filtrar por</h3>
+          <button
+              className={styles.resetButton}
+              onClick={() => {
+                setSexoSeleccionado(null);
+                setTalleSeleccionado(null);
+                setMinPrecioSeleccionado(null);
+                setMaxPrecioSeleccionado(null);
+                setFiltro({});
+                filtrarDetalleProducto({});
+              }}
+            >
+              Todos los productos
+            </button>
           <h4>Genero</h4>
           <div className={styles.inputsSexo}>
             <input
               type="radio"
               name="genero"
+              checked={sexoSeleccionado === "HOMBRE"}
               value="HOMBRE"
               onChange={handleSexoChange}
             />{" "}
@@ -104,6 +138,7 @@ export const BrowserPage = () => {
             <input
               type="radio"
               name="genero"
+              checked={sexoSeleccionado === "MUJER"}
               value="MUJER"
               onChange={handleSexoChange}
             />{" "}
@@ -112,6 +147,7 @@ export const BrowserPage = () => {
             <input
               type="radio"
               name="genero"
+              checked={sexoSeleccionado === "UNISEX"}
               value="UNISEX"
               onChange={handleSexoChange}
             />{" "}
@@ -121,7 +157,7 @@ export const BrowserPage = () => {
           <h4>Precio</h4>
           <div className={styles.containerSelect}>
             <p>Precio mínimo</p>
-            <select onChange={handleMinPrecioChange}>
+            <select onChange={handleMinPrecioChange} value={minPrecioSeleccionado ?? 0}>
               <option value="0">0</option>
               <option value="50000">50.000</option>
               <option value="100000">100.000</option>
@@ -138,7 +174,7 @@ export const BrowserPage = () => {
             </select>
 
             <p>Precio máximo</p>
-            <select onChange={handleMaxPrecioChange}>
+            <select onChange={handleMaxPrecioChange} value={maxPrecioSeleccionado ?? 0}>
               <option value="0">0</option>
               <option value="50000">50.000</option>
               <option value="100000">100.000</option>
