@@ -45,7 +45,6 @@ export const BrowserPage = () => {
     const nuevoFiltro: Partial<IFiltroDetalleProducto> = {};
 
     if (tipoProductoParam) {
-<<<<<<< HEAD
       nuevoFiltro.tipoProducto = tipoProductoParam;
     }
 
@@ -59,21 +58,6 @@ export const BrowserPage = () => {
 
     if (Object.keys(nuevoFiltro).length > 0) {
       actualizarFiltro(nuevoFiltro);
-=======
-      if (tipoProductoParam === "ROPA") {
-        const productosFiltrados = detalleProductoHabilitado.filter(
-          (dp) =>
-            dp.producto.tipoProducto === "REMERA" ||
-            dp.producto.tipoProducto === "PANTALON" ||
-            dp.producto.tipoProducto === "CAMPERA"
-        );
-        detalleProductoStore
-          .getState()
-          .setDetallesProductosHabilitados(productosFiltrados);
-      } else {
-        actualizarFiltro({ tipoProducto: tipoProductoParam });
-      }
->>>>>>> 4d3a2ebcbd9789f1869d3bf9903c7664c3fc61c0
     } else {
       filtrarDetalleProducto({});
     }
@@ -113,11 +97,14 @@ export const BrowserPage = () => {
     }
 
     if (filtro.idTalle === detalleProduct.talle.id) {
-      actualizarFiltro({ idTalle: "" });
-    } else {
-      actualizarFiltro({ idTalle: detalleProduct.talle.id });
-    }
+    actualizarFiltro({ idTalle: "" });
+    setTalleSeleccionado(null);
+  } else {
+    actualizarFiltro({ idTalle: detalleProduct.talle.id });
+    setTalleSeleccionado(talle);
+  }
   };
+  
 
   return (
     <div className={styles.pageContainer}>

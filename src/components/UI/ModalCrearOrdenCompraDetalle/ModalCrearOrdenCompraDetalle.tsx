@@ -7,9 +7,6 @@ import { ordenCompraStore } from '../../../store/ordenCompraStore';
 import { createOrdenCompraDetalleHttp } from '../../../http/ordenCompraDetalleController';
 import styles from './ModalCrearOrdenCompraDetalle.module.css';
 import Swal from 'sweetalert2';
-import type { IOrdenCompraDetalle } from '../../../types/IOrdenCompraDetalle';
-import { postPedidoMercadoPago } from '../../../http/mercadoPagoHttp';
-
 type IPropsModalOrdenCompraDetalle = {
     isOpen: boolean;
     onClose: () => void;
@@ -25,75 +22,43 @@ export const ModalCrearOrdenCompraDetalle: FC<IPropsModalOrdenCompraDetalle> = (
     
     const formik = useFormik({
     initialValues: {},
-onSubmit: async () => {
-    try {
-    if (!ordenCompra) throw new Error("No hay orden de compra activa.");
+    onSubmit: async () => {
+        try {
+            if (!ordenCompra) {
+            throw new Error('No hay una orden de compra activa.');
+            }
 
-    const totalCalculado = carrito.reduce(
-      (acc, prod) => acc + prod.precioVenta * prod.cantidad,
-        0
-    );
+        for (const producto of carrito) {
+            const ordenCompraDetalle = {
+            id: uuidv4(),
+            cantidad: producto.cantidad,
+            subtotal: producto.precioVenta * producto.cantidad,
+            detalleProducto: { id: producto.id },
+            ordenCompra: { id: ordenCompra.id },
+            habilitado: true,
+            };
 
-    if (ordenCompra.total !== totalCalculado) {
-        throw new Error("El total de la orden no coincide con los productos seleccionados.");
-    }
+            await createOrdenCompraDetalleHttp(ordenCompraDetalle);
+        }
 
-    for (const producto of carrito) {
-        const ordenCompraDetalle = {
-        id: uuidv4(),
-        cantidad: producto.cantidad,
-        subtotal: producto.precioVenta * producto.cantidad,
-        detalleProducto: { id: producto.id },
-        ordenCompra: { id: ordenCompra.id },
-        habilitado: true,
-        };
+        await Swal.fire({
+            icon: 'success',
+            title: 'Detalles agregados con éxito',
+            confirmButtonText: 'Aceptar',
+            timer: 2000,
+        });
 
-        await createOrdenCompraDetalleHttp(ordenCompraDetalle);
-    }
-
-    if (isNaN(total) || total <= 0) {
-        throw new Error("El total es inválido para procesar el pago");
-    }
-
-    // ✅ Llamada a Mercado Pago
-    const ordenCompraDetalle: IOrdenCompraDetalle = {
-    id: uuidv4(), // opcional si lo ignora el backend
-    cantidad: 1,
-    subtotal: total,
-    detalleProducto: { id: carrito[0].id }, // cualquier producto válido
-    ordenCompra: {
-        id: ordenCompra.id,
-        total: total,
-    },
-    habilitado: true,
-};
-console.log("OrdenCompraDetalle enviado a MP:", ordenCompraDetalle);
-const link = await postPedidoMercadoPago(ordenCompraDetalle);
-
-    if (!link) throw new Error("Error generando link de Mercado Pago");
-
-    vaciarCarrito();
-
-    Swal.fire({
-    title: 'Redirigiendo a Mercado Pago...',
-    timer: 2000,
-    didOpen: () => {
-        Swal.showLoading();
-    },
-    willClose: () => {
-        window.location.href = link;
-    },
-    });
-
-    } catch (error) {
+        vaciarCarrito();
+        onClose();
+        } catch (error) {
         console.error('Error al crear los detalles de la orden de compra:', error);
         Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No se pudo completar la acción',
-    });
-    }
-}
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo completar la acción',
+        });
+        }
+    },
     });
 
     if (!isOpen) return null;

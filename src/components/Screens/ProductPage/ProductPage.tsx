@@ -19,7 +19,7 @@ export const ProductPage = () => {
   const [detalleProducto, setDetalleProducto] =
     useState<IDetalleProducto | null>(null);
   const [imagenes, setImagenes] = useState<IImagen[]>([]);
-<<<<<<< HEAD
+
   const { agregarProductoCarrito } = carritoStore()
 
 
@@ -37,7 +37,7 @@ export const ProductPage = () => {
     });
   }
 };
-=======
+
   const { getDetallesProductosHabilitados, filtrarDetalleProducto } =
     useDetalleProducto();
   const detalleProductoHabilitado = detalleProductoStore(
@@ -46,8 +46,6 @@ export const ProductPage = () => {
   const [productosSimilares, setProductosSimilares] = useState<
     IDetalleProducto[]
   >([]);
->>>>>>> 4d3a2ebcbd9789f1869d3bf9903c7664c3fc61c0
-
   useEffect(() => {
     const fetchData = async () => {
       if (!id) return;

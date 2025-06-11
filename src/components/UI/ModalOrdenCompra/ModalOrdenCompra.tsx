@@ -108,8 +108,7 @@ export const ModalOrdenCompra: FC<IPropsModalOrdenCompra> = ({isOpen,total, onCl
               type="number"
               name="descuento"
               value={formik.values.descuento}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              readOnly
             />
             {formik.touched.descuento && formik.errors.descuento && (
               <div className={styles.error}>{formik.errors.descuento}</div>
@@ -153,16 +152,17 @@ export const ModalOrdenCompra: FC<IPropsModalOrdenCompra> = ({isOpen,total, onCl
             <button
               type="submit"
               disabled={!(formik.isValid && formik.dirty)}
-    >
+              className={styles.buttonCrear}
+              >
                       {ordenCompra ? "Actualizar" : "Crear"}
             </button>
 
             <button
               type="button" 
-              className={styles.closeButton}
+              className={styles.buttonSalir}
               onClick={onClose}
             >
-              ×
+              Salir
             </button>
           </div>
         </form>
