@@ -25,6 +25,7 @@
 }
 
 .carouselInner {
+  padding-top: 5px ;
   display: flex;
   width: max-content;
   gap: 0.8rem;

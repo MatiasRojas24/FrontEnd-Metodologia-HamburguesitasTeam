@@ -35,6 +35,9 @@
   position: relative;
   display: inline-block;
 }
+.imageWrapper:hover {
+  cursor: pointer;
+}
 
 .landingPageImage {
   width: 500px;
