@@ -4,12 +4,17 @@ import styles from "./Carrusel.module.css";
 import type { IDetalleProducto } from "../../../types/IDetalleProducto";
 import { ProductCardBrowserPage } from "../ProductCardBrowserPage/ProductCardBrowserPage";
 import { useNavigate } from "react-router-dom";
+import { ProductCardSimilares } from "../ProductCardSimilares/ProductCardSimilares";
 
 interface CarruselProps {
   productos: IDetalleProducto[];
+  variant?: "similares" | "default";
 }
 
-export const Carrusel: React.FC<CarruselProps> = ({ productos }) => {
+export const Carrusel: React.FC<CarruselProps> = ({
+  productos,
+  variant = "default",
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -20,16 +25,6 @@ export const Carrusel: React.FC<CarruselProps> = ({ productos }) => {
     productos.length < itemsPerView ? productos : productos;
 
   const maxIndex = Math.max(0, productosExtendidos.length - itemsPerView);
-
-  useEffect(() => {
-    setCurrentIndex(0);
-    if (carouselRef.current) {
-      carouselRef.current.scrollTo({
-        left: 0,
-        behavior: "smooth",
-      });
-    }
-  }, [productos]);
 
   const handlePrev = () => {
     if (currentIndex > 0) {
@@ -52,9 +47,18 @@ export const Carrusel: React.FC<CarruselProps> = ({ productos }) => {
   };
 
   const handleSelectProduct = (producto: IDetalleProducto) => {
-    navigate(
-      `/product-page/${producto.id}?tipoProducto=${producto.producto.tipoProducto}`
+    console.log(
+      "Navegando a producto:",
+      producto.id,
+      producto.producto.tipoProducto
     );
+    if (producto.id) {
+      navigate(
+        `/product/${producto.id}?tipoProducto=${producto.producto.tipoProducto}`
+      );
+    } else {
+      console.error("ID del producto no encontrado:", producto);
+    }
   };
 
   return (
@@ -72,15 +76,23 @@ export const Carrusel: React.FC<CarruselProps> = ({ productos }) => {
         <div ref={carouselRef} className={styles.carouselTrack}>
           {productosExtendidos.length > 0 ? (
             <div className={styles.carouselInner}>
-              {productosExtendidos.map((producto, index) => (
+              {productosExtendidos.map((producto) => (
                 <div
-                  key={`${producto.id}-${index}`}
+                  key={producto.id}
                   className={styles.carouselItem}
                   onClick={() => handleSelectProduct(producto)}
+                  style={{ cursor: "pointer" }}
                 >
-                  <ProductCardBrowserPage
-                    detalleProductoHabilitado={producto}
-                  />
+                  {variant === "similares" ? (
+                    <ProductCardSimilares
+                      detalleProducto={producto}
+                      onClick={() => handleSelectProduct(producto)}
+                    />
+                  ) : (
+                    <ProductCardBrowserPage
+                      detalleProductoHabilitado={producto}
+                    />
+                  )}
                 </div>
               ))}
             </div>

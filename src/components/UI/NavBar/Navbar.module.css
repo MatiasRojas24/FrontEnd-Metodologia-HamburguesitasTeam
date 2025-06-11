@@ -105,3 +105,26 @@
   text-decoration: none;
   color: white;
 }
+.sugerenciasContainer {
+  position: absolute;
+  background-color: white;
+  z-index: 10; 
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #0b0b0b;
+  color: black;
+  top: 90%; 
+  margin-top: 5px;
+  left: -1px;
+}
+
+
+.sugerenciaItem {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.sugerenciaItem:hover {
+  background-color: #eee;
+}

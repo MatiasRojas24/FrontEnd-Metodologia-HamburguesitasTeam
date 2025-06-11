@@ -9,6 +9,9 @@ import { detalleProductoStore } from "../../../store/detalleProductoStore";
 import { useSearchParams } from "react-router-dom";
 import type { IDetalleProducto } from "../../../types/IDetalleProducto";
 import type { IImagen } from "../../../types/IImagen";
+import { carritoStore } from "../../../store/carritoStore";
+import Swal from "sweetalert2";
+import { PantallaCarga } from "../PantallaCarga/PantallaCarga";
 
 export const ProductPage = () => {
   const { id } = useParams();
@@ -17,6 +20,21 @@ export const ProductPage = () => {
   const [detalleProducto, setDetalleProducto] =
     useState<IDetalleProducto | null>(null);
   const [imagenes, setImagenes] = useState<IImagen[]>([]);
+  const { agregarProductoCarrito } = carritoStore();
+
+  const addToCarrito = () => {
+    if (detalleProducto) {
+      agregarProductoCarrito(detalleProducto);
+      Swal.fire({
+        icon: "success",
+        title: "¡Producto agregado!",
+        text: `${detalleProducto.producto.nombre} se agregó al carrito.`,
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    }
+  };
+
   const { getDetallesProductosHabilitados, filtrarDetalleProducto } =
     useDetalleProducto();
   const detalleProductoHabilitado = detalleProductoStore(
@@ -28,8 +46,10 @@ export const ProductPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!id) return;
-
+      if (!id) {
+        console.error("ID no proporcionado en la URL");
+        return;
+      }
       const detalle = await getDetalleProductoByIdHttp(id);
       if (detalle) {
         setDetalleProducto(detalle);
@@ -53,6 +73,8 @@ export const ProductPage = () => {
             setProductosSimilares(similares);
           }
         }
+      } else {
+        console.error("Producto no encontrado para ID:", id);
       }
     };
 
@@ -69,11 +91,7 @@ export const ProductPage = () => {
     todosProductos: IDetalleProducto[]
   ): IDetalleProducto[] => {
     const maxSimilares = 8;
-    console.log(
-      "Filtrando productos similares para tipo:",
-      producto.producto.tipoProducto
-    );
-    console.log("Productos disponibles:", todosProductos);
+
     const similares = todosProductos.filter(
       (p) =>
         p.id !== producto.id &&
@@ -83,11 +101,10 @@ export const ProductPage = () => {
       (id) => similares.find((p) => p.id === id)!
     );
     const shuffled = [...uniqueSimilares].sort(() => Math.random() - 0.5);
-    console.log("Productos similares encontrados:", shuffled);
     return shuffled.slice(0, Math.min(maxSimilares, shuffled.length));
   };
 
-  if (!detalleProducto) return <p>Cargando producto...</p>;
+  if (!detalleProducto) return <PantallaCarga />;
 
   return (
     <div className={styles.productPageContainer}>
@@ -133,14 +150,14 @@ export const ProductPage = () => {
 
           <p>Color: {detalleProducto.color}</p>
 
-          <button>AGREGAR AL CARRITO</button>
+          <button onClick={addToCarrito}>AGREGAR AL CARRITO</button>
         </div>
       </div>
 
       <div className={styles.productosSimilaresContainer}>
         <h2>Productos Similares</h2>
         <hr />
-        <Carrusel productos={productosSimilares} />
+        <Carrusel productos={productosSimilares} variant="similares" />
       </div>
     </div>
   );

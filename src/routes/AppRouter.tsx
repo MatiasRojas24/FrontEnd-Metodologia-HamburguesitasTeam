@@ -13,6 +13,7 @@ import { PantallaCarga } from "../components/Screens/PantallaCarga/PantallaCarga
 import { BrowserPage } from "../components/Screens/BrowserPage/BrowserPage";
 import { ProductPage } from "../components/Screens/ProductPage/ProductPage";
 import { SlideNotification } from "../components/UI/SlideNotification/SlideNotification";
+import { CarritoPage } from "../components/Screens/CarritoPage/CarritoPage";
 
 export const AppRouter = () => {
   const usuarioLogged = usuarioStore((state) => state.usuarioLogeado);
@@ -96,6 +97,7 @@ export const AppRouter = () => {
         <Route path="/home" element={<LandingPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/browser-page" element={<BrowserPage />} />
+        <Route path="/carritoCompra" element={<CarritoPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route
           path="/*"

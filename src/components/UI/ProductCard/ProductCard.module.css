@@ -1,32 +1,58 @@
 .cardContainer {
-    height: 280px;
-    background-color: var(--white-gray);
-    font-family: var(--font);
-    border: 1px solid black;
-    box-shadow: 0px 5px 10px gray;
+  height: 280px;
+  background-color: var(--white-gray);
+  font-family: var(--font);
+  border: 1px solid black;
+  box-shadow: 0px 5px 10px gray;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .cardImage {
-    height: 60%;
-    width: 90%;
-    background-color: white;
+  height: 168px;
+  width: 90%;
+  background-color: white;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+  overflow: hidden;
 }
 
 .cardInfo {
-    height: 30%;
-    width: 90%;
+  height: 30%;
+  width: 90%;
 
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+
+.imgDetalle {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.placeholderImg {
+  width: 100%;
+  height: 100%;
+  background-color: #e0e0e0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.placeholderImg p {
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+  width: 100%;
 }

@@ -36,30 +36,26 @@ export const LandingPage = () => {
     if (productosCargados) return;
 
     const fetchProductos = async () => {
-      console.log("Cargando productos habilitados...");
       await getDetallesProductosHabilitados();
-      console.log(
-        "Productos habilitados recibidos:",
-        detalleProductoHabilitado
-      );
-      if (detalleProductoHabilitado.length > 0) {
-        const random1 = getRandomProducts(detalleProductoHabilitado, 8);
+      const productosActuales =
+        detalleProductoStore.getState().detallesProductosHabilitados;
+
+      if (productosActuales.length > 0) {
+        const random1 = getRandomProducts(productosActuales, 8);
         setProductosCarrusel1(random1);
-        const productosRestantes = detalleProductoHabilitado.filter(
+        const productosRestantes = productosActuales.filter(
           (p) => !random1.some((p1) => p1.id === p.id)
         );
-        setProductosCarrusel2(getRandomProducts(productosRestantes, 8));
+        const random2 = getRandomProducts(productosRestantes, 8);
+        setProductosCarrusel2(random2);
         setProductosCargados(true);
-        console.log("Carrusel 1:", random1);
-        console.log("Carrusel 2:", getRandomProducts(productosRestantes, 8));
       }
     };
-    fetchProductos();
-  }, [getDetallesProductosHabilitados, productosCargados]);
 
-  useEffect(() => {
-    console.log("detalleProductoHabilitado cambió:", detalleProductoHabilitado);
-  }, [detalleProductoHabilitado]);
+    fetchProductos();
+  }, []);
+
+  useEffect(() => {}, [detalleProductoHabilitado]);
 
   const irARopa = () => {
     navigate("/browser-page?tipoProducto=ROPA");

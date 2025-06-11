@@ -14,6 +14,7 @@ export const ProductCardBrowserPage: FC<IPropsProductBrowserPageCard> = ({
 }) => {
   const [imagenes, setImagenes] = useState<IImagen[]>([]);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchImagenes = async () => {
@@ -42,12 +43,18 @@ export const ProductCardBrowserPage: FC<IPropsProductBrowserPageCard> = ({
     >
       <div className={styles.cardImage}>
         {imagenes.length > 0 && (
-          <div className={styles.containerImg}>
-            <img
-              className={styles.imgDetalle}
-              src={imagenes[0].url}
-              alt="imagen detalle"
-            />
+          <img
+            className={styles.imgDetalle}
+            src={imagenes[0].url}
+            alt="imagen detalle"
+            onLoad={() => setLoading(false)}
+            loading="lazy"
+            style={{ display: loading ? "none" : "block" }}
+          />
+        )}
+        {loading && (
+          <div className={styles.placeholderImg}>
+            <p>Cargando Imagen...</p>
           </div>
         )}
       </div>

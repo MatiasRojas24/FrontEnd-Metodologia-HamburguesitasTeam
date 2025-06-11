@@ -1,3 +1,4 @@
+import React from "react"; // Añadido para resolver el error
 import { useEffect, useState, type ChangeEvent } from "react";
 import styles from "./BrowserPage.module.css";
 import { detalleProductoStore } from "../../../store/detalleProductoStore";
@@ -8,7 +9,16 @@ import type { IFiltroDetalleProducto } from "../../../types/IFiltroDetalleProduc
 
 export const BrowserPage = () => {
   const [searchParams] = useSearchParams();
+  const sexoParam = searchParams.get("sexo") ?? "";
+  const [sexoSeleccionado, setSexoSeleccionado] = useState<string | null>(null);
   const tipoProductoParam = searchParams.get("tipoProducto") ?? "";
+
+  const [minPrecioSeleccionado, setMinPrecioSeleccionado] = useState<
+    number | null
+  >(null);
+  const [maxPrecioSeleccionado, setMaxPrecioSeleccionado] = useState<
+    number | null
+  >(null);
 
   const mapTipoToCategoria: Record<string, string> = {
     REMERA: "ROPA",
@@ -38,27 +48,32 @@ export const BrowserPage = () => {
   };
 
   useEffect(() => {
+    const nuevoFiltro: Partial<IFiltroDetalleProducto> = {};
+
     if (tipoProductoParam) {
       if (tipoProductoParam === "ROPA") {
-        const productosFiltrados = detalleProductoHabilitado.filter(
-          (dp) =>
-            dp.producto.tipoProducto === "REMERA" ||
-            dp.producto.tipoProducto === "PANTALON" ||
-            dp.producto.tipoProducto === "CAMPERA"
-        );
-        detalleProductoStore
-          .getState()
-          .setDetallesProductosHabilitados(productosFiltrados);
+        nuevoFiltro.tipoProducto = "REMERA";
       } else {
-        actualizarFiltro({ tipoProducto: tipoProductoParam });
+        nuevoFiltro.tipoProducto = tipoProductoParam;
       }
+    }
+
+    if (sexoParam) {
+      nuevoFiltro.sexo = sexoParam;
+      setSexoSeleccionado(sexoParam);
+    }
+
+    if (Object.keys(nuevoFiltro).length > 0) {
+      actualizarFiltro(nuevoFiltro);
     } else {
       filtrarDetalleProducto({});
     }
-  }, [tipoProductoParam]);
+  }, [tipoProductoParam, sexoParam]);
 
   const handleSexoChange = (e: ChangeEvent<HTMLInputElement>) => {
-    actualizarFiltro({ sexo: e.target.value });
+    const nuevoSexo = e.target.value;
+    setSexoSeleccionado(nuevoSexo);
+    actualizarFiltro({ sexo: nuevoSexo });
   };
 
   const handleTipoProductoChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -67,33 +82,44 @@ export const BrowserPage = () => {
 
   const handleMinPrecioChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const valor = parseInt(e.target.value);
-    actualizarFiltro({ minPrecio: valor === 0 ? null : valor });
+    const nuevoValor = valor === 0 ? null : valor;
+    setMinPrecioSeleccionado(nuevoValor);
+    actualizarFiltro({ minPrecio: nuevoValor });
   };
 
   const handleMaxPrecioChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const valor = parseInt(e.target.value);
-    actualizarFiltro({ maxPrecio: valor === 0 ? null : valor });
+    const nuevoValor = valor === 0 ? null : valor;
+    setMaxPrecioSeleccionado(nuevoValor);
+    actualizarFiltro({ maxPrecio: nuevoValor });
   };
 
   const handleTalleClick = (talle: number | string) => {
-    setTalleSeleccionado((prevTalle) =>
-      prevTalle?.toString() === talle ? null : talle
-    );
     const detalleProduct = detalleProductoHabilitado.find(
       (detalle) => detalle.talle.talle === talle.toString()
     );
 
     if (!detalleProduct) {
       actualizarFiltro({ idTalle: "" });
+      setTalleSeleccionado(null);
       return;
     }
 
     if (filtro.idTalle === detalleProduct.talle.id) {
       actualizarFiltro({ idTalle: "" });
+      setTalleSeleccionado(null);
     } else {
       actualizarFiltro({ idTalle: detalleProduct.talle.id });
+      setTalleSeleccionado(talle);
     }
   };
+
+  const tiposDisponibles =
+    tipoProductoParam === "ROPA"
+      ? ["REMERA", "PANTALON", "CAMPERA"]
+      : tipoProductoParam === "ZAPATILLA"
+      ? ["ZAPATILLA"]
+      : ["REMERA", "PANTALON", "CAMPERA", "ZAPATILLA"];
 
   return (
     <div className={styles.pageContainer}>
@@ -103,11 +129,32 @@ export const BrowserPage = () => {
       <div className={styles.contenidoFiltros}>
         <div className={styles.filtros}>
           <h3>Filtrar por</h3>
+          <button
+            className={styles.resetButton}
+            onClick={() => {
+              setSexoSeleccionado(null);
+              setTalleSeleccionado(null);
+              setMinPrecioSeleccionado(null);
+              setMaxPrecioSeleccionado(null);
+              setFiltro({});
+
+              if (tipoProductoParam === "ROPA") {
+                actualizarFiltro({ tipoProducto: "REMERA" });
+              } else if (tipoProductoParam === "ZAPATILLA") {
+                actualizarFiltro({ tipoProducto: "ZAPATILLA" });
+              } else {
+                filtrarDetalleProducto({});
+              }
+            }}
+          >
+            Todos los productos
+          </button>
           <h4>Genero</h4>
           <div className={styles.inputsSexo}>
             <input
               type="radio"
               name="genero"
+              checked={sexoSeleccionado === "HOMBRE"}
               value="HOMBRE"
               onChange={handleSexoChange}
             />{" "}
@@ -116,6 +163,7 @@ export const BrowserPage = () => {
             <input
               type="radio"
               name="genero"
+              checked={sexoSeleccionado === "MUJER"}
               value="MUJER"
               onChange={handleSexoChange}
             />{" "}
@@ -124,6 +172,7 @@ export const BrowserPage = () => {
             <input
               type="radio"
               name="genero"
+              checked={sexoSeleccionado === "UNISEX"}
               value="UNISEX"
               onChange={handleSexoChange}
             />{" "}
@@ -133,7 +182,10 @@ export const BrowserPage = () => {
           <h4>Precio</h4>
           <div className={styles.containerSelect}>
             <p>Precio mínimo</p>
-            <select onChange={handleMinPrecioChange}>
+            <select
+              onChange={handleMinPrecioChange}
+              value={minPrecioSeleccionado ?? 0}
+            >
               <option value="0">0</option>
               <option value="50000">50.000</option>
               <option value="100000">100.000</option>
@@ -150,7 +202,10 @@ export const BrowserPage = () => {
             </select>
 
             <p>Precio máximo</p>
-            <select onChange={handleMaxPrecioChange}>
+            <select
+              onChange={handleMaxPrecioChange}
+              value={maxPrecioSeleccionado ?? 0}
+            >
               <option value="0">0</option>
               <option value="50000">50.000</option>
               <option value="100000">100.000</option>
@@ -209,37 +264,23 @@ export const BrowserPage = () => {
 
           <h4>Tipo Producto</h4>
           <div className={styles.inputsRopa}>
-            <input
-              type="radio"
-              name="tipoProducto"
-              value="ZAPATILLA"
-              onChange={handleTipoProductoChange}
-            />{" "}
-            Zapatilla
-            <br />
-            <input
-              type="radio"
-              name="tipoProducto"
-              value="REMERA"
-              onChange={handleTipoProductoChange}
-            />{" "}
-            Remera
-            <br />
-            <input
-              type="radio"
-              name="tipoProducto"
-              value="PANTALON"
-              onChange={handleTipoProductoChange}
-            />{" "}
-            Pantalon
-            <br />
-            <input
-              type="radio"
-              name="tipoProducto"
-              value="CAMPERA"
-              onChange={handleTipoProductoChange}
-            />{" "}
-            Campera
+            {tiposDisponibles.map((tipo) => (
+              <React.Fragment key={tipo}>
+                <input
+                  type="radio"
+                  name="tipoProducto"
+                  value={tipo}
+                  onChange={handleTipoProductoChange}
+                  checked={filtro.tipoProducto === tipo}
+                  disabled={
+                    tipo !== filtro.tipoProducto &&
+                    !tiposDisponibles.includes(tipo)
+                  }
+                />{" "}
+                {tipo === "ZAPATILLA" ? "Zapatilla" : tipo}
+                <br />
+              </React.Fragment>
+            ))}
           </div>
         </div>
 
